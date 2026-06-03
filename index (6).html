@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biochemistry · High-Yield Study Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Spline+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f7f4ec; --paper-2:#fffdf8; --panel-edge:#ece5d6;
+    --ink:#211d18; --ink-soft:#5c554b; --ink-faint:#938a7c;
+    --line:#e4ddcf; --teal:#0e7c75; --teal-deep:#0a5d57; --teal-wash:#e4efed;
+    --amber:#a9760a; --amber-wash:#f3e8cd;
+    --shadow:0 1px 2px rgba(33,29,24,.04), 0 8px 24px -12px rgba(33,29,24,.18);
+    --shadow-lift:0 2px 4px rgba(33,29,24,.06), 0 18px 40px -16px rgba(14,124,117,.28);
+  }
+  [data-theme="dark"]{
+    --paper:#17150f; --paper-2:#211e17; --panel-edge:#2c281f;
+    --ink:#ece6da; --ink-soft:#b4ab99; --ink-faint:#807868;
+    --line:#322d23; --teal:#52b6aa; --teal-deep:#7fcabf; --teal-wash:#19302d;
+    --amber:#d6a63c; --amber-wash:#322a17;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 28px -14px rgba(0,0,0,.6);
+    --shadow-lift:0 2px 6px rgba(0,0,0,.4), 0 20px 44px -16px rgba(82,182,170,.3);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme]){
+      --paper:#17150f; --paper-2:#211e17; --panel-edge:#2c281f;
+      --ink:#ece6da; --ink-soft:#b4ab99; --ink-faint:#807868;
+      --line:#322d23; --teal:#52b6aa; --teal-deep:#7fcabf; --teal-wash:#19302d;
+      --amber:#d6a63c; --amber-wash:#322a17;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 28px -14px rgba(0,0,0,.6);
+      --shadow-lift:0 2px 6px rgba(0,0,0,.4), 0 20px 44px -16px rgba(82,182,170,.3);
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:"Newsreader",Georgia,serif; font-size:18px; line-height:1.6;
+    background-image:radial-gradient(circle at 1px 1px, rgba(33,29,24,.03) 1px, transparent 0);
+    background-size:22px 22px;
+    min-height:100vh; padding:0 24px 80px;
+  }
+  [data-theme="dark"] body, :root:not([data-theme]) body{
+    background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,.025) 1px, transparent 0);
+  }
+  .wrap{max-width:980px;margin:0 auto}
+
+  /* ---- masthead ---- */
+  header{padding:64px 0 36px;position:relative}
+  .eyebrow{
+    font-family:"Spline Sans",sans-serif; font-size:12px; font-weight:600;
+    letter-spacing:.22em; text-transform:uppercase; color:var(--teal-deep);
+    display:flex; align-items:center; gap:12px;
+  }
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+  h1{
+    font-family:"Fraunces",serif; font-weight:500; font-optical-sizing:auto;
+    font-size:clamp(46px,9vw,84px); line-height:.96; letter-spacing:-.02em;
+    margin:18px 0 0; color:var(--ink);
+  }
+  h1 em{font-style:italic; color:var(--teal)}
+  .lede{
+    font-size:20px; color:var(--ink-soft); max-width:60ch; margin-top:18px;
+    font-weight:400;
+  }
+  .stats{
+    display:flex; flex-wrap:wrap; gap:28px; margin-top:30px;
+    font-family:"Spline Sans",sans-serif;
+  }
+  .stat .n{font-size:30px; font-weight:600; color:var(--ink); line-height:1}
+  .stat .l{
+    font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-faint); margin-top:6px;
+  }
+
+  /* ---- theme toggle ---- */
+  .toggle{
+    position:absolute; top:64px; right:0;
+    font-family:"Spline Sans",sans-serif; font-size:12px; font-weight:600;
+    letter-spacing:.08em; color:var(--ink-soft);
+    background:var(--paper-2); border:1px solid var(--line); border-radius:999px;
+    padding:9px 16px; cursor:pointer; transition:all .2s ease; display:flex; gap:8px; align-items:center;
+  }
+  .toggle:hover{border-color:var(--teal); color:var(--teal)}
+
+  /* ---- groups ---- */
+  .group{margin-top:48px}
+  .group-head{
+    display:flex; align-items:baseline; gap:14px; margin-bottom:18px;
+  }
+  .group-head h2{
+    font-family:"Spline Sans",sans-serif; font-size:13px; font-weight:600;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--ink);
+  }
+  .group-head .meta{
+    font-family:"Spline Sans",sans-serif; font-size:12px; color:var(--ink-faint);
+    letter-spacing:.04em;
+  }
+  .group-head .rule{flex:1;height:1px;background:var(--line);align-self:center}
+
+  /* ---- card grid ---- */
+  .grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px}
+  @media (max-width:640px){.grid{grid-template-columns:1fr}}
+
+  .card{
+    display:flex; align-items:flex-start; gap:16px;
+    background:var(--paper-2); border:1px solid var(--panel-edge); border-radius:14px;
+    padding:18px 20px; text-decoration:none; color:inherit;
+    box-shadow:var(--shadow); transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    position:relative; overflow:hidden;
+    opacity:0; transform:translateY(10px);
+    animation:rise .5s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  .card::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:var(--teal); transform:scaleY(0); transform-origin:top; transition:transform .2s ease;
+  }
+  .card:hover{transform:translateY(-3px); box-shadow:var(--shadow-lift); border-color:var(--teal)}
+  .card:hover::before{transform:scaleY(1)}
+  .card:focus-visible{outline:2px solid var(--teal); outline-offset:2px}
+
+  .chip{
+    flex-shrink:0; width:38px; height:38px; border-radius:9px;
+    display:grid; place-items:center;
+    font-family:"Spline Sans",sans-serif; font-weight:600; font-size:16px;
+    color:var(--teal-deep); background:var(--teal-wash); border:1px solid transparent;
+    transition:all .18s ease;
+  }
+  .card:hover .chip{background:var(--teal); color:#fff}
+  [data-theme="dark"] .card:hover .chip, :root:not([data-theme]) .card:hover .chip{color:var(--paper)}
+
+  .card-body{flex:1; min-width:0}
+  .card-title{
+    font-family:"Fraunces",serif; font-weight:500; font-size:21px; line-height:1.15;
+    letter-spacing:-.01em; color:var(--ink);
+  }
+  .card-sub{
+    font-family:"Spline Sans",sans-serif; font-size:12.5px; color:var(--ink-faint);
+    margin-top:7px; letter-spacing:.03em;
+  }
+  .card-sub .dot{margin:0 7px; opacity:.5}
+  .card-sub .hy{color:var(--amber); font-weight:600}
+
+  /* ---- footer ---- */
+  footer{
+    margin-top:56px; padding-top:24px; border-top:1px solid var(--line);
+    font-family:"Spline Sans",sans-serif; font-size:13px; color:var(--ink-faint);
+    line-height:1.7;
+  }
+  footer strong{color:var(--ink-soft); font-weight:600}
+
+  @keyframes rise{to{opacity:1; transform:translateY(0)}}
+  @media (prefers-reduced-motion:reduce){
+    .card{animation:none; opacity:1; transform:none}
+    .card:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <button class="toggle" id="themeToggle" aria-label="Toggle light or dark theme">◐ Theme</button>
+    <div class="eyebrow">High-Yield Study Deck · COMLEX Level 1</div>
+    <h1>Bio<em>chemistry</em></h1>
+    <p class="lede">A complete first-year biochemistry deck, organized for the boards. Pick a section to study the modules or drill the flashcards.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">16</div><div class="l">Sections</div></div>
+      <div class="stat"><div class="n">133</div><div class="l">Modules</div></div>
+      <div class="stat"><div class="n">779</div><div class="l">Flashcards</div></div>
+    </div>
+  </header>
+
+  <!-- ===== Molecular Biology & Genetics ===== -->
+  <section class="group">
+    <div class="group-head">
+      <h2>Molecular Biology &amp; Genetics</h2>
+      <span class="meta">4 sections · 240 cards</span>
+      <span class="rule"></span>
+    </div>
+    <div class="grid">
+      <a class="card" href="molecular-biology.html" style="animation-delay:.00s">
+        <span class="chip">A</span>
+        <span class="card-body">
+          <span class="card-title">Molecular Biology</span>
+          <span class="card-sub">10 modules<span class="dot">·</span><span class="hy">73 cards</span></span>
+        </span>
+      </a>
+      <a class="card" href="genetics-inheritance.html" style="animation-delay:.04s">
+        <span class="chip">B</span>
+        <span class="card-body">
+          <span class="card-title">Genetics: Principles &amp; Inheritance</span>
+          <span class="card-sub">8 modules<span class="dot">·</span><span class="hy">56 cards</span></span>
+        </span>
+      </a>
+      <a class="card" href="genetics-repeat-cancer.html" style="animation-delay:.08s">
+        <span class="chip">C</span>
+        <span class="card-body">
+          <span class="card-title">Genetics: Trinucleotide Repeat &amp; Cancer</span>
+          <span class="card-sub">8 modules<span class="dot">·</span><span class="hy">54 cards</span></span>
+        </span>
+      </a>
+      <a class="card" href="genetics-chromosomal-syndromes.html" style="animation-delay:.12s">
+        <span class="chip">D</span>
+        <span class="card-body">
+          <span class="card-title">Genetics: Chromosomal Syndromes</span>
+          <span class="card-sub">10 modules<span class="dot">·</span><span class="hy">57 cards</span></span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== Metabolism ===== -->
+  <section class="group">
+    <div class="group-head">
+      <h2>Metabolism</h2>
+      <span class="meta">7 sections · 298 cards</span>
+      <span class="rule"></span>
+    </div>
+    <div class="grid">
+      <a class="card" href="metabolism-foundations.html" style="animation-delay:.00s">
+        <span class="chip">E</span>
+        <span class="card-body">
+          <span class="card-title">Foundations</span>
+          <span class="card-sub">4 modules<span class="dot">·</span><span class="hy">29 cards</span></span>
+        </span>
+      </a>
+      <a class="card" href="carbohydrate-metabolism.html" style="animation-delay:.04s">
+        <span class="chip">F</span>
+        <span class="card-body">
+          <span class="card-title">Carbohydrate</span>
+          <span class="card-sub">18 modules<span class="dot">·</span><span class="hy">101 cards</span></span>
+        </span>
+      </a>
+      <a class="card" href="tca-oxidative-phosphorylation.html" style="animation-delay:.08s">
+        <span class="chip">G</span>
+        <span class="card-body">
+          <span class="card-title">TCA Cycle &amp; Oxidative Phosphorylation</span>
+          <span class="card-sub">3 modules<span class="dot">·</span><span class="hy">20 cards</span></span>
+        </span>
+      </a>
+      <a class="card" href="lipid-metabolism.html" style="animation-delay:.12s">
+        <span class="chip">H</span>
+        <span class="card-body">
+          <span class="card-title">Lipid</span>
+          <span class="card-sub">9 modules<span class="dot">·</span><span class="hy">53 cards</span></span>
+        </span>
+      </a>
+      <a class="card" href="amino-acid-metabolism.html" style="animation-delay:.16s">
+        <span class="chip">I</span>
+        <span class="card-body">
+          <span class="card-title">Amino Acid &amp; Nitrogen</span>
+          <span class="card-sub">10 modules<span class="dot">·</span><span class="hy">50 cards</span></span>
+        </span>
+      </a>
+      <a class="card" href="nucleotide-metabolism.html" style="animation-delay:.20s">
+        <span class="chip">J</span>
+        <span class="card-body">
+          <span class="card-title">Nucleotides</span>
+          <span class="card-sub">6 modules<span class="dot">·</span><span class="hy">34 cards</span></span>
+        </span>
+      </a>
+      <a class="card" href="ethanol-metabolism.html" style="animation-delay:.24s">
+        <span class="chip">K</span>
+        <span class="card-body">
+          <span class="card-title">Ethanol</span>
+          <span class="card-sub">2 modules<span class="dot">·</span><span class="hy">11 cards</span></span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== Structural ===== -->
+  <section class="group">
+    <div class="group-head">
+      <h2>Structural</h2>
+      <span class="meta">3 sections · 154 cards</span>
+      <span class="rule"></span>
+    </div>
+    <div class="grid">
+      <a class="card" href="collagen-connective-tissue.html" style="animation-delay:.00s">
+        <span class="chip">L</span>
+        <span class="card-body">
+          <span class="card-title">Collagen &amp; Connective Tissue</span>
+          <span class="card-sub">7 modules<span class="dot">·</span><span class="hy">37 cards</span></span>
+        </span>
+      </a>
+      <a class="card" href="heme-hemoglobin.html" style="animation-delay:.04s">
+        <span class="chip">M</span>
+        <span class="card-body">
+          <span class="card-title">Heme &amp; Hemoglobin</span>
+          <span class="card-sub">10 modules<span class="dot">·</span><span class="hy">53 cards</span></span>
+        </span>
+      </a>
+      <a class="card" href="lysosomal.html" style="animation-delay:.08s">
+        <span class="chip">N</span>
+        <span class="card-body">
+          <span class="card-title">Lysosomal Storage Diseases</span>
+          <span class="card-sub">11 modules<span class="dot">·</span><span class="hy">64 cards</span></span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== Nutrition ===== -->
+  <section class="group">
+    <div class="group-head">
+      <h2>Nutrition</h2>
+      <span class="meta">2 sections · 87 cards</span>
+      <span class="rule"></span>
+    </div>
+    <div class="grid">
+      <a class="card" href="vitamins.html" style="animation-delay:.00s">
+        <span class="chip">O</span>
+        <span class="card-body">
+          <span class="card-title">Vitamins</span>
+          <span class="card-sub">14 modules<span class="dot">·</span><span class="hy">71 cards</span></span>
+        </span>
+      </a>
+      <a class="card" href="macronutrient-minerals.html" style="animation-delay:.04s">
+        <span class="chip">P</span>
+        <span class="card-body">
+          <span class="card-title">Macronutrient &amp; Minerals</span>
+          <span class="card-sub">3 modules<span class="dot">·</span><span class="hy">16 cards</span></span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <strong>Biochemistry study deck</strong> — trial build. Each section opens its own study-and-flashcard app.<br>
+    Progress is not yet saved between visits.
+  </footer>
+
+</div>
+
+<script>
+  // In-memory theme toggle only — nothing is stored (resets on reload by design).
+  (function(){
+    var root = document.documentElement;
+    var btn = document.getElementById('themeToggle');
+    function current(){
+      if(root.getAttribute('data-theme')) return root.getAttribute('data-theme');
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    btn.addEventListener('click', function(){
+      root.setAttribute('data-theme', current() === 'dark' ? 'light' : 'dark');
+    });
+  })();
+</script>
+</body>
+</html>
