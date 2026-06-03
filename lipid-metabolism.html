@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metabolism — Lipid — Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ea; --surface:#fbfaf6; --surface-2:#efebe1;
+  --ink:#211f1b; --muted:#6f685b; --faint:#938b7c;
+  --accent:#0b6b63; --accent-ink:#063f3a; --accent-soft:rgba(11,107,99,.10);
+  --hy:#b06a16; --hy-soft:rgba(176,106,22,.12);
+  --line:#e2ddd1; --line-strong:#d3ccbd;
+  --shadow:0 1px 2px rgba(40,34,20,.05),0 8px 28px -14px rgba(40,34,20,.22);
+  --display:"Fraunces",Georgia,serif;
+  --prose:"Newsreader",Georgia,serif;
+  --ui:"Spline Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#14161a; --surface:#1b1e24; --surface-2:#222730;
+  --ink:#e9e5db; --muted:#9d978a; --faint:#76716a;
+  --accent:#54b7ab; --accent-ink:#bfe7e1; --accent-soft:rgba(84,183,171,.12);
+  --hy:#d99f55; --hy-soft:rgba(217,159,85,.14);
+  --line:#2a2f38; --line-strong:#39404b;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--prose);
+  font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 100% 0,var(--accent-soft),transparent 38%);
+  min-height:100vh;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* header */
+header.top{padding:30px 0 14px;border-bottom:1px solid var(--line)}
+.brandrow{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.kicker{font-family:var(--ui);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 6px}
+h1.section{font-family:var(--display);font-weight:600;font-size:clamp(28px,4.4vw,44px);line-height:1.02;margin:0;letter-spacing:-.01em}
+.intro{color:var(--muted);max-width:62ch;margin:14px 0 0;font-size:16.5px}
+.meta-stats{font-family:var(--ui);font-size:12.5px;color:var(--faint);margin-top:12px;letter-spacing:.02em}
+.meta-stats b{color:var(--muted);font-weight:600}
+.theme-btn{font-family:var(--ui);font-size:12.5px;font-weight:500;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:999px;padding:8px 14px;cursor:pointer;white-space:nowrap;transition:.18s}
+.theme-btn:hover{color:var(--ink);border-color:var(--accent)}
+
+/* tabs */
+nav.tabs{display:flex;gap:4px;margin:18px 0 0}
+.tab{font-family:var(--ui);font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--muted);
+  background:none;border:none;border-bottom:2px solid transparent;padding:10px 16px;cursor:pointer;transition:.18s}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+
+main{padding:26px 0 80px}
+
+/* STUDY view */
+.study{display:grid;grid-template-columns:248px 1fr;gap:34px;align-items:start}
+.modlist{position:sticky;top:18px;display:flex;flex-direction:column;gap:2px;font-family:var(--ui)}
+.modlist .lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:0 0 8px 10px;font-weight:600}
+.modlink{text-align:left;background:none;border:none;border-radius:8px;padding:8px 10px;cursor:pointer;
+  color:var(--muted);font-size:13.5px;line-height:1.3;font-weight:500;display:flex;gap:8px;align-items:baseline;transition:.14s}
+.modlink:hover{background:var(--surface);color:var(--ink)}
+.modlink[aria-current="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.modlink .dot{flex:none;width:5px;height:5px;border-radius:50%;background:var(--hy);margin-top:7px;opacity:.0}
+.modlink.hy .dot{opacity:1}
+
+.article{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:34px 38px 40px;box-shadow:var(--shadow);min-height:60vh}
+.art-title{font-family:var(--display);font-weight:600;font-size:30px;line-height:1.08;margin:0 0 4px;letter-spacing:-.01em}
+.factstrip{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px;font-family:var(--ui);font-size:12px}
+.fact{background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:5px 10px;color:var(--muted)}
+.fact b{color:var(--ink);font-weight:600}
+.badge-hy{background:var(--hy-soft);border:1px solid transparent;color:var(--hy);font-weight:600;
+  border-radius:7px;padding:5px 10px;letter-spacing:.04em}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 24px}
+.tag{font-family:var(--ui);font-size:11px;color:var(--faint);background:none;border:1px solid var(--line-strong);
+  border-radius:999px;padding:3px 9px;letter-spacing:.02em}
+
+/* prose */
+.prose{font-family:var(--prose);font-size:18px;color:var(--ink)}
+.prose p{margin:0 0 15px}
+.prose strong{font-weight:600}
+.prose p strong:first-child{color:var(--accent-ink);font-family:var(--ui);font-size:12.5px;letter-spacing:.06em;
+  text-transform:uppercase;font-weight:700;display:inline-block;margin-right:.4em}
+[data-theme="dark"] .prose p strong:first-child{color:var(--accent)}
+.prose ul{margin:0 0 16px;padding-left:0;list-style:none}
+.prose li{position:relative;padding-left:20px;margin:0 0 7px;font-size:16.5px}
+.prose li::before{content:"";position:absolute;left:3px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.55}
+.prose table{width:100%;border-collapse:collapse;margin:10px 0 20px;font-family:var(--ui);font-size:13.5px}
+.prose th{background:var(--surface-2);text-align:left;padding:9px 11px;border:1px solid var(--line);font-weight:600;color:var(--ink)}
+.prose td{padding:9px 11px;border:1px solid var(--line);color:var(--muted);vertical-align:top}
+.prose em{color:var(--muted)}
+
+/* FLASHCARDS view */
+.deck-setup{max-width:560px;margin:6px auto 0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow)}
+.panel h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 18px}
+.field{margin:0 0 16px;font-family:var(--ui)}
+.field label{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 7px}
+select{width:100%;font-family:var(--ui);font-size:14.5px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line-strong);border-radius:9px;padding:11px 12px;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236f685b' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:90px;font-family:var(--ui);font-size:13.5px;font-weight:500;color:var(--muted);
+  background:var(--surface-2);border:1px solid var(--line-strong);border-radius:9px;padding:10px;cursor:pointer;transition:.16s}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+[data-theme="dark"] .seg button[aria-pressed="true"]{color:#0c1416}
+.start-btn,.ctl-primary{font-family:var(--ui);font-size:15px;font-weight:600;color:#fff;background:var(--accent);
+  border:none;border-radius:10px;padding:13px 18px;cursor:pointer;width:100%;transition:.16s;letter-spacing:.01em}
+[data-theme="dark"] .start-btn,[data-theme="dark"] .ctl-primary{color:#0c1416}
+.start-btn:hover,.ctl-primary:hover{filter:brightness(1.06)}
+.deck-count{font-family:var(--ui);font-size:13px;color:var(--faint);text-align:center;margin:14px 0 0}
+
+/* drill */
+.drill{max-width:680px;margin:0 auto}
+.progress{display:flex;align-items:center;justify-content:space-between;font-family:var(--ui);font-size:13px;color:var(--muted);margin:0 0 12px}
+.progress .counts b{font-weight:600}
+.got-c{color:var(--accent)} .miss-c{color:var(--hy)}
+.pbar{height:4px;background:var(--surface-2);border-radius:999px;overflow:hidden;margin:0 0 22px}
+.pbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s ease}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:40px 38px;min-height:280px;display:flex;flex-direction:column;cursor:pointer;
+  transition:transform .15s ease, border-color .2s}
+.card:hover{border-color:var(--line-strong)}
+.card .side-lbl{font-family:var(--ui);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--faint)}
+.card .qtext{font-family:var(--prose);font-size:23px;line-height:1.32;margin:18px 0 0;flex:1;display:flex;align-items:center}
+.card .atext{font-family:var(--prose);font-size:20px;line-height:1.4;margin:16px 0 0;color:var(--accent-ink);
+  border-top:1px solid var(--line);padding-top:18px}
+[data-theme="dark"] .card .atext{color:var(--accent)}
+.card .mod-ref{font-family:var(--ui);font-size:11.5px;color:var(--faint);margin-top:auto;padding-top:18px}
+.reveal-hint{font-family:var(--ui);font-size:12.5px;color:var(--faint);text-align:center;margin:16px 0 0}
+.judge{display:flex;gap:12px;margin:18px 0 0}
+.judge button{flex:1;font-family:var(--ui);font-size:15px;font-weight:600;border-radius:11px;padding:15px;cursor:pointer;transition:.16s;border:1px solid}
+.miss-btn{background:var(--hy-soft);border-color:transparent;color:var(--hy)}
+.miss-btn:hover{background:var(--hy);color:#fff}
+.got-btn{background:var(--accent-soft);border-color:transparent;color:var(--accent-ink)}
+[data-theme="dark"] .got-btn{color:var(--accent)}
+.got-btn:hover{background:var(--accent);color:#fff}
+[data-theme="dark"] .got-btn:hover{color:#0c1416}
+.drill-foot{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 0;font-family:var(--ui);font-size:13px}
+.linkbtn{background:none;border:none;color:var(--muted);font-family:var(--ui);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:hover{color:var(--accent)}
+
+/* results */
+.results{max-width:560px;margin:0 auto;text-align:center}
+.results .panel{padding:40px 30px}
+.score{font-family:var(--display);font-size:54px;font-weight:600;color:var(--accent);line-height:1;margin:6px 0}
+.score small{font-family:var(--ui);font-size:15px;color:var(--faint);font-weight:500}
+.res-line{font-family:var(--ui);font-size:14px;color:var(--muted);margin:8px 0 24px}
+.res-actions{display:flex;flex-direction:column;gap:10px}
+.kbd{font-family:var(--ui);font-size:11px;background:var(--surface-2);border:1px solid var(--line-strong);
+  border-radius:5px;padding:1px 6px;color:var(--faint)}
+
+.hidden{display:none!important}
+@media(max-width:820px){
+  .study{grid-template-columns:1fr;gap:18px}
+  .modlist{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .modlist .lbl{width:100%}
+  .modlink{border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px}
+  .modlink .dot{display:none}
+  .article{padding:26px 22px 30px}
+  body{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brandrow">
+      <div>
+        <p class="kicker">Biochemistry · Study Guide</p>
+        <h1 class="section" id="sectionTitle"></h1>
+      </div>
+      <button class="theme-btn" id="themeBtn">◐ Night</button>
+    </div>
+    <p class="intro" id="intro"></p>
+    <p class="meta-stats" id="stats"></p>
+    <nav class="tabs" role="tablist">
+      <button class="tab" id="tabStudy" role="tab" aria-selected="true">Study</button>
+      <button class="tab" id="tabCards" role="tab" aria-selected="false">Flashcards</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- STUDY -->
+    <section id="viewStudy">
+      <div class="study">
+        <aside class="modlist" id="modList"><p class="lbl">Modules</p></aside>
+        <article class="article" id="article"></article>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section id="viewCards" class="hidden">
+      <div class="deck-setup" id="deckSetup">
+        <div class="panel">
+          <h2>Build a drill deck</h2>
+          <div class="field">
+            <label>Scope</label>
+            <div class="seg" id="scopeSeg">
+              <button data-scope="all" aria-pressed="true">All cards</button>
+              <button data-scope="module">By module</button>
+              <button data-scope="tag">By tag</button>
+            </div>
+          </div>
+          <div class="field hidden" id="moduleField">
+            <label>Module</label>
+            <select id="moduleSel"></select>
+          </div>
+          <div class="field hidden" id="tagField">
+            <label>Tag</label>
+            <select id="tagSel"></select>
+          </div>
+          <button class="start-btn" id="startBtn">Start drill</button>
+          <p class="deck-count" id="deckCount"></p>
+        </div>
+      </div>
+
+      <div class="drill hidden" id="drill">
+        <div class="progress">
+          <span id="posLabel">Card 1</span>
+          <span class="counts"><b class="got-c" id="gotCount">0</b> got · <b class="miss-c" id="missCount">0</b> missed</span>
+        </div>
+        <div class="pbar"><i id="pbar"></i></div>
+        <div class="card" id="card">
+          <span class="side-lbl">Question</span>
+          <div class="qtext" id="qtext"></div>
+          <div class="atext hidden" id="atext"></div>
+          <div class="mod-ref" id="modRef"></div>
+        </div>
+        <p class="reveal-hint" id="revealHint">Tap the card or press <span class="kbd">Space</span> to reveal</p>
+        <div class="judge hidden" id="judge">
+          <button class="miss-btn" id="missBtn">Missed <span class="kbd">←</span></button>
+          <button class="got-btn" id="gotBtn">Got it <span class="kbd">→</span></button>
+        </div>
+        <div class="drill-foot">
+          <button class="linkbtn" id="restartDrill">Restart deck</button>
+          <button class="linkbtn" id="exitDrill">Change deck</button>
+        </div>
+      </div>
+
+      <div class="results hidden" id="results">
+        <div class="panel">
+          <p class="side-lbl" style="font-family:var(--ui);letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--faint)">Deck complete</p>
+          <div class="score" id="scoreNum">0<small>%</small></div>
+          <p class="res-line" id="resLine"></p>
+          <div class="res-actions">
+            <button class="ctl-primary" id="drillMissed">Drill missed only</button>
+            <button class="linkbtn" id="resRestart">Restart full deck</button>
+            <button class="linkbtn" id="resNew">Build a new deck</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script id="data" type="application/json">{"sectionTitle": "Metabolism — Lipid", "intro": "Section H of the biochem coverage checklist: fatty acid synthesis and oxidation and their disorders, ketone bodies, cholesterol synthesis, lipoprotein transport, and the familial dyslipidemias. ---", "modules": [{"title": "Fatty acid synthesis", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "lipid metabolism", "high_yield": true, "tags": ["fatty-acid-synthesis", "acetyl-coa-carboxylase", "malonyl-coa", "citrate-shuttle", "NADPH", "fatty-acid-synthase"], "body": "<p><strong>Concept.</strong> Fatty acid synthesis runs in the <strong>cytosol</strong>, chiefly in liver and lactating\nmammary gland, during the fed state under insulin. Mitochondrial acetyl-CoA is exported to the\ncytosol as <strong>citrate</strong> (the citrate shuttle) and there regenerated. The committed, rate-limiting\nstep is <strong>acetyl-CoA carboxylase (ACC)</strong>, which carboxylates acetyl-CoA to <strong>malonyl-CoA</strong>\n(requires biotin; activated by insulin and citrate, inhibited by glucagon and palmitoyl-CoA).\n<strong>Fatty acid synthase</strong> then builds palmitate (C16) by sequentially adding malonyl-CoA units,\nusing <strong>NADPH</strong> (from the pentose phosphate pathway and malic enzyme) as the reductant.\nCritically, malonyl-CoA also inhibits CPT-1 (carnitine palmitoyltransferase I), shutting down fatty acid oxidation — so synthesis and\noxidation can't run at the same time.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Cytosolic; liver/lactating mammary; fed state (insulin).</li>\n<li>Acetyl-CoA exported via the citrate shuttle.</li>\n<li>Rate-limiting: acetyl-CoA carboxylase (ACC) → malonyl-CoA (biotin; + insulin/citrate, − glucagon).</li>\n<li>Fatty acid synthase builds palmitate (C16); reductant is NADPH.</li>\n<li>Malonyl-CoA inhibits CPT-1 (blocking β-oxidation simultaneously).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Reciprocal control via malonyl-CoA prevents a futile cycle of\nsimultaneous synthesis and oxidation.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>ACC (synthesis, makes malonyl-CoA) vs CPT-1 (oxidation, inhibited by malonyl-CoA).</li>\n<li>NADPH (not NADH) is the reductant for synthesis.</li>\n<li>Synthesis is cytosolic; oxidation is mitochondrial.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Rate-limiting enzyme of fatty acid synthesis\" → acetyl-CoA carboxylase.</li>\n<li>\"Molecule that blocks fatty acid oxidation during synthesis\" → malonyl-CoA.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"ACC makes malonyl-CoA; malonyl-CoA closes CPT-1.\"</p>", "cards": [{"q": "Where does fatty acid synthesis occur, and in what state?", "a": "Cytosol (liver, lactating mammary gland), in the fed state under insulin."}, {"q": "How is acetyl-CoA exported to the cytosol for synthesis?", "a": "As citrate (the citrate shuttle)."}, {"q": "Rate-limiting enzyme of fatty acid synthesis, plus its product and cofactor?", "a": "Acetyl-CoA carboxylase (ACC) → malonyl-CoA; requires biotin (activated by insulin/citrate)."}, {"q": "What reductant does fatty acid synthase use?", "a": "NADPH (from the pentose phosphate pathway and malic enzyme)."}, {"q": "How does malonyl-CoA prevent a futile cycle?", "a": "It inhibits CPT-1, shutting down β-oxidation during synthesis."}, {"q": "Trap: synthesis vs oxidation — location and reductant?", "a": "Synthesis = cytosolic, uses NADPH; oxidation = mitochondrial, makes NADH/FADH₂."}]}, {"title": "Fatty acid β-oxidation & the carnitine shuttle", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "lipid metabolism", "high_yield": true, "tags": ["beta-oxidation", "carnitine-shuttle", "CPT-1", "CPT-2", "malonyl-coa", "long-chain-fatty-acid"], "body": "<p><strong>Concept.</strong> β-oxidation degrades fatty acids to acetyl-CoA in the <strong>mitochondrial matrix</strong> during\nfasting, generating NADH and FADH₂ for ATP and acetyl-CoA for the TCA cycle or ketogenesis.\nLong-chain fatty acids can't cross the inner mitochondrial membrane on their own; they need the\n<strong>carnitine shuttle</strong>: <strong>CPT-1 (carnitine palmitoyltransferase I)</strong> on the outer membrane attaches carnitine (forming acylcarnitine —\nthis is the rate-limiting step, inhibited by malonyl-CoA), a translocase moves it across, and\n<strong>CPT-2 (carnitine palmitoyltransferase II)</strong> on the inner membrane regenerates acyl-CoA inside. Each β-oxidation cycle shortens the\nchain by two carbons, releasing one acetyl-CoA, one NADH, and one FADH₂. Medium- and short-chain\nfatty acids enter the mitochondrion independently of carnitine.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Mitochondrial matrix; fasting; yields acetyl-CoA + NADH + FADH₂.</li>\n<li>Carnitine shuttle (long-chain FAs): CPT-1 (rate-limiting, outer membrane, − malonyl-CoA),\n  translocase, CPT-2 (inner membrane).</li>\n<li>Each cycle removes 2 carbons → 1 acetyl-CoA, 1 NADH, 1 FADH₂.</li>\n<li>Medium/short-chain fatty acids bypass the carnitine shuttle.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Defects in the shuttle (carnitine or CPT deficiency) or in β-oxidation\nenzymes (MCAD) impair fasting energy production → hypoketotic hypoglycemia (next modules).</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>CPT-1 = rate-limiting, inhibited by malonyl-CoA (the synthesis signal).</li>\n<li>Long-chain FAs need carnitine; medium/short-chain do not (key to MCAD vs carnitine deficiency).</li>\n<li>Oxidation is mitochondrial; synthesis is cytosolic.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Long-chain fatty acids can't enter the mitochondrion\" → carnitine shuttle defect.</li>\n<li>\"Rate-limiting step of fatty acid oxidation\" → CPT-1.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"<strong>Carnitine Carries</strong> fat in; CPT-1 is the gate (closed by malonyl-CoA).\"</p>", "cards": [{"q": "Where does β-oxidation occur, and what does it yield?", "a": "Mitochondrial matrix (during fasting); yields acetyl-CoA, NADH, and FADH₂."}, {"q": "What does the carnitine shuttle do, and via which enzymes?", "a": "Moves long-chain fatty acids into the matrix: CPT-1 (outer membrane, rate-limiting), a translocase, then CPT-2 (inner membrane)."}, {"q": "What inhibits CPT-1, and why does that make sense?", "a": "Malonyl-CoA (the synthesis signal) — preventing simultaneous synthesis and oxidation."}, {"q": "What does each β-oxidation cycle produce?", "a": "It shortens the chain by 2 carbons, releasing 1 acetyl-CoA, 1 NADH, and 1 FADH₂."}, {"q": "Which fatty acids bypass the carnitine shuttle?", "a": "Medium- and short-chain fatty acids."}, {"q": "Trap: which chain length requires carnitine?", "a": "Long-chain (medium/short-chain don't — key to MCAD vs carnitine deficiency)."}]}, {"title": "Carnitine deficiency", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "lipid metabolism", "high_yield": true, "tags": ["carnitine-deficiency", "CPT-deficiency", "hypoketotic-hypoglycemia", "cardiomyopathy", "lipid-myopathy"], "body": "<p><strong>Concept.</strong> Carnitine deficiency (primary, from a transporter defect, or secondary) prevents\nlong-chain fatty acids from entering the mitochondrion, so they can't be oxidized. Without fatty\nacid oxidation, fasting energy production and ketogenesis fail while fats accumulate.\nPresentation: weakness, hypotonia, and a lipid myopathy, with <strong>hypoketotic hypoglycemia</strong> during\nfasting, cardiomyopathy, and elevated muscle triglyceride. CPT (carnitine palmitoyltransferase) deficiencies — CPT-1 or CPT-2 — present\nsimilarly (muscle weakness, myoglobinuria after exercise or fasting).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Carnitine (or CPT) deficiency → long-chain FAs can't enter mitochondria → no β-oxidation.</li>\n<li>Hypoketotic hypoglycemia with fasting; weakness, hypotonia, cardiomyopathy, lipid myopathy.</li>\n<li>Elevated muscle triglyceride; low carnitine or abnormal acylcarnitines on labs.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Weakness and cardiomyopathy with fasting hypoketotic hypoglycemia; treat\nwith carnitine supplementation (primary form) and by avoiding fasting.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Hypoketotic hypoglycemia (no ketones because FA oxidation is blocked) — shared with MCAD.</li>\n<li>Affects long-chain fatty acid handling specifically.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Muscle weakness, cardiomyopathy, and hypoketotic hypoglycemia with\nfasting\" → carnitine/CPT deficiency.</p>\n<p><strong>Mnemonic.</strong> \"No carnitine → can't carry fat in → no ketones (hypoketotic hypoglycemia).\"</p>", "cards": [{"q": "What does carnitine (or CPT) deficiency block?", "a": "Long-chain fatty acid entry into mitochondria → no β-oxidation."}, {"q": "Characteristic fasting finding in carnitine deficiency?", "a": "Hypoketotic hypoglycemia."}, {"q": "Clinical features of carnitine deficiency?", "a": "Weakness, hypotonia, lipid myopathy, cardiomyopathy, elevated muscle triglyceride."}, {"q": "Treatment of primary carnitine deficiency?", "a": "Carnitine supplementation and avoiding fasting."}, {"q": "Vignette: muscle weakness, cardiomyopathy, and hypoketotic hypoglycemia with fasting — diagnosis?", "a": "Carnitine/CPT deficiency."}]}, {"title": "MCAD deficiency", "enzyme": "medium-chain acyl-CoA dehydrogenase", "inheritance": "autosomal recessive", "system": "metabolism", "category": "lipid metabolism", "high_yield": true, "tags": ["MCAD", "fatty-acid-oxidation", "hypoketotic-hypoglycemia", "dicarboxylic-aciduria", "newborn-screen", "SIDS"], "body": "<p><strong>Concept.</strong> Medium-chain acyl-CoA dehydrogenase (MCAD) deficiency is the <strong>most common inherited\nfatty acid oxidation disorder</strong>, autosomal recessive, and is detected on newborn screening. MCAD\ncatalyzes the first dehydrogenation step of β-oxidation for medium-chain fatty acids; without it,\nmedium-chain acyl-CoAs accumulate, and the inability to oxidize fatty acids during fasting produces\n<strong>hypoketotic hypoglycemia</strong>. Classic presentation: a previously well infant or toddler who, during\nfasting or an intercurrent illness, develops vomiting, lethargy, and hypoglycemia <em>without ketones</em>,\nwhich can progress to coma or sudden death (an overlap cause of some sudden infant deaths).\nDicarboxylic aciduria and elevated medium-chain acylcarnitines are found. Management is avoiding\nfasting.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>MCAD deficiency; AR; most common FA oxidation disorder; on newborn screen.</li>\n<li>Impaired medium-chain β-oxidation → hypoketotic hypoglycemia with fasting/illness.</li>\n<li>Vomiting, lethargy, possible coma/sudden death; dicarboxylic aciduria; ↑ medium-chain acylcarnitines.</li>\n<li>Treat by avoiding fasting (frequent feeds).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A previously well child decompensates during a fast or viral illness with\nhypoketotic hypoglycemia — a recognized cause overlapping with sudden infant death.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Hypoketotic hypoglycemia is the unifying clue for FA oxidation defects (MCAD, carnitine/CPT).</li>\n<li>MCAD affects medium-chain fatty acids, which don't need carnitine — so carnitine is normal/high.</li>\n<li>Precipitated by fasting/illness in a previously well child.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Previously well toddler who, with fasting/illness, has vomiting and\nhypoglycemia <em>without</em> ketones, plus dicarboxylic aciduria\" → MCAD.</p>\n<p><strong>Mnemonic.</strong> \"MCAD → can't burn <strong>M</strong>edium fats → hypoketotic hypoglycemia with fasting.\"</p>", "cards": [{"q": "What is MCAD deficiency — frequency, inheritance, and detection?", "a": "The most common inherited fatty acid oxidation disorder; autosomal recessive; detected on newborn screening."}, {"q": "What does MCAD catalyze, and what accumulates when it's deficient?", "a": "The first dehydrogenation of medium-chain β-oxidation; medium-chain acyl-CoAs accumulate."}, {"q": "Hallmark metabolic finding in MCAD during fasting?", "a": "Hypoketotic hypoglycemia."}, {"q": "Classic MCAD presentation?", "a": "A previously well infant/toddler who, during fasting or illness, has vomiting, lethargy, and hypoglycemia without ketones (can progress to coma/sudden death)."}, {"q": "Lab findings in MCAD?", "a": "Dicarboxylic aciduria and elevated medium-chain acylcarnitines."}, {"q": "Trap: is carnitine low in MCAD?", "a": "No — MCAD affects medium-chain fats, which don't need carnitine, so carnitine is normal/high (unlike carnitine deficiency)."}]}, {"title": "Ketone body metabolism", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "lipid metabolism", "high_yield": true, "tags": ["ketone-bodies", "acetoacetate", "beta-hydroxybutyrate", "HMG-CoA-synthase", "thiophorase", "DKA"], "body": "<p><strong>Concept.</strong> During prolonged fasting/starvation, low-carbohydrate states, or uncontrolled\ndiabetes, the liver converts excess acetyl-CoA (from heavy β-oxidation) into <strong>ketone bodies</strong> —\nacetoacetate and β-hydroxybutyrate (plus acetone) — via <strong>HMG-CoA synthase</strong> (rate-limiting,\nmitochondrial). These water-soluble fuels are exported to peripheral tissues and especially the\nbrain, which adapts to use them, sparing glucose and protein. Peripheral tissues reconvert them to\nacetyl-CoA for the TCA cycle using <strong>thiophorase</strong>; the <strong>liver lacks thiophorase</strong>, so it makes\nbut cannot use ketones. In high-NADH states (alcoholism, DKA) the equilibrium shifts toward\n<strong>β-hydroxybutyrate</strong>, which standard nitroprusside ketone tests (which detect acetoacetate) may\nunderestimate.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Liver makes ketones (acetoacetate, β-hydroxybutyrate, acetone) from acetyl-CoA in\n  fasting/starvation/DKA.</li>\n<li>Rate-limiting: HMG-CoA synthase (mitochondrial).</li>\n<li>Brain/peripheral tissues use ketones (thiophorase); liver lacks thiophorase (can't use them).</li>\n<li>High NADH (alcohol, DKA) favors β-hydroxybutyrate over acetoacetate.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> DKA (insulin deficiency) and alcoholic ketoacidosis are the clinical\nextremes; because the β-hydroxybutyrate:acetoacetate ratio rises with high NADH, nitroprusside\ntests can underestimate severity.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>The liver makes ketones but can't use them (no thiophorase).</li>\n<li>High-NADH states favor β-hydroxybutyrate (the test caveat).</li>\n<li>Ketones spare glucose for the brain in prolonged starvation.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Fasting/DKA producing acetoacetate and β-hydroxybutyrate\" → ketogenesis.</li>\n<li>\"Organ that makes but can't use ketones\" → liver.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"Liver makes ketones for everyone else — no thiophorase to use its own.\"</p>", "cards": [{"q": "What are the ketone bodies, and when are they made?", "a": "Acetoacetate and β-hydroxybutyrate (plus acetone); made by the liver in fasting/starvation/DKA from excess acetyl-CoA."}, {"q": "Rate-limiting enzyme of ketogenesis?", "a": "HMG-CoA synthase (mitochondrial)."}, {"q": "Why can the liver make but not use ketones?", "a": "It lacks thiophorase; peripheral tissues use thiophorase to reconvert ketones to acetyl-CoA."}, {"q": "Which ketone predominates in high-NADH states, and what is the test caveat?", "a": "β-hydroxybutyrate; nitroprusside tests detect acetoacetate and so may underestimate severity."}, {"q": "What do ketones spare in prolonged starvation?", "a": "Glucose (and protein) — the brain adapts to use ketones."}, {"q": "Trap: which organ makes but can't use ketones?", "a": "The liver (no thiophorase)."}]}, {"title": "Cholesterol synthesis", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "lipid metabolism", "high_yield": true, "tags": ["cholesterol", "HMG-CoA-reductase", "mevalonate", "statins", "NADPH"], "body": "<p><strong>Concept.</strong> Cholesterol is synthesized in the cytosol/ER of all cells, most in the liver, from\nacetyl-CoA. The committed, rate-limiting step is <strong>HMG-CoA reductase</strong>, which converts HMG-CoA to\n<strong>mevalonate</strong> using NADPH; this enzyme is the target of <strong>statins</strong> (competitive inhibitors) and\nis regulated by sterol feedback inhibition, insulin (activating), and glucagon (inhibiting).\nCholesterol is the precursor of bile acids, steroid hormones, and vitamin D, and a key membrane\ncomponent. Note the contrast: cytosolic HMG-CoA <strong>reductase</strong> for cholesterol versus mitochondrial\nHMG-CoA <strong>synthase</strong> for ketones.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>From acetyl-CoA; rate-limiting HMG-CoA reductase (HMG-CoA → mevalonate; uses NADPH).</li>\n<li>Statins competitively inhibit HMG-CoA reductase.</li>\n<li>Regulated by sterol feedback, insulin (+), glucagon (−).</li>\n<li>Precursor of bile acids, steroid hormones, vitamin D.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Statins lower LDL by inhibiting HMG-CoA reductase (and upregulating LDL\nreceptors). Familial hypercholesterolemia involves the LDL receptor, not this enzyme.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>HMG-CoA reductase (cholesterol, cytosol, statin target) vs HMG-CoA synthase (ketones,\n  mitochondria).</li>\n<li>Statins are competitive inhibitors.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Rate-limiting enzyme of cholesterol synthesis / the statin target\" →\nHMG-CoA reductase.</p>\n<p><strong>Mnemonic.</strong> \"Statins stop HMG-CoA <strong>R</strong>eductase.\"</p>", "cards": [{"q": "Rate-limiting enzyme of cholesterol synthesis, and its product?", "a": "HMG-CoA reductase (HMG-CoA → mevalonate; uses NADPH)."}, {"q": "Which drug class competitively inhibits HMG-CoA reductase?", "a": "Statins."}, {"q": "How is HMG-CoA reductase regulated?", "a": "Sterol feedback inhibition; activated by insulin, inhibited by glucagon."}, {"q": "What is cholesterol a precursor of?", "a": "Bile acids, steroid hormones, and vitamin D."}, {"q": "Trap: HMG-CoA reductase vs synthase?", "a": "Reductase = cholesterol (cytosol, statin target); synthase = ketones (mitochondria)."}]}, {"title": "Lipoprotein metabolism & apolipoproteins", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "lipid metabolism", "high_yield": true, "tags": ["chylomicron", "VLDL", "LDL", "HDL", "lipoprotein-lipase", "apo-B100", "apo-CII", "apo-E"], "body": "<p><strong>Concept.</strong> Lipids travel in blood as <strong>lipoproteins</strong>, classified by density and function.\n<strong>Chylomicrons</strong> (largest, least dense) carry dietary triglyceride from the gut. <strong>VLDL</strong> carries\nhepatic triglyceride to tissues. <strong>LDL</strong> (\"bad\") delivers cholesterol to peripheral tissues and is\ntaken up via the LDL receptor. <strong>HDL</strong> (\"good\") performs reverse cholesterol transport from\ntissues to liver. <strong>Lipoprotein lipase (LPL)</strong>, on capillary endothelium and activated by <strong>apo\nC-II</strong>, hydrolyzes triglyceride in chylomicrons and VLDL, releasing free fatty acids. Key\napolipoproteins: <strong>apo B-48</strong> (chylomicron assembly/secretion), <strong>apo B-100</strong> (VLDL/LDL; binds the\nLDL receptor), <strong>apo C-II</strong> (activates LPL), <strong>apo E</strong> (remnant uptake by the liver), and <strong>apo\nA-I</strong> (activates LCAT for HDL). Defects in these proteins/receptors cause the dyslipidemias.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Chylomicron (dietary TG), VLDL (hepatic TG), LDL (cholesterol to tissues), HDL (reverse transport).</li>\n<li>LPL (capillary endothelium; activated by apo C-II) hydrolyzes TG → free fatty acids.</li>\n<li>Apo B-48 (chylomicron), apo B-100 (VLDL/LDL; LDL-receptor ligand), apo C-II (LPL activator),\n  apo E (remnant uptake), apo A-I (LCAT/HDL).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Dyslipidemias arise from defects in LPL/apo C-II (chylomicronemia), the\nLDL receptor/apo B-100 (familial hypercholesterolemia), and apo E (dysbetalipoproteinemia) — next\nmodule.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Apo C-II activates LPL; apo B-100 binds the LDL receptor; apo E mediates remnant uptake.</li>\n<li>LDL delivers cholesterol; HDL does reverse transport.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Apolipoprotein that activates lipoprotein lipase\" → apo C-II.</li>\n<li>\"Ligand for the LDL receptor\" → apo B-100.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"C-II = <strong>C</strong>lears (activates LPL); B-100 = <strong>B</strong>inds the LDL receptor; E = r<strong>E</strong>mnant uptake.\"</p>", "cards": [{"q": "What do chylomicrons, VLDL, LDL, and HDL each do?", "a": "Chylomicrons carry dietary TG; VLDL carries hepatic TG; LDL delivers cholesterol to tissues; HDL does reverse cholesterol transport."}, {"q": "What does lipoprotein lipase do, where, and what activates it?", "a": "Hydrolyzes TG in chylomicrons/VLDL to free fatty acids; on capillary endothelium; activated by apo C-II."}, {"q": "What does apo B-100 do?", "a": "Binds the LDL receptor (on VLDL/LDL)."}, {"q": "What does apo C-II do?", "a": "Activates lipoprotein lipase."}, {"q": "What does apo E do?", "a": "Mediates remnant uptake by the liver."}, {"q": "What does apo B-48 do?", "a": "Chylomicron assembly and secretion."}, {"q": "Which lipoprotein performs reverse cholesterol transport?", "a": "HDL."}]}, {"title": "Familial dyslipidemias", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "lipid metabolism", "high_yield": true, "tags": ["hyperchylomicronemia", "familial-hypercholesterolemia", "dysbetalipoproteinemia", "hypertriglyceridemia", "xanthoma"], "body": "<p><strong>Concept.</strong> Inherited dyslipidemias are classified by which lipoprotein is elevated and which\nprotein is defective. <strong>Type I (familial hyperchylomicronemia):</strong> lipoprotein lipase or apo C-II\ndeficiency → massive chylomicrons and triglycerides, presenting with eruptive xanthomas, lipemia\nretinalis, hepatosplenomegaly, and <strong>acute pancreatitis</strong> — but <em>not</em> premature atherosclerosis.\n<strong>Type IIa (familial hypercholesterolemia):</strong> an LDL receptor (or apo B-100) defect → very high\nLDL/total cholesterol, with <strong>tendon xanthomas</strong> (Achilles), xanthelasma, corneal arcus, and early\natherosclerosis/MI; homozygotes can have an MI in childhood. <strong>Type III (dysbetalipoproteinemia):</strong>\nan apo E defect → elevated chylomicron remnants and IDL, with <strong>palmar xanthomas</strong> and premature\natherosclerosis. <strong>Type IV (hypertriglyceridemia):</strong> hepatic VLDL overproduction → elevated\nVLDL/triglycerides, with pancreatitis risk.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Type I: LPL or apo C-II deficiency → ↑chylomicrons/TG; pancreatitis, eruptive xanthomas (no early atherosclerosis).</li>\n<li>Type IIa (familial hypercholesterolemia): LDL receptor/apo B-100 defect → ↑LDL; tendon xanthomas, early MI.</li>\n<li>Type III (dysbetalipoproteinemia): apo E defect → ↑remnants/IDL; palmar xanthomas, atherosclerosis.</li>\n<li>Type IV: VLDL overproduction → ↑VLDL/TG; pancreatitis risk.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Familial hypercholesterolemia (IIa) is the classic autosomal dominant\nhigh-LDL/tendon-xanthoma/early-MI disorder; the homozygous form is severe. The high-triglyceride\ntypes (I, IV) risk pancreatitis.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>High-TG types (I, IV → pancreatitis) vs IIa (high LDL → atherosclerosis/tendon xanthomas).</li>\n<li>Palmar xanthomas → type III (apo E); tendon xanthomas → IIa.</li>\n<li>Type I has <em>no</em> premature atherosclerosis (chylomicrons are too large to be atherogenic) —\n  pancreatitis instead.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Child with very high LDL, tendon xanthomas, early MI, AD family history\" → familial hypercholesterolemia (IIa).</li>\n<li>\"High triglycerides, eruptive xanthomas, pancreatitis\" → type I.</li>\n<li>\"Palmar xanthomas\" → type III (apo E).</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"I = chylomicrons (LPL/C-II); IIa = LDL (receptor); III = remnants (apo E); IV = VLDL.\"</p>\n<p><strong>Familial dyslipidemia summary</strong></p>\n<table>\n<thead>\n<tr>\n<th>Type</th>\n<th>Name</th>\n<th>Defect</th>\n<th>Elevated</th>\n<th>Hallmark</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>I</td>\n<td>Familial hyperchylomicronemia</td>\n<td>LPL or apo C-II deficiency</td>\n<td>Chylomicrons, TG</td>\n<td>Pancreatitis, eruptive xanthomas (no early atherosclerosis)</td>\n</tr>\n<tr>\n<td>IIa</td>\n<td>Familial hypercholesterolemia</td>\n<td>LDL receptor / apo B-100</td>\n<td>LDL</td>\n<td>Tendon xanthomas, early MI</td>\n</tr>\n<tr>\n<td>III</td>\n<td>Dysbetalipoproteinemia</td>\n<td>Apo E</td>\n<td>Remnants, IDL</td>\n<td>Palmar xanthomas, atherosclerosis</td>\n</tr>\n<tr>\n<td>IV</td>\n<td>Hypertriglyceridemia</td>\n<td>VLDL overproduction</td>\n<td>VLDL, TG</td>\n<td>Pancreatitis risk</td>\n</tr>\n</tbody>\n</table>\n<hr />", "cards": [{"q": "Type I (familial hyperchylomicronemia) — defect and presentation?", "a": "LPL or apo C-II deficiency → ↑chylomicrons/TG; pancreatitis, eruptive xanthomas, lipemia retinalis; no premature atherosclerosis."}, {"q": "Type IIa (familial hypercholesterolemia) — defect and presentation?", "a": "LDL receptor (or apo B-100) defect → ↑LDL; tendon xanthomas, xanthelasma, corneal arcus, early MI."}, {"q": "Type III (dysbetalipoproteinemia) — defect and hallmark?", "a": "Apo E defect → ↑remnants/IDL; palmar xanthomas and premature atherosclerosis."}, {"q": "Type IV (hypertriglyceridemia) — defect and risk?", "a": "Hepatic VLDL overproduction → ↑VLDL/TG; pancreatitis risk."}, {"q": "Which xanthoma goes with which type — tendon vs palmar?", "a": "Tendon xanthomas = IIa; palmar xanthomas = III (apo E)."}, {"q": "Trap: why no premature atherosclerosis in type I?", "a": "Chylomicrons are too large to be atherogenic; the risk is pancreatitis instead."}, {"q": "Vignette: child with very high LDL, tendon xanthomas, early MI, AD family history — diagnosis?", "a": "Familial hypercholesterolemia (type IIa)."}]}, {"title": "Abetalipoproteinemia", "enzyme": "microsomal triglyceride transfer protein (MTP)", "inheritance": "autosomal recessive", "system": "metabolism", "category": "lipid metabolism", "high_yield": true, "tags": ["abetalipoproteinemia", "MTP", "apo-B", "acanthocytes", "vitamin-E", "steatorrhea", "retinitis-pigmentosa"], "body": "<p><strong>Concept.</strong> Abetalipoproteinemia is an autosomal recessive deficiency of <strong>microsomal triglyceride\ntransfer protein (MTP)</strong>, needed to assemble apo B–containing lipoproteins (chylomicrons and VLDL).\nWithout it, the intestine can't export dietary fat or fat-soluble vitamins, and enterocytes\naccumulate lipid. Presentation in infancy: failure to thrive, steatorrhea/fat malabsorption, and —\nfrom fat-soluble vitamin deficiency, especially <strong>vitamin E</strong> — progressive ataxia, neuropathy, and\nretinitis pigmentosa. The smear shows <strong>acanthocytes</strong> (spur cells); apo B is absent and serum\ntriglyceride/cholesterol are very low. Treatment is a low-long-chain-fat diet with high doses of\nfat-soluble vitamins (especially E).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>AR deficiency of microsomal triglyceride transfer protein (MTP).</li>\n<li>Can't assemble apo B lipoproteins (chylomicrons, VLDL) → fat and fat-soluble vitamin malabsorption.</li>\n<li>Infancy: failure to thrive, steatorrhea; vitamin E deficiency → ataxia, neuropathy, retinitis pigmentosa.</li>\n<li>Acanthocytes on smear; absent apo B; very low TG/cholesterol.</li>\n<li>Treat with vitamin E (and other fat-soluble vitamins); restrict long-chain fat.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Infant with steatorrhea, failure to thrive, neurologic decline, and\nacanthocytes on smear.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>The MTP defect blocks both chylomicron and VLDL secretion (both require apo B).</li>\n<li>Vitamin E deficiency drives the neurologic and retinal findings.</li>\n<li>Acanthocytes (spur cells) on the peripheral smear.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Infant with steatorrhea, failure to thrive, ataxia, acanthocytes, and\nabsent apo B\" → abetalipoproteinemia.</p>\n<p><strong>Mnemonic.</strong> \"No apo <strong>B</strong> → no chylomicrons/VLDL → fat-soluble vitamin (E) deficiency and\nacanthocytes.\"</p>", "cards": [{"q": "Which protein is deficient in abetalipoproteinemia, and what is the inheritance?", "a": "Microsomal triglyceride transfer protein (MTP); autosomal recessive."}, {"q": "What can't be assembled, and what is the consequence?", "a": "Apo B lipoproteins (chylomicrons, VLDL) → fat and fat-soluble vitamin malabsorption."}, {"q": "Which vitamin deficiency drives the neurologic findings, and what are they?", "a": "Vitamin E → ataxia, neuropathy, and retinitis pigmentosa."}, {"q": "Smear and lipid findings in abetalipoproteinemia?", "a": "Acanthocytes (spur cells); absent apo B; very low triglyceride/cholesterol."}, {"q": "Vignette: infant with steatorrhea, failure to thrive, ataxia, acanthocytes, and absent apo B — diagnosis?", "a": "Abetalipoproteinemia."}]}], "cards": [{"id": "0-0", "q": "Where does fatty acid synthesis occur, and in what state?", "a": "Cytosol (liver, lactating mammary gland), in the fed state under insulin.", "module": "Fatty acid synthesis", "moduleIndex": 0, "tags": ["fatty-acid-synthesis", "acetyl-coa-carboxylase", "malonyl-coa", "citrate-shuttle", "NADPH", "fatty-acid-synthase"], "high_yield": true}, {"id": "0-1", "q": "How is acetyl-CoA exported to the cytosol for synthesis?", "a": "As citrate (the citrate shuttle).", "module": "Fatty acid synthesis", "moduleIndex": 0, "tags": ["fatty-acid-synthesis", "acetyl-coa-carboxylase", "malonyl-coa", "citrate-shuttle", "NADPH", "fatty-acid-synthase"], "high_yield": true}, {"id": "0-2", "q": "Rate-limiting enzyme of fatty acid synthesis, plus its product and cofactor?", "a": "Acetyl-CoA carboxylase (ACC) → malonyl-CoA; requires biotin (activated by insulin/citrate).", "module": "Fatty acid synthesis", "moduleIndex": 0, "tags": ["fatty-acid-synthesis", "acetyl-coa-carboxylase", "malonyl-coa", "citrate-shuttle", "NADPH", "fatty-acid-synthase"], "high_yield": true}, {"id": "0-3", "q": "What reductant does fatty acid synthase use?", "a": "NADPH (from the pentose phosphate pathway and malic enzyme).", "module": "Fatty acid synthesis", "moduleIndex": 0, "tags": ["fatty-acid-synthesis", "acetyl-coa-carboxylase", "malonyl-coa", "citrate-shuttle", "NADPH", "fatty-acid-synthase"], "high_yield": true}, {"id": "0-4", "q": "How does malonyl-CoA prevent a futile cycle?", "a": "It inhibits CPT-1, shutting down β-oxidation during synthesis.", "module": "Fatty acid synthesis", "moduleIndex": 0, "tags": ["fatty-acid-synthesis", "acetyl-coa-carboxylase", "malonyl-coa", "citrate-shuttle", "NADPH", "fatty-acid-synthase"], "high_yield": true}, {"id": "0-5", "q": "Trap: synthesis vs oxidation — location and reductant?", "a": "Synthesis = cytosolic, uses NADPH; oxidation = mitochondrial, makes NADH/FADH₂.", "module": "Fatty acid synthesis", "moduleIndex": 0, "tags": ["fatty-acid-synthesis", "acetyl-coa-carboxylase", "malonyl-coa", "citrate-shuttle", "NADPH", "fatty-acid-synthase"], "high_yield": true}, {"id": "1-0", "q": "Where does β-oxidation occur, and what does it yield?", "a": "Mitochondrial matrix (during fasting); yields acetyl-CoA, NADH, and FADH₂.", "module": "Fatty acid β-oxidation & the carnitine shuttle", "moduleIndex": 1, "tags": ["beta-oxidation", "carnitine-shuttle", "CPT-1", "CPT-2", "malonyl-coa", "long-chain-fatty-acid"], "high_yield": true}, {"id": "1-1", "q": "What does the carnitine shuttle do, and via which enzymes?", "a": "Moves long-chain fatty acids into the matrix: CPT-1 (outer membrane, rate-limiting), a translocase, then CPT-2 (inner membrane).", "module": "Fatty acid β-oxidation & the carnitine shuttle", "moduleIndex": 1, "tags": ["beta-oxidation", "carnitine-shuttle", "CPT-1", "CPT-2", "malonyl-coa", "long-chain-fatty-acid"], "high_yield": true}, {"id": "1-2", "q": "What inhibits CPT-1, and why does that make sense?", "a": "Malonyl-CoA (the synthesis signal) — preventing simultaneous synthesis and oxidation.", "module": "Fatty acid β-oxidation & the carnitine shuttle", "moduleIndex": 1, "tags": ["beta-oxidation", "carnitine-shuttle", "CPT-1", "CPT-2", "malonyl-coa", "long-chain-fatty-acid"], "high_yield": true}, {"id": "1-3", "q": "What does each β-oxidation cycle produce?", "a": "It shortens the chain by 2 carbons, releasing 1 acetyl-CoA, 1 NADH, and 1 FADH₂.", "module": "Fatty acid β-oxidation & the carnitine shuttle", "moduleIndex": 1, "tags": ["beta-oxidation", "carnitine-shuttle", "CPT-1", "CPT-2", "malonyl-coa", "long-chain-fatty-acid"], "high_yield": true}, {"id": "1-4", "q": "Which fatty acids bypass the carnitine shuttle?", "a": "Medium- and short-chain fatty acids.", "module": "Fatty acid β-oxidation & the carnitine shuttle", "moduleIndex": 1, "tags": ["beta-oxidation", "carnitine-shuttle", "CPT-1", "CPT-2", "malonyl-coa", "long-chain-fatty-acid"], "high_yield": true}, {"id": "1-5", "q": "Trap: which chain length requires carnitine?", "a": "Long-chain (medium/short-chain don't — key to MCAD vs carnitine deficiency).", "module": "Fatty acid β-oxidation & the carnitine shuttle", "moduleIndex": 1, "tags": ["beta-oxidation", "carnitine-shuttle", "CPT-1", "CPT-2", "malonyl-coa", "long-chain-fatty-acid"], "high_yield": true}, {"id": "2-0", "q": "What does carnitine (or CPT) deficiency block?", "a": "Long-chain fatty acid entry into mitochondria → no β-oxidation.", "module": "Carnitine deficiency", "moduleIndex": 2, "tags": ["carnitine-deficiency", "CPT-deficiency", "hypoketotic-hypoglycemia", "cardiomyopathy", "lipid-myopathy"], "high_yield": true}, {"id": "2-1", "q": "Characteristic fasting finding in carnitine deficiency?", "a": "Hypoketotic hypoglycemia.", "module": "Carnitine deficiency", "moduleIndex": 2, "tags": ["carnitine-deficiency", "CPT-deficiency", "hypoketotic-hypoglycemia", "cardiomyopathy", "lipid-myopathy"], "high_yield": true}, {"id": "2-2", "q": "Clinical features of carnitine deficiency?", "a": "Weakness, hypotonia, lipid myopathy, cardiomyopathy, elevated muscle triglyceride.", "module": "Carnitine deficiency", "moduleIndex": 2, "tags": ["carnitine-deficiency", "CPT-deficiency", "hypoketotic-hypoglycemia", "cardiomyopathy", "lipid-myopathy"], "high_yield": true}, {"id": "2-3", "q": "Treatment of primary carnitine deficiency?", "a": "Carnitine supplementation and avoiding fasting.", "module": "Carnitine deficiency", "moduleIndex": 2, "tags": ["carnitine-deficiency", "CPT-deficiency", "hypoketotic-hypoglycemia", "cardiomyopathy", "lipid-myopathy"], "high_yield": true}, {"id": "2-4", "q": "Vignette: muscle weakness, cardiomyopathy, and hypoketotic hypoglycemia with fasting — diagnosis?", "a": "Carnitine/CPT deficiency.", "module": "Carnitine deficiency", "moduleIndex": 2, "tags": ["carnitine-deficiency", "CPT-deficiency", "hypoketotic-hypoglycemia", "cardiomyopathy", "lipid-myopathy"], "high_yield": true}, {"id": "3-0", "q": "What is MCAD deficiency — frequency, inheritance, and detection?", "a": "The most common inherited fatty acid oxidation disorder; autosomal recessive; detected on newborn screening.", "module": "MCAD deficiency", "moduleIndex": 3, "tags": ["MCAD", "fatty-acid-oxidation", "hypoketotic-hypoglycemia", "dicarboxylic-aciduria", "newborn-screen", "SIDS"], "high_yield": true}, {"id": "3-1", "q": "What does MCAD catalyze, and what accumulates when it's deficient?", "a": "The first dehydrogenation of medium-chain β-oxidation; medium-chain acyl-CoAs accumulate.", "module": "MCAD deficiency", "moduleIndex": 3, "tags": ["MCAD", "fatty-acid-oxidation", "hypoketotic-hypoglycemia", "dicarboxylic-aciduria", "newborn-screen", "SIDS"], "high_yield": true}, {"id": "3-2", "q": "Hallmark metabolic finding in MCAD during fasting?", "a": "Hypoketotic hypoglycemia.", "module": "MCAD deficiency", "moduleIndex": 3, "tags": ["MCAD", "fatty-acid-oxidation", "hypoketotic-hypoglycemia", "dicarboxylic-aciduria", "newborn-screen", "SIDS"], "high_yield": true}, {"id": "3-3", "q": "Classic MCAD presentation?", "a": "A previously well infant/toddler who, during fasting or illness, has vomiting, lethargy, and hypoglycemia without ketones (can progress to coma/sudden death).", "module": "MCAD deficiency", "moduleIndex": 3, "tags": ["MCAD", "fatty-acid-oxidation", "hypoketotic-hypoglycemia", "dicarboxylic-aciduria", "newborn-screen", "SIDS"], "high_yield": true}, {"id": "3-4", "q": "Lab findings in MCAD?", "a": "Dicarboxylic aciduria and elevated medium-chain acylcarnitines.", "module": "MCAD deficiency", "moduleIndex": 3, "tags": ["MCAD", "fatty-acid-oxidation", "hypoketotic-hypoglycemia", "dicarboxylic-aciduria", "newborn-screen", "SIDS"], "high_yield": true}, {"id": "3-5", "q": "Trap: is carnitine low in MCAD?", "a": "No — MCAD affects medium-chain fats, which don't need carnitine, so carnitine is normal/high (unlike carnitine deficiency).", "module": "MCAD deficiency", "moduleIndex": 3, "tags": ["MCAD", "fatty-acid-oxidation", "hypoketotic-hypoglycemia", "dicarboxylic-aciduria", "newborn-screen", "SIDS"], "high_yield": true}, {"id": "4-0", "q": "What are the ketone bodies, and when are they made?", "a": "Acetoacetate and β-hydroxybutyrate (plus acetone); made by the liver in fasting/starvation/DKA from excess acetyl-CoA.", "module": "Ketone body metabolism", "moduleIndex": 4, "tags": ["ketone-bodies", "acetoacetate", "beta-hydroxybutyrate", "HMG-CoA-synthase", "thiophorase", "DKA"], "high_yield": true}, {"id": "4-1", "q": "Rate-limiting enzyme of ketogenesis?", "a": "HMG-CoA synthase (mitochondrial).", "module": "Ketone body metabolism", "moduleIndex": 4, "tags": ["ketone-bodies", "acetoacetate", "beta-hydroxybutyrate", "HMG-CoA-synthase", "thiophorase", "DKA"], "high_yield": true}, {"id": "4-2", "q": "Why can the liver make but not use ketones?", "a": "It lacks thiophorase; peripheral tissues use thiophorase to reconvert ketones to acetyl-CoA.", "module": "Ketone body metabolism", "moduleIndex": 4, "tags": ["ketone-bodies", "acetoacetate", "beta-hydroxybutyrate", "HMG-CoA-synthase", "thiophorase", "DKA"], "high_yield": true}, {"id": "4-3", "q": "Which ketone predominates in high-NADH states, and what is the test caveat?", "a": "β-hydroxybutyrate; nitroprusside tests detect acetoacetate and so may underestimate severity.", "module": "Ketone body metabolism", "moduleIndex": 4, "tags": ["ketone-bodies", "acetoacetate", "beta-hydroxybutyrate", "HMG-CoA-synthase", "thiophorase", "DKA"], "high_yield": true}, {"id": "4-4", "q": "What do ketones spare in prolonged starvation?", "a": "Glucose (and protein) — the brain adapts to use ketones.", "module": "Ketone body metabolism", "moduleIndex": 4, "tags": ["ketone-bodies", "acetoacetate", "beta-hydroxybutyrate", "HMG-CoA-synthase", "thiophorase", "DKA"], "high_yield": true}, {"id": "4-5", "q": "Trap: which organ makes but can't use ketones?", "a": "The liver (no thiophorase).", "module": "Ketone body metabolism", "moduleIndex": 4, "tags": ["ketone-bodies", "acetoacetate", "beta-hydroxybutyrate", "HMG-CoA-synthase", "thiophorase", "DKA"], "high_yield": true}, {"id": "5-0", "q": "Rate-limiting enzyme of cholesterol synthesis, and its product?", "a": "HMG-CoA reductase (HMG-CoA → mevalonate; uses NADPH).", "module": "Cholesterol synthesis", "moduleIndex": 5, "tags": ["cholesterol", "HMG-CoA-reductase", "mevalonate", "statins", "NADPH"], "high_yield": true}, {"id": "5-1", "q": "Which drug class competitively inhibits HMG-CoA reductase?", "a": "Statins.", "module": "Cholesterol synthesis", "moduleIndex": 5, "tags": ["cholesterol", "HMG-CoA-reductase", "mevalonate", "statins", "NADPH"], "high_yield": true}, {"id": "5-2", "q": "How is HMG-CoA reductase regulated?", "a": "Sterol feedback inhibition; activated by insulin, inhibited by glucagon.", "module": "Cholesterol synthesis", "moduleIndex": 5, "tags": ["cholesterol", "HMG-CoA-reductase", "mevalonate", "statins", "NADPH"], "high_yield": true}, {"id": "5-3", "q": "What is cholesterol a precursor of?", "a": "Bile acids, steroid hormones, and vitamin D.", "module": "Cholesterol synthesis", "moduleIndex": 5, "tags": ["cholesterol", "HMG-CoA-reductase", "mevalonate", "statins", "NADPH"], "high_yield": true}, {"id": "5-4", "q": "Trap: HMG-CoA reductase vs synthase?", "a": "Reductase = cholesterol (cytosol, statin target); synthase = ketones (mitochondria).", "module": "Cholesterol synthesis", "moduleIndex": 5, "tags": ["cholesterol", "HMG-CoA-reductase", "mevalonate", "statins", "NADPH"], "high_yield": true}, {"id": "6-0", "q": "What do chylomicrons, VLDL, LDL, and HDL each do?", "a": "Chylomicrons carry dietary TG; VLDL carries hepatic TG; LDL delivers cholesterol to tissues; HDL does reverse cholesterol transport.", "module": "Lipoprotein metabolism & apolipoproteins", "moduleIndex": 6, "tags": ["chylomicron", "VLDL", "LDL", "HDL", "lipoprotein-lipase", "apo-B100", "apo-CII", "apo-E"], "high_yield": true}, {"id": "6-1", "q": "What does lipoprotein lipase do, where, and what activates it?", "a": "Hydrolyzes TG in chylomicrons/VLDL to free fatty acids; on capillary endothelium; activated by apo C-II.", "module": "Lipoprotein metabolism & apolipoproteins", "moduleIndex": 6, "tags": ["chylomicron", "VLDL", "LDL", "HDL", "lipoprotein-lipase", "apo-B100", "apo-CII", "apo-E"], "high_yield": true}, {"id": "6-2", "q": "What does apo B-100 do?", "a": "Binds the LDL receptor (on VLDL/LDL).", "module": "Lipoprotein metabolism & apolipoproteins", "moduleIndex": 6, "tags": ["chylomicron", "VLDL", "LDL", "HDL", "lipoprotein-lipase", "apo-B100", "apo-CII", "apo-E"], "high_yield": true}, {"id": "6-3", "q": "What does apo C-II do?", "a": "Activates lipoprotein lipase.", "module": "Lipoprotein metabolism & apolipoproteins", "moduleIndex": 6, "tags": ["chylomicron", "VLDL", "LDL", "HDL", "lipoprotein-lipase", "apo-B100", "apo-CII", "apo-E"], "high_yield": true}, {"id": "6-4", "q": "What does apo E do?", "a": "Mediates remnant uptake by the liver.", "module": "Lipoprotein metabolism & apolipoproteins", "moduleIndex": 6, "tags": ["chylomicron", "VLDL", "LDL", "HDL", "lipoprotein-lipase", "apo-B100", "apo-CII", "apo-E"], "high_yield": true}, {"id": "6-5", "q": "What does apo B-48 do?", "a": "Chylomicron assembly and secretion.", "module": "Lipoprotein metabolism & apolipoproteins", "moduleIndex": 6, "tags": ["chylomicron", "VLDL", "LDL", "HDL", "lipoprotein-lipase", "apo-B100", "apo-CII", "apo-E"], "high_yield": true}, {"id": "6-6", "q": "Which lipoprotein performs reverse cholesterol transport?", "a": "HDL.", "module": "Lipoprotein metabolism & apolipoproteins", "moduleIndex": 6, "tags": ["chylomicron", "VLDL", "LDL", "HDL", "lipoprotein-lipase", "apo-B100", "apo-CII", "apo-E"], "high_yield": true}, {"id": "7-0", "q": "Type I (familial hyperchylomicronemia) — defect and presentation?", "a": "LPL or apo C-II deficiency → ↑chylomicrons/TG; pancreatitis, eruptive xanthomas, lipemia retinalis; no premature atherosclerosis.", "module": "Familial dyslipidemias", "moduleIndex": 7, "tags": ["hyperchylomicronemia", "familial-hypercholesterolemia", "dysbetalipoproteinemia", "hypertriglyceridemia", "xanthoma"], "high_yield": true}, {"id": "7-1", "q": "Type IIa (familial hypercholesterolemia) — defect and presentation?", "a": "LDL receptor (or apo B-100) defect → ↑LDL; tendon xanthomas, xanthelasma, corneal arcus, early MI.", "module": "Familial dyslipidemias", "moduleIndex": 7, "tags": ["hyperchylomicronemia", "familial-hypercholesterolemia", "dysbetalipoproteinemia", "hypertriglyceridemia", "xanthoma"], "high_yield": true}, {"id": "7-2", "q": "Type III (dysbetalipoproteinemia) — defect and hallmark?", "a": "Apo E defect → ↑remnants/IDL; palmar xanthomas and premature atherosclerosis.", "module": "Familial dyslipidemias", "moduleIndex": 7, "tags": ["hyperchylomicronemia", "familial-hypercholesterolemia", "dysbetalipoproteinemia", "hypertriglyceridemia", "xanthoma"], "high_yield": true}, {"id": "7-3", "q": "Type IV (hypertriglyceridemia) — defect and risk?", "a": "Hepatic VLDL overproduction → ↑VLDL/TG; pancreatitis risk.", "module": "Familial dyslipidemias", "moduleIndex": 7, "tags": ["hyperchylomicronemia", "familial-hypercholesterolemia", "dysbetalipoproteinemia", "hypertriglyceridemia", "xanthoma"], "high_yield": true}, {"id": "7-4", "q": "Which xanthoma goes with which type — tendon vs palmar?", "a": "Tendon xanthomas = IIa; palmar xanthomas = III (apo E).", "module": "Familial dyslipidemias", "moduleIndex": 7, "tags": ["hyperchylomicronemia", "familial-hypercholesterolemia", "dysbetalipoproteinemia", "hypertriglyceridemia", "xanthoma"], "high_yield": true}, {"id": "7-5", "q": "Trap: why no premature atherosclerosis in type I?", "a": "Chylomicrons are too large to be atherogenic; the risk is pancreatitis instead.", "module": "Familial dyslipidemias", "moduleIndex": 7, "tags": ["hyperchylomicronemia", "familial-hypercholesterolemia", "dysbetalipoproteinemia", "hypertriglyceridemia", "xanthoma"], "high_yield": true}, {"id": "7-6", "q": "Vignette: child with very high LDL, tendon xanthomas, early MI, AD family history — diagnosis?", "a": "Familial hypercholesterolemia (type IIa).", "module": "Familial dyslipidemias", "moduleIndex": 7, "tags": ["hyperchylomicronemia", "familial-hypercholesterolemia", "dysbetalipoproteinemia", "hypertriglyceridemia", "xanthoma"], "high_yield": true}, {"id": "8-0", "q": "Which protein is deficient in abetalipoproteinemia, and what is the inheritance?", "a": "Microsomal triglyceride transfer protein (MTP); autosomal recessive.", "module": "Abetalipoproteinemia", "moduleIndex": 8, "tags": ["abetalipoproteinemia", "MTP", "apo-B", "acanthocytes", "vitamin-E", "steatorrhea", "retinitis-pigmentosa"], "high_yield": true}, {"id": "8-1", "q": "What can't be assembled, and what is the consequence?", "a": "Apo B lipoproteins (chylomicrons, VLDL) → fat and fat-soluble vitamin malabsorption.", "module": "Abetalipoproteinemia", "moduleIndex": 8, "tags": ["abetalipoproteinemia", "MTP", "apo-B", "acanthocytes", "vitamin-E", "steatorrhea", "retinitis-pigmentosa"], "high_yield": true}, {"id": "8-2", "q": "Which vitamin deficiency drives the neurologic findings, and what are they?", "a": "Vitamin E → ataxia, neuropathy, and retinitis pigmentosa.", "module": "Abetalipoproteinemia", "moduleIndex": 8, "tags": ["abetalipoproteinemia", "MTP", "apo-B", "acanthocytes", "vitamin-E", "steatorrhea", "retinitis-pigmentosa"], "high_yield": true}, {"id": "8-3", "q": "Smear and lipid findings in abetalipoproteinemia?", "a": "Acanthocytes (spur cells); absent apo B; very low triglyceride/cholesterol.", "module": "Abetalipoproteinemia", "moduleIndex": 8, "tags": ["abetalipoproteinemia", "MTP", "apo-B", "acanthocytes", "vitamin-E", "steatorrhea", "retinitis-pigmentosa"], "high_yield": true}, {"id": "8-4", "q": "Vignette: infant with steatorrhea, failure to thrive, ataxia, acanthocytes, and absent apo B — diagnosis?", "a": "Abetalipoproteinemia.", "module": "Abetalipoproteinemia", "moduleIndex": 8, "tags": ["abetalipoproteinemia", "MTP", "apo-B", "acanthocytes", "vitamin-E", "steatorrhea", "retinitis-pigmentosa"], "high_yield": true}], "tags": ["CPT-1", "CPT-2", "CPT-deficiency", "DKA", "HDL", "HMG-CoA-reductase", "HMG-CoA-synthase", "LDL", "MCAD", "MTP", "NADPH", "SIDS", "VLDL", "abetalipoproteinemia", "acanthocytes", "acetoacetate", "acetyl-coa-carboxylase", "apo-B", "apo-B100", "apo-CII", "apo-E", "beta-hydroxybutyrate", "beta-oxidation", "cardiomyopathy", "carnitine-deficiency", "carnitine-shuttle", "cholesterol", "chylomicron", "citrate-shuttle", "dicarboxylic-aciduria", "dysbetalipoproteinemia", "familial-hypercholesterolemia", "fatty-acid-oxidation", "fatty-acid-synthase", "fatty-acid-synthesis", "hyperchylomicronemia", "hypertriglyceridemia", "hypoketotic-hypoglycemia", "ketone-bodies", "lipid-myopathy", "lipoprotein-lipase", "long-chain-fatty-acid", "malonyl-coa", "mevalonate", "newborn-screen", "retinitis-pigmentosa", "statins", "steatorrhea", "thiophorase", "vitamin-E", "xanthoma"], "counts": {"modules": 9, "cards": 53}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* header */
+$('#sectionTitle').textContent = DATA.sectionTitle;
+$('#intro').textContent = DATA.intro;
+$('#stats').innerHTML = `<b>${DATA.counts.modules}</b> modules · <b>${DATA.counts.cards}</b> flashcards`;
+
+/* theme */
+const themeBtn = $('#themeBtn'), root = document.documentElement;
+themeBtn.onclick = () => {
+  const dark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  themeBtn.textContent = dark ? '◐ Night' : '◑ Day';
+};
+
+/* tabs */
+const tabStudy=$('#tabStudy'), tabCards=$('#tabCards'), viewStudy=$('#viewStudy'), viewCards=$('#viewCards');
+function setTab(study){
+  tabStudy.setAttribute('aria-selected', study); tabCards.setAttribute('aria-selected', !study);
+  viewStudy.classList.toggle('hidden', !study); viewCards.classList.toggle('hidden', study);
+}
+tabStudy.onclick=()=>setTab(true); tabCards.onclick=()=>setTab(false);
+
+/* ---------- STUDY ---------- */
+const modList=$('#modList'), article=$('#article');
+DATA.modules.forEach((m,i)=>{
+  const b=document.createElement('button');
+  b.className='modlink'+(m.high_yield?' hy':'');
+  b.innerHTML=`<span class="dot"></span><span>${m.title}</span>`;
+  b.onclick=()=>showModule(i);
+  modList.appendChild(b);
+});
+function showModule(i){
+  const m=DATA.modules[i];
+  $$('.modlink').forEach((el,idx)=>el.setAttribute('aria-current', idx===i));
+  const facts=[];
+  if(m.enzyme) facts.push(`<span class="fact">Enzyme · <b>${m.enzyme}</b></span>`);
+  if(m.inheritance) facts.push(`<span class="fact">Inheritance · <b>${m.inheritance}</b></span>`);
+  if(m.high_yield) facts.push(`<span class="badge-hy">★ High yield</span>`);
+  const tags=m.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  article.innerHTML=`<h2 class="art-title">${m.title}</h2>
+    <div class="factstrip">${facts.join('')}</div>
+    ${tags?`<div class="tagrow">${tags}</div>`:''}
+    <div class="prose">${m.body}</div>`;
+  article.scrollIntoView({behavior:'smooth',block:'start'});
+}
+showModule(0);
+
+/* ---------- FLASHCARDS ---------- */
+let scope='all';
+const scopeSeg=$('#scopeSeg'), moduleField=$('#moduleField'), tagField=$('#tagField');
+const moduleSel=$('#moduleSel'), tagSel=$('#tagSel'), deckCount=$('#deckCount');
+
+DATA.modules.forEach((m,i)=>{
+  const o=document.createElement('option'); o.value=i; o.textContent=`${m.title} (${m.cards.length})`; moduleSel.appendChild(o);
+});
+DATA.tags.forEach(t=>{
+  const n=DATA.cards.filter(c=>c.tags.includes(t)).length;
+  const o=document.createElement('option'); o.value=t; o.textContent=`${t} (${n})`; tagSel.appendChild(o);
+});
+
+scopeSeg.querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>{
+    scope=b.dataset.scope;
+    scopeSeg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+    moduleField.classList.toggle('hidden', scope!=='module');
+    tagField.classList.toggle('hidden', scope!=='tag');
+    updateDeckCount();
+  };
+});
+moduleSel.onchange=updateDeckCount; tagSel.onchange=updateDeckCount;
+
+function currentSelection(){
+  if(scope==='module') return DATA.cards.filter(c=>c.moduleIndex===+moduleSel.value);
+  if(scope==='tag') return DATA.cards.filter(c=>c.tags.includes(tagSel.value));
+  return DATA.cards.slice();
+}
+function updateDeckCount(){
+  const n=currentSelection().length;
+  deckCount.textContent=`${n} card${n===1?'':'s'} in this deck`;
+}
+updateDeckCount();
+
+/* drill state */
+let deck=[], pos=0, revealed=false, got=0, missed=0, missedCards=[];
+const deckSetup=$('#deckSetup'), drill=$('#drill'), results=$('#results');
+const card=$('#card'), qtext=$('#qtext'), atext=$('#atext'), modRef=$('#modRef');
+const judge=$('#judge'), revealHint=$('#revealHint'), pbar=$('#pbar');
+const posLabel=$('#posLabel'), gotCount=$('#gotCount'), missCount=$('#missCount');
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function startDrill(cards){
+  deck=shuffle(cards.slice()); pos=0; got=0; missed=0; missedCards=[];
+  deckSetup.classList.add('hidden'); results.classList.add('hidden'); drill.classList.remove('hidden');
+  render();
+}
+function render(){
+  if(pos>=deck.length){ return finish(); }
+  const c=deck[pos]; revealed=false;
+  qtext.textContent=c.q; atext.textContent=c.a; atext.classList.add('hidden');
+  judge.classList.add('hidden'); revealHint.classList.remove('hidden');
+  modRef.textContent=''; 
+  posLabel.textContent=`Card ${pos+1} of ${deck.length}`;
+  gotCount.textContent=got; missCount.textContent=missed;
+  pbar.style.width=`${(pos/deck.length)*100}%`;
+}
+function reveal(){
+  if(revealed) return;
+  revealed=true;
+  atext.classList.remove('hidden'); judge.classList.remove('hidden');
+  revealHint.classList.add('hidden');
+  modRef.textContent='From: '+deck[pos].module;
+}
+function judgeCard(ok){
+  if(!revealed) return;
+  if(ok) got++; else { missed++; missedCards.push(deck[pos]); }
+  pos++; render();
+}
+function finish(){
+  drill.classList.add('hidden'); results.classList.remove('hidden');
+  const total=got+missed, pct=total?Math.round(got/total*100):0;
+  $('#scoreNum').innerHTML=`${pct}<small>%</small>`;
+  $('#resLine').textContent=`${got} got · ${missed} missed · ${total} cards`;
+  $('#drillMissed').classList.toggle('hidden', missedCards.length===0);
+}
+
+card.onclick=reveal;
+$('#gotBtn').onclick=e=>{e.stopPropagation();judgeCard(true);};
+$('#missBtn').onclick=e=>{e.stopPropagation();judgeCard(false);};
+$('#startBtn').onclick=()=>{const s=currentSelection(); if(s.length) startDrill(s);};
+$('#restartDrill').onclick=()=>startDrill(deck);
+$('#exitDrill').onclick=()=>{drill.classList.add('hidden');deckSetup.classList.remove('hidden');};
+$('#resRestart').onclick=()=>startDrill(deck);
+$('#drillMissed').onclick=()=>startDrill(missedCards);
+$('#resNew').onclick=()=>{results.classList.add('hidden');deckSetup.classList.remove('hidden');};
+
+document.addEventListener('keydown',e=>{
+  if(viewCards.classList.contains('hidden')||drill.classList.contains('hidden'))return;
+  if(e.code==='Space'||e.code==='Enter'){e.preventDefault(); revealed?null:reveal();}
+  else if(revealed&&(e.code==='ArrowRight'||e.key.toLowerCase()==='g')) judgeCard(true);
+  else if(revealed&&(e.code==='ArrowLeft'||e.key.toLowerCase()==='m')) judgeCard(false);
+});
+</script>
+</body>
+</html>

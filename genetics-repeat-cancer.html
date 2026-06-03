@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Genetics — Trinucleotide Repeat &amp; Cancer — Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ea; --surface:#fbfaf6; --surface-2:#efebe1;
+  --ink:#211f1b; --muted:#6f685b; --faint:#938b7c;
+  --accent:#0b6b63; --accent-ink:#063f3a; --accent-soft:rgba(11,107,99,.10);
+  --hy:#b06a16; --hy-soft:rgba(176,106,22,.12);
+  --line:#e2ddd1; --line-strong:#d3ccbd;
+  --shadow:0 1px 2px rgba(40,34,20,.05),0 8px 28px -14px rgba(40,34,20,.22);
+  --display:"Fraunces",Georgia,serif;
+  --prose:"Newsreader",Georgia,serif;
+  --ui:"Spline Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#14161a; --surface:#1b1e24; --surface-2:#222730;
+  --ink:#e9e5db; --muted:#9d978a; --faint:#76716a;
+  --accent:#54b7ab; --accent-ink:#bfe7e1; --accent-soft:rgba(84,183,171,.12);
+  --hy:#d99f55; --hy-soft:rgba(217,159,85,.14);
+  --line:#2a2f38; --line-strong:#39404b;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--prose);
+  font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 100% 0,var(--accent-soft),transparent 38%);
+  min-height:100vh;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* header */
+header.top{padding:30px 0 14px;border-bottom:1px solid var(--line)}
+.brandrow{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.kicker{font-family:var(--ui);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 6px}
+h1.section{font-family:var(--display);font-weight:600;font-size:clamp(28px,4.4vw,44px);line-height:1.02;margin:0;letter-spacing:-.01em}
+.intro{color:var(--muted);max-width:62ch;margin:14px 0 0;font-size:16.5px}
+.meta-stats{font-family:var(--ui);font-size:12.5px;color:var(--faint);margin-top:12px;letter-spacing:.02em}
+.meta-stats b{color:var(--muted);font-weight:600}
+.theme-btn{font-family:var(--ui);font-size:12.5px;font-weight:500;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:999px;padding:8px 14px;cursor:pointer;white-space:nowrap;transition:.18s}
+.theme-btn:hover{color:var(--ink);border-color:var(--accent)}
+
+/* tabs */
+nav.tabs{display:flex;gap:4px;margin:18px 0 0}
+.tab{font-family:var(--ui);font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--muted);
+  background:none;border:none;border-bottom:2px solid transparent;padding:10px 16px;cursor:pointer;transition:.18s}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+
+main{padding:26px 0 80px}
+
+/* STUDY view */
+.study{display:grid;grid-template-columns:248px 1fr;gap:34px;align-items:start}
+.modlist{position:sticky;top:18px;display:flex;flex-direction:column;gap:2px;font-family:var(--ui)}
+.modlist .lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:0 0 8px 10px;font-weight:600}
+.modlink{text-align:left;background:none;border:none;border-radius:8px;padding:8px 10px;cursor:pointer;
+  color:var(--muted);font-size:13.5px;line-height:1.3;font-weight:500;display:flex;gap:8px;align-items:baseline;transition:.14s}
+.modlink:hover{background:var(--surface);color:var(--ink)}
+.modlink[aria-current="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.modlink .dot{flex:none;width:5px;height:5px;border-radius:50%;background:var(--hy);margin-top:7px;opacity:.0}
+.modlink.hy .dot{opacity:1}
+
+.article{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:34px 38px 40px;box-shadow:var(--shadow);min-height:60vh}
+.art-title{font-family:var(--display);font-weight:600;font-size:30px;line-height:1.08;margin:0 0 4px;letter-spacing:-.01em}
+.factstrip{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px;font-family:var(--ui);font-size:12px}
+.fact{background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:5px 10px;color:var(--muted)}
+.fact b{color:var(--ink);font-weight:600}
+.badge-hy{background:var(--hy-soft);border:1px solid transparent;color:var(--hy);font-weight:600;
+  border-radius:7px;padding:5px 10px;letter-spacing:.04em}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 24px}
+.tag{font-family:var(--ui);font-size:11px;color:var(--faint);background:none;border:1px solid var(--line-strong);
+  border-radius:999px;padding:3px 9px;letter-spacing:.02em}
+
+/* prose */
+.prose{font-family:var(--prose);font-size:18px;color:var(--ink)}
+.prose p{margin:0 0 15px}
+.prose strong{font-weight:600}
+.prose p strong:first-child{color:var(--accent-ink);font-family:var(--ui);font-size:12.5px;letter-spacing:.06em;
+  text-transform:uppercase;font-weight:700;display:inline-block;margin-right:.4em}
+[data-theme="dark"] .prose p strong:first-child{color:var(--accent)}
+.prose ul{margin:0 0 16px;padding-left:0;list-style:none}
+.prose li{position:relative;padding-left:20px;margin:0 0 7px;font-size:16.5px}
+.prose li::before{content:"";position:absolute;left:3px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.55}
+.prose table{width:100%;border-collapse:collapse;margin:10px 0 20px;font-family:var(--ui);font-size:13.5px}
+.prose th{background:var(--surface-2);text-align:left;padding:9px 11px;border:1px solid var(--line);font-weight:600;color:var(--ink)}
+.prose td{padding:9px 11px;border:1px solid var(--line);color:var(--muted);vertical-align:top}
+.prose em{color:var(--muted)}
+
+/* FLASHCARDS view */
+.deck-setup{max-width:560px;margin:6px auto 0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow)}
+.panel h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 18px}
+.field{margin:0 0 16px;font-family:var(--ui)}
+.field label{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 7px}
+select{width:100%;font-family:var(--ui);font-size:14.5px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line-strong);border-radius:9px;padding:11px 12px;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236f685b' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:90px;font-family:var(--ui);font-size:13.5px;font-weight:500;color:var(--muted);
+  background:var(--surface-2);border:1px solid var(--line-strong);border-radius:9px;padding:10px;cursor:pointer;transition:.16s}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+[data-theme="dark"] .seg button[aria-pressed="true"]{color:#0c1416}
+.start-btn,.ctl-primary{font-family:var(--ui);font-size:15px;font-weight:600;color:#fff;background:var(--accent);
+  border:none;border-radius:10px;padding:13px 18px;cursor:pointer;width:100%;transition:.16s;letter-spacing:.01em}
+[data-theme="dark"] .start-btn,[data-theme="dark"] .ctl-primary{color:#0c1416}
+.start-btn:hover,.ctl-primary:hover{filter:brightness(1.06)}
+.deck-count{font-family:var(--ui);font-size:13px;color:var(--faint);text-align:center;margin:14px 0 0}
+
+/* drill */
+.drill{max-width:680px;margin:0 auto}
+.progress{display:flex;align-items:center;justify-content:space-between;font-family:var(--ui);font-size:13px;color:var(--muted);margin:0 0 12px}
+.progress .counts b{font-weight:600}
+.got-c{color:var(--accent)} .miss-c{color:var(--hy)}
+.pbar{height:4px;background:var(--surface-2);border-radius:999px;overflow:hidden;margin:0 0 22px}
+.pbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s ease}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:40px 38px;min-height:280px;display:flex;flex-direction:column;cursor:pointer;
+  transition:transform .15s ease, border-color .2s}
+.card:hover{border-color:var(--line-strong)}
+.card .side-lbl{font-family:var(--ui);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--faint)}
+.card .qtext{font-family:var(--prose);font-size:23px;line-height:1.32;margin:18px 0 0;flex:1;display:flex;align-items:center}
+.card .atext{font-family:var(--prose);font-size:20px;line-height:1.4;margin:16px 0 0;color:var(--accent-ink);
+  border-top:1px solid var(--line);padding-top:18px}
+[data-theme="dark"] .card .atext{color:var(--accent)}
+.card .mod-ref{font-family:var(--ui);font-size:11.5px;color:var(--faint);margin-top:auto;padding-top:18px}
+.reveal-hint{font-family:var(--ui);font-size:12.5px;color:var(--faint);text-align:center;margin:16px 0 0}
+.judge{display:flex;gap:12px;margin:18px 0 0}
+.judge button{flex:1;font-family:var(--ui);font-size:15px;font-weight:600;border-radius:11px;padding:15px;cursor:pointer;transition:.16s;border:1px solid}
+.miss-btn{background:var(--hy-soft);border-color:transparent;color:var(--hy)}
+.miss-btn:hover{background:var(--hy);color:#fff}
+.got-btn{background:var(--accent-soft);border-color:transparent;color:var(--accent-ink)}
+[data-theme="dark"] .got-btn{color:var(--accent)}
+.got-btn:hover{background:var(--accent);color:#fff}
+[data-theme="dark"] .got-btn:hover{color:#0c1416}
+.drill-foot{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 0;font-family:var(--ui);font-size:13px}
+.linkbtn{background:none;border:none;color:var(--muted);font-family:var(--ui);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:hover{color:var(--accent)}
+
+/* results */
+.results{max-width:560px;margin:0 auto;text-align:center}
+.results .panel{padding:40px 30px}
+.score{font-family:var(--display);font-size:54px;font-weight:600;color:var(--accent);line-height:1;margin:6px 0}
+.score small{font-family:var(--ui);font-size:15px;color:var(--faint);font-weight:500}
+.res-line{font-family:var(--ui);font-size:14px;color:var(--muted);margin:8px 0 24px}
+.res-actions{display:flex;flex-direction:column;gap:10px}
+.kbd{font-family:var(--ui);font-size:11px;background:var(--surface-2);border:1px solid var(--line-strong);
+  border-radius:5px;padding:1px 6px;color:var(--faint)}
+
+.hidden{display:none!important}
+@media(max-width:820px){
+  .study{grid-template-columns:1fr;gap:18px}
+  .modlist{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .modlist .lbl{width:100%}
+  .modlink{border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px}
+  .modlink .dot{display:none}
+  .article{padding:26px 22px 30px}
+  body{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brandrow">
+      <div>
+        <p class="kicker">Biochemistry · Study Guide</p>
+        <h1 class="section" id="sectionTitle"></h1>
+      </div>
+      <button class="theme-btn" id="themeBtn">◐ Night</button>
+    </div>
+    <p class="intro" id="intro"></p>
+    <p class="meta-stats" id="stats"></p>
+    <nav class="tabs" role="tablist">
+      <button class="tab" id="tabStudy" role="tab" aria-selected="true">Study</button>
+      <button class="tab" id="tabCards" role="tab" aria-selected="false">Flashcards</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- STUDY -->
+    <section id="viewStudy">
+      <div class="study">
+        <aside class="modlist" id="modList"><p class="lbl">Modules</p></aside>
+        <article class="article" id="article"></article>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section id="viewCards" class="hidden">
+      <div class="deck-setup" id="deckSetup">
+        <div class="panel">
+          <h2>Build a drill deck</h2>
+          <div class="field">
+            <label>Scope</label>
+            <div class="seg" id="scopeSeg">
+              <button data-scope="all" aria-pressed="true">All cards</button>
+              <button data-scope="module">By module</button>
+              <button data-scope="tag">By tag</button>
+            </div>
+          </div>
+          <div class="field hidden" id="moduleField">
+            <label>Module</label>
+            <select id="moduleSel"></select>
+          </div>
+          <div class="field hidden" id="tagField">
+            <label>Tag</label>
+            <select id="tagSel"></select>
+          </div>
+          <button class="start-btn" id="startBtn">Start drill</button>
+          <p class="deck-count" id="deckCount"></p>
+        </div>
+      </div>
+
+      <div class="drill hidden" id="drill">
+        <div class="progress">
+          <span id="posLabel">Card 1</span>
+          <span class="counts"><b class="got-c" id="gotCount">0</b> got · <b class="miss-c" id="missCount">0</b> missed</span>
+        </div>
+        <div class="pbar"><i id="pbar"></i></div>
+        <div class="card" id="card">
+          <span class="side-lbl">Question</span>
+          <div class="qtext" id="qtext"></div>
+          <div class="atext hidden" id="atext"></div>
+          <div class="mod-ref" id="modRef"></div>
+        </div>
+        <p class="reveal-hint" id="revealHint">Tap the card or press <span class="kbd">Space</span> to reveal</p>
+        <div class="judge hidden" id="judge">
+          <button class="miss-btn" id="missBtn">Missed <span class="kbd">←</span></button>
+          <button class="got-btn" id="gotBtn">Got it <span class="kbd">→</span></button>
+        </div>
+        <div class="drill-foot">
+          <button class="linkbtn" id="restartDrill">Restart deck</button>
+          <button class="linkbtn" id="exitDrill">Change deck</button>
+        </div>
+      </div>
+
+      <div class="results hidden" id="results">
+        <div class="panel">
+          <p class="side-lbl" style="font-family:var(--ui);letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--faint)">Deck complete</p>
+          <div class="score" id="scoreNum">0<small>%</small></div>
+          <p class="res-line" id="resLine"></p>
+          <div class="res-actions">
+            <button class="ctl-primary" id="drillMissed">Drill missed only</button>
+            <button class="linkbtn" id="resRestart">Restart full deck</button>
+            <button class="linkbtn" id="resNew">Build a new deck</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script id="data" type="application/json">{"sectionTitle": "Genetics — Trinucleotide Repeat & Cancer", "intro": "Section C of the biochem coverage checklist: the dynamic repeat-expansion disorders, then the molecular genetics of cancer — oncogenes, tumor suppressors, and the inherited variation in drug response that pharmacogenetics describes. ---", "modules": [{"title": "Trinucleotide repeat disorders — overview & anticipation", "enzyme": "", "inheritance": "", "system": "genetics", "category": "repeat-expansion", "high_yield": true, "tags": ["trinucleotide-repeat", "anticipation", "CAG", "CTG", "CGG", "GAA", "polyglutamine"], "body": "<p><strong>Concept.</strong> A small group of disorders arises when an unstable trinucleotide repeat expands\npast a normal threshold. Longer repeats are more unstable and tend to grow as they pass\nthrough generations, producing <strong>anticipation</strong> — earlier onset and greater severity in\nsuccessive generations. The four classic board examples and their repeats: <strong>Huntington\n(CAG)</strong>, <strong>Myotonic dystrophy (CTG)</strong>, <strong>Fragile X (CGG)</strong>, and <strong>Friedreich ataxia (GAA)</strong>.\nThe repeat's <em>location</em> sets the mechanism: in Huntington the CAG sits in the coding region\nand encodes a toxic expanded polyglutamine tract (gain of function), whereas in Fragile X and\nFriedreich the expansion is in noncoding/regulatory DNA and <em>silences</em> the gene (loss of\nfunction). Each gets its own module below.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Expansion of an unstable trinucleotide repeat causes disease beyond a threshold.</li>\n<li>Anticipation: earlier onset/greater severity each generation as repeats lengthen.</li>\n<li>Huntington = CAG; Myotonic dystrophy = CTG; Fragile X = CGG; Friedreich ataxia = GAA.</li>\n<li>Coding/polyglutamine (Huntington) = gain of function; noncoding silencing (Fragile X,\n  Friedreich) = loss of function.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Anticipation is most striking in Huntington and myotonic dystrophy.\nParent-of-origin note: large Huntington expansions tend to come through the father; the severe\ncongenital myotonic dystrophy and Fragile X expansions classically come through the mother.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Match the repeat to the disease (CAG → Huntington, etc.).</li>\n<li>Coding polyglutamine (Huntington, gain of function) vs noncoding silencing (Fragile X,\n  Friedreich, loss of function).</li>\n<li>Anticipation is the unifying clue across the group.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Symptoms appear earlier and more severe in each generation\" →\ntrinucleotide repeat disorder (anticipation).</p>\n<p><strong>Mnemonic.</strong> Repeats by disease: <strong>C</strong>a<strong>G</strong> Huntington, <strong>CTG</strong> myotonic, <strong>CGG</strong> fragile X,\n<strong>GAA</strong> Friedreich.</p>\n<p><strong>Trinucleotide repeat summary</strong></p>\n<table>\n<thead>\n<tr>\n<th>Disease</th>\n<th>Repeat</th>\n<th>Gene</th>\n<th>Location/mechanism</th>\n<th>Inheritance</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Huntington</td>\n<td>CAG</td>\n<td>HTT</td>\n<td>Coding, polyglutamine (gain of function)</td>\n<td>AD</td>\n</tr>\n<tr>\n<td>Myotonic dystrophy 1</td>\n<td>CTG</td>\n<td>DMPK</td>\n<td>Noncoding, toxic RNA (spliceopathy)</td>\n<td>AD</td>\n</tr>\n<tr>\n<td>Fragile X</td>\n<td>CGG</td>\n<td>FMR1</td>\n<td>Promoter methylation silencing (loss)</td>\n<td>X-linked</td>\n</tr>\n<tr>\n<td>Friedreich ataxia</td>\n<td>GAA</td>\n<td>FXN</td>\n<td>Intronic silencing of frataxin (loss)</td>\n<td>AR</td>\n</tr>\n</tbody>\n</table>\n<hr />", "cards": [{"q": "What causes trinucleotide repeat disorders?", "a": "Expansion of an unstable trinucleotide repeat past a normal threshold."}, {"q": "What is anticipation?", "a": "Earlier onset and greater severity in successive generations as the repeats lengthen."}, {"q": "Match the repeat: Huntington, myotonic dystrophy, Fragile X, Friedreich ataxia.", "a": "Huntington = CAG; myotonic dystrophy = CTG; Fragile X = CGG; Friedreich ataxia = GAA."}, {"q": "How does repeat location set the mechanism (coding vs noncoding)?", "a": "Coding/polyglutamine (Huntington) = gain of function; noncoding silencing (Fragile X, Friedreich) = loss of function."}, {"q": "Parent-of-origin: which expansions tend to come through father vs mother?", "a": "Large Huntington expansions tend to come through the father; severe congenital myotonic dystrophy and Fragile X expansions classically through the mother."}, {"q": "Vignette: symptoms appear earlier and more severe each generation — phenomenon?", "a": "Anticipation (a trinucleotide repeat disorder)."}]}, {"title": "Fragile X syndrome", "enzyme": "", "inheritance": "", "system": "genetics", "category": "repeat-expansion", "high_yield": true, "tags": ["CGG", "FMR1", "intellectual-disability", "autism", "macroorchidism", "x-linked"], "body": "<p><strong>Concept.</strong> Fragile X is the most common <em>inherited</em> cause of intellectual disability and a\nleading single-gene cause of autism, from CGG repeat expansion in the <strong>FMR1</strong> gene on the X\nchromosome. Expansion beyond ~200 repeats hypermethylates and silences FMR1, eliminating its\nprotein (FMRP) needed for normal synaptic development — a loss-of-function mechanism. Being\nX-linked, males are more severely affected. Classic features: a long face with a large jaw,\nlarge protruding ears, and <strong>macroorchidism</strong> (enlarged testes, especially post-pubertal),\nalong with intellectual disability, autism-spectrum features, and mitral valve prolapse with\njoint hypermobility. Premutation carriers (intermediate repeat numbers) can develop fragile\nX–associated tremor/ataxia syndrome or primary ovarian insufficiency.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>CGG repeat in FMR1 (X-linked); hypermethylation silences the gene (loss of FMRP).</li>\n<li>Most common inherited intellectual disability; common genetic cause of autism.</li>\n<li>Long face, large jaw, large ears, macroorchidism; MVP, joint laxity.</li>\n<li>Premutation → tremor/ataxia syndrome, primary ovarian insufficiency.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Macroorchidism + large ears + intellectual disability is the classic\ntriad. Diagnosis is by repeat-length/methylation testing, not karyotype.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>CGG/FMR1 (not CAG).</li>\n<li>Loss of function via methylation silencing (contrast Huntington's gain of function).</li>\n<li>Macroorchidism is the standout physical clue.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Boy with intellectual disability, long face, large ears, and enlarged\ntestes\" → Fragile X.</p>\n<p><strong>Mnemonic.</strong> \"Fragile X: big jaw, big ears, big testes.\"</p>", "cards": [{"q": "What repeat and gene cause Fragile X syndrome?", "a": "A CGG repeat expansion in FMR1 (X-linked)."}, {"q": "How does the expansion cause disease in Fragile X?", "a": "Hypermethylation silences FMR1, eliminating its protein FMRP (a loss-of-function mechanism)."}, {"q": "What is Fragile X the most common cause of?", "a": "The most common inherited cause of intellectual disability, and a leading single-gene cause of autism."}, {"q": "What is the classic physical triad of Fragile X?", "a": "Long face with a large jaw, large protruding ears, and macroorchidism."}, {"q": "What is the standout physical clue in Fragile X?", "a": "Macroorchidism (enlarged testes, especially post-pubertal)."}, {"q": "What can Fragile X premutation carriers develop?", "a": "Fragile X–associated tremor/ataxia syndrome or primary ovarian insufficiency."}, {"q": "Trap: Fragile X — which repeat, and gain or loss of function?", "a": "CGG; loss of function via methylation silencing (contrast Huntington's gain of function)."}]}, {"title": "Huntington disease", "enzyme": "", "inheritance": "", "system": "genetics", "category": "repeat-expansion", "high_yield": true, "tags": ["CAG", "HTT", "chorea", "caudate", "polyglutamine", "autosomal-dominant"], "body": "<p><strong>Concept.</strong> Huntington disease is an autosomal dominant neurodegeneration from CAG repeat\nexpansion in the <strong>HTT</strong> gene on chromosome 4. The CAG repeats lie in the coding region and\nencode an expanded polyglutamine tract, yielding a toxic gain-of-function mutant huntingtin\nthat kills neurons, especially in the caudate and putamen (striatum). Onset is typically in\nthe 30s–50s, with <strong>chorea</strong> (involuntary dance-like movements), psychiatric disturbance\n(depression, irritability), and progressive dementia. Imaging shows caudate atrophy with\nenlarged frontal horns of the lateral ventricles, and the striatum loses GABAergic and\ncholinergic neurons. Anticipation occurs, with larger (often paternally transmitted)\nexpansions causing earlier onset.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>CAG repeat in HTT, chromosome 4; autosomal dominant.</li>\n<li>Polyglutamine → toxic gain of function; caudate/putamen atrophy.</li>\n<li>Chorea + psychiatric changes + dementia, onset 30s–50s.</li>\n<li>↓ GABA and ↓ ACh in the striatum; caudate atrophy on imaging.</li>\n<li>Anticipation; large expansions often paternal.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Mid-life chorea with personality change and a positive family history;\ngenetic testing quantifies the repeat. Caudate atrophy enlarges the frontal horns (\"boxcar\"\nventricles).</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>CAG (not CGG); coding-region gain of function (contrast Fragile X loss of function).</li>\n<li>Striatal GABA/ACh loss (not dopamine — distinguishes it from Parkinson disease).</li>\n<li>Autosomal dominant (appears in every generation).</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Adult in their 30s–40s with chorea, depression, and family history;\ncaudate atrophy on MRI\" → Huntington.</p>\n<p><strong>Mnemonic.</strong> \"Huntington: <strong>CAG</strong> in the <strong>C</strong>audate, causing <strong>C</strong>horea.\"</p>", "cards": [{"q": "Repeat, gene, chromosome, and inheritance of Huntington disease?", "a": "CAG repeat in HTT on chromosome 4; autosomal dominant."}, {"q": "What is the molecular mechanism in Huntington disease?", "a": "Coding CAG → expanded polyglutamine tract → toxic gain-of-function huntingtin that kills neurons."}, {"q": "Which brain structures atrophy in Huntington disease?", "a": "The caudate and putamen (striatum); caudate atrophy enlarges the frontal horns of the lateral ventricles."}, {"q": "Classic clinical triad and onset age of Huntington?", "a": "Chorea, psychiatric disturbance, and progressive dementia; onset typically 30s–50s."}, {"q": "Which neurotransmitters are lost in the Huntington striatum?", "a": "GABA and acetylcholine."}, {"q": "Trap: Huntington striatal loss involves which neurotransmitters (vs Parkinson)?", "a": "GABA and ACh — not dopamine, which distinguishes it from Parkinson disease."}, {"q": "Vignette: 40-year-old with chorea, depression, family history, caudate atrophy on MRI — diagnosis?", "a": "Huntington disease."}]}, {"title": "Friedreich ataxia", "enzyme": "", "inheritance": "", "system": "genetics", "category": "repeat-expansion", "high_yield": true, "tags": ["GAA", "FXN", "frataxin", "ataxia", "hypertrophic-cardiomyopathy", "autosomal-recessive"], "body": "<p><strong>Concept.</strong> Friedreich ataxia is the exception among the classic repeats — <strong>autosomal\nrecessive</strong>, from a GAA expansion in the <strong>FXN</strong> gene that silences <strong>frataxin</strong>, a protein\nneeded for mitochondrial iron handling. Frataxin deficiency causes mitochondrial iron\naccumulation and oxidative damage, degenerating the spinocerebellar tracts, dorsal columns,\nand corticospinal tracts. Children and adolescents present with progressive gait and limb\nataxia, loss of position and vibration sense with absent deep tendon reflexes, and dysarthria\n— and, high yield, <strong>hypertrophic cardiomyopathy</strong> (the usual cause of death) plus a high rate\nof diabetes mellitus and kyphoscoliosis, often with pes cavus.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>GAA repeat in FXN; autosomal recessive; silences frataxin (mitochondrial).</li>\n<li>Spinocerebellar + dorsal column + corticospinal tract degeneration.</li>\n<li>Ataxia, loss of vibration/position sense, areflexia, dysarthria; Babinski present.</li>\n<li>Hypertrophic cardiomyopathy (cause of death), diabetes, kyphoscoliosis, pes cavus.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A child/teen with ataxia, absent reflexes, and cardiomyopathy. The\ncardiomyopathy — not the neurologic disease — is usually fatal.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>GAA, autosomal recessive — the only recessive of the classic four.</li>\n<li>Frataxin → mitochondrial iron; hypertrophic cardiomyopathy is the lethal feature.</li>\n<li>Areflexia <em>with</em> an upgoing toe (Babinski) — combined tract involvement.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Teenager with progressive ataxia, absent reflexes, and hypertrophic\ncardiomyopathy\" → Friedreich ataxia.</p>\n<p><strong>Mnemonic.</strong> \"<strong>Fr</strong>iedreich = <strong>Fr</strong>ataxin — staggers, with a big (hypertrophic) heart.\"</p>", "cards": [{"q": "Repeat, gene, and inheritance of Friedreich ataxia?", "a": "GAA repeat in FXN; autosomal recessive (the only recessive of the classic four)."}, {"q": "What protein is silenced in Friedreich ataxia, and what is its role?", "a": "Frataxin, needed for mitochondrial iron handling; deficiency causes iron accumulation and oxidative damage."}, {"q": "Which tracts degenerate in Friedreich ataxia?", "a": "Spinocerebellar tracts, dorsal columns, and corticospinal tracts."}, {"q": "What is the usual cause of death in Friedreich ataxia?", "a": "Hypertrophic cardiomyopathy."}, {"q": "Neurologic exam findings in Friedreich ataxia?", "a": "Gait/limb ataxia, loss of position and vibration sense, absent deep tendon reflexes, dysarthria — with Babinski present."}, {"q": "Vignette: teenager with progressive ataxia, absent reflexes, and hypertrophic cardiomyopathy — diagnosis?", "a": "Friedreich ataxia."}]}, {"title": "Myotonic dystrophy", "enzyme": "", "inheritance": "", "system": "genetics", "category": "repeat-expansion", "high_yield": true, "tags": ["CTG", "DMPK", "myotonia", "cataracts", "frontal-balding", "spliceopathy", "autosomal-dominant"], "body": "<p><strong>Concept.</strong> Myotonic dystrophy type 1 is autosomal dominant, from a CTG repeat expansion in\nthe <strong>DMPK</strong> gene. The expanded CUG-containing RNA is itself toxic — it sequesters the splicing\nregulator MBNL, mis-splicing many transcripts (a spliceopathy; see Molecular Biology). The\nhallmark is <strong>myotonia</strong> — delayed muscle relaxation, such as being unable to release a\nhandshake — with progressive <em>distal</em> muscle weakness and wasting. The multisystem features\nare classic board material: early cataracts, frontal balding, gonadal atrophy/testicular\nfailure, cardiac conduction defects (arrhythmias), and insulin resistance. Anticipation is\nmarked, with the severe congenital form usually transmitted maternally.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>CTG repeat in DMPK; autosomal dominant; toxic RNA sequesters MBNL (spliceopathy).</li>\n<li>Myotonia (delayed relaxation) + distal weakness and wasting.</li>\n<li>Cataracts, frontal balding, gonadal atrophy, cardiac conduction defects, insulin resistance.</li>\n<li>Strong anticipation; severe congenital form often maternally transmitted.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A patient who can't release a grip after a handshake, with cataracts\nand arrhythmias. Cardiac conduction disease warrants monitoring.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>CTG (not CAG); RNA-mediated spliceopathy mechanism.</li>\n<li>Myotonia = delayed relaxation (not spasticity).</li>\n<li><em>Distal</em> (not proximal) weakness early.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Adult who can't let go after a handshake, with early cataracts and\nfrontal balding\" → myotonic dystrophy.</p>\n<p><strong>Mnemonic.</strong> \"Myotonic dystrophy: can't let <strong>go</strong> (myotonia); <strong>CTG</strong>.\"</p>", "cards": [{"q": "Repeat, gene, and inheritance of myotonic dystrophy type 1?", "a": "CTG repeat in DMPK; autosomal dominant."}, {"q": "What is the molecular mechanism of myotonic dystrophy type 1?", "a": "The toxic CUG-containing RNA sequesters the splicing regulator MBNL, mis-splicing many transcripts (a spliceopathy)."}, {"q": "What is myotonia?", "a": "Delayed muscle relaxation — e.g., being unable to release a handshake."}, {"q": "Is the muscle weakness in myotonic dystrophy proximal or distal early on?", "a": "Distal."}, {"q": "Multisystem features of myotonic dystrophy type 1?", "a": "Early cataracts, frontal balding, gonadal atrophy, cardiac conduction defects, and insulin resistance."}, {"q": "Vignette: adult who can't release a grip after a handshake, with early cataracts and frontal balding — diagnosis?", "a": "Myotonic dystrophy (type 1)."}]}, {"title": "Oncogenes", "enzyme": "", "inheritance": "", "system": "genetics", "category": "cancer genetics", "high_yield": true, "tags": ["oncogene", "gain-of-function", "RAS", "MYC", "HER2", "BCR-ABL", "BCL-2", "translocation"], "body": "<p><strong>Concept.</strong> Oncogenes are mutated or overexpressed versions of normal proto-oncogenes (genes\nthat promote growth). Unlike tumor suppressors, only <strong>one</strong> allele needs activating — a gain\nof function that is dominant at the cell level. Activation occurs by point mutation (RAS), gene\namplification (HER2/neu, N-MYC), translocation (BCR-ABL, MYC), or overexpression. High-yield\nexamples: <strong>RAS</strong> (a GTPase locked \"on\" → many carcinomas), <strong>MYC</strong> (t(8;14) → Burkitt\nlymphoma), <strong>HER2/neu</strong> (amplified → aggressive breast cancer, targeted by trastuzumab),\n<strong>BCR-ABL</strong> (t(9;22) Philadelphia chromosome → CML, a constitutive tyrosine kinase targeted by\nimatinib), and <strong>BCL-2</strong> (t(14;18) → follicular lymphoma, anti-apoptotic). Many are therapeutic\ntargets — the \"so what\" layer.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Gain of function; ONE activated allele suffices (dominant at the cell level).</li>\n<li>Activation by point mutation, amplification, translocation, or overexpression.</li>\n<li>RAS → carcinomas; MYC t(8;14) → Burkitt; HER2/neu → breast (trastuzumab).</li>\n<li>BCR-ABL t(9;22) → CML (imatinib); BCL-2 t(14;18) → follicular lymphoma (anti-apoptotic).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Targeted therapies exploit specific oncogenes — trastuzumab (HER2),\nimatinib (BCR-ABL), and others.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Oncogene = ONE hit, gain of function (vs tumor suppressor = two hits, loss).</li>\n<li>Match translocation to cancer: t(9;22)→CML, t(8;14)→Burkitt, t(14;18)→follicular,\n  t(15;17)→acute promyelocytic leukemia.</li>\n<li>BCL-2 works by blocking apoptosis, not by driving proliferation directly.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"t(9;22) Philadelphia chromosome, treated with imatinib\" → BCR-ABL/CML.</li>\n<li>\"HER2-amplified breast cancer, trastuzumab\" → HER2/neu.</li>\n<li>\"t(8;14), 'starry-sky' lymphoma\" → MYC/Burkitt.</li>\n</ul>\n<p><strong>Oncogene summary</strong></p>\n<table>\n<thead>\n<tr>\n<th>Oncogene</th>\n<th>Alteration</th>\n<th>Associated tumor</th>\n<th>Targeted therapy</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>RAS</td>\n<td>Point mutation (GTPase stuck on)</td>\n<td>Many carcinomas</td>\n<td>(various, indirect)</td>\n</tr>\n<tr>\n<td>MYC</td>\n<td>t(8;14) translocation</td>\n<td>Burkitt lymphoma</td>\n<td>—</td>\n</tr>\n<tr>\n<td>HER2/neu</td>\n<td>Amplification</td>\n<td>Breast (aggressive)</td>\n<td>Trastuzumab</td>\n</tr>\n<tr>\n<td>BCR-ABL</td>\n<td>t(9;22), Philadelphia</td>\n<td>CML</td>\n<td>Imatinib</td>\n</tr>\n<tr>\n<td>BCL-2</td>\n<td>t(14;18), anti-apoptotic</td>\n<td>Follicular lymphoma</td>\n<td>—</td>\n</tr>\n</tbody>\n</table>\n<hr />", "cards": [{"q": "How many alleles must be activated for an oncogene, and what kind of change?", "a": "One — a gain of function, dominant at the cell level."}, {"q": "By what mechanisms are oncogenes activated?", "a": "Point mutation, gene amplification, translocation, or overexpression."}, {"q": "RAS — what kind of protein and what alteration?", "a": "A GTPase locked in the active (on) state by point mutation → many carcinomas."}, {"q": "MYC — translocation and associated cancer?", "a": "t(8;14) → Burkitt lymphoma."}, {"q": "HER2/neu — alteration, cancer, and targeted therapy?", "a": "Amplification → aggressive breast cancer; targeted by trastuzumab."}, {"q": "BCR-ABL — translocation, cancer, and drug?", "a": "t(9;22) Philadelphia chromosome → CML; a constitutive tyrosine kinase targeted by imatinib."}, {"q": "Match translocations: t(9;22), t(8;14), t(14;18), t(15;17).", "a": "t(9;22)→CML, t(8;14)→Burkitt, t(14;18)→follicular lymphoma, t(15;17)→acute promyelocytic leukemia."}]}, {"title": "Tumor suppressor genes", "enzyme": "", "inheritance": "", "system": "genetics", "category": "cancer genetics", "high_yield": true, "tags": ["tumor-suppressor", "two-hit", "TP53", "RB1", "APC", "BRCA", "NF1", "VHL", "loss-of-function"], "body": "<p><strong>Concept.</strong> Tumor suppressors normally brake cell division or trigger apoptosis; cancer arises\nwhen <strong>both</strong> copies are lost (two-hit, loss of function, recessive at the cell level — see Loss\nof Heterozygosity). Key examples: <strong>TP53</strong> (chromosome 17; the \"guardian of the genome,\" it\narrests the cycle and triggers apoptosis after DNA damage; the most commonly mutated gene in\nhuman cancer; germline loss = Li-Fraumeni syndrome). <strong>RB1</strong> (chromosome 13; restrains the\nG1→S transition; retinoblastoma and osteosarcoma). <strong>APC</strong> (chromosome 5; familial adenomatous\npolyposis → hundreds of colon polyps and near-certain colon cancer). <strong>BRCA1/2</strong> (homologous\nrecombination DNA repair; hereditary breast/ovarian cancer). <strong>NF1</strong> (neurofibromin, a RAS-GAP;\nneurofibromatosis type 1). <strong>VHL</strong> (renal cell carcinoma, hemangioblastomas). <strong>WT1</strong> (Wilms\ntumor).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Loss of function; BOTH alleles must be inactivated (two-hit).</li>\n<li>TP53 (17): guardian of the genome; most commonly mutated; Li-Fraumeni.</li>\n<li>RB1 (13): G1→S brake; retinoblastoma, osteosarcoma.</li>\n<li>APC (5): FAP → colon cancer.</li>\n<li>BRCA1/2: homologous recombination repair; breast/ovarian.</li>\n<li>NF1: neurofibromin (RAS-GAP); VHL: RCC/hemangioblastoma; WT1: Wilms.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Li-Fraumeni (germline TP53) → early sarcomas, breast, brain, and\nadrenocortical tumors. FAP → prophylactic colectomy. BRCA → PARP inhibitors and risk-reducing\nsurgery.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Tumor suppressor = two hits, loss (vs oncogene = one hit, gain).</li>\n<li>TP53 = most commonly mutated; RB1 = the original two-hit gene.</li>\n<li>NF1's product is a RAS-GAP (turns RAS off); losing it leaves RAS unchecked.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Family with sarcomas, breast and brain tumors, and adrenocortical carcinoma\" → Li-Fraumeni/TP53.</li>\n<li>\"Hundreds of colon polyps in youth\" → APC/FAP.</li>\n</ul>\n<p><strong>Tumor suppressor summary</strong></p>\n<table>\n<thead>\n<tr>\n<th>Gene</th>\n<th>Chromosome</th>\n<th>Normal function</th>\n<th>Syndrome / tumor</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>TP53</td>\n<td>17</td>\n<td>Cell-cycle arrest, apoptosis</td>\n<td>Li-Fraumeni; most cancers</td>\n</tr>\n<tr>\n<td>RB1</td>\n<td>13</td>\n<td>G1→S brake</td>\n<td>Retinoblastoma, osteosarcoma</td>\n</tr>\n<tr>\n<td>APC</td>\n<td>5</td>\n<td>Restrains WNT/proliferation</td>\n<td>FAP, colon cancer</td>\n</tr>\n<tr>\n<td>BRCA1/2</td>\n<td>17/13</td>\n<td>Homologous recombination repair</td>\n<td>Breast/ovarian cancer</td>\n</tr>\n<tr>\n<td>NF1</td>\n<td>17</td>\n<td>Neurofibromin (RAS-GAP)</td>\n<td>Neurofibromatosis type 1</td>\n</tr>\n<tr>\n<td>VHL</td>\n<td>3</td>\n<td>Degrades HIF</td>\n<td>RCC, hemangioblastoma</td>\n</tr>\n<tr>\n<td>WT1</td>\n<td>11</td>\n<td>Kidney/gonad development</td>\n<td>Wilms tumor</td>\n</tr>\n</tbody>\n</table>\n<hr />", "cards": [{"q": "How many alleles must be lost for a tumor suppressor, and what kind of change?", "a": "Both (two-hit, loss of function, recessive at the cell level)."}, {"q": "TP53 — chromosome, nickname, and significance?", "a": "Chromosome 17; the guardian of the genome; the most commonly mutated gene in human cancer; germline loss = Li-Fraumeni."}, {"q": "RB1 — chromosome, function, and tumors?", "a": "Chromosome 13; brakes the G1→S transition; retinoblastoma and osteosarcoma."}, {"q": "APC — what syndrome and consequence?", "a": "Familial adenomatous polyposis → hundreds of colon polyps and near-certain colon cancer."}, {"q": "What is the normal function of BRCA1/2?", "a": "Homologous recombination DNA repair (hereditary breast/ovarian cancer)."}, {"q": "What is NF1's gene product and its action?", "a": "Neurofibromin, a RAS-GAP that turns RAS off; losing it leaves RAS unchecked."}, {"q": "Vignette: family with sarcomas, breast and brain tumors, and adrenocortical carcinoma — syndrome/gene?", "a": "Li-Fraumeni syndrome (germline TP53)."}]}, {"title": "Pharmacogenetics", "enzyme": "", "inheritance": "", "system": "genetics", "category": "pharmacogenetics", "high_yield": true, "tags": ["G6PD", "pseudocholinesterase", "acetylator", "TPMT", "CYP", "malignant-hyperthermia", "HLA"], "body": "<p><strong>Concept.</strong> Pharmacogenetics studies inherited variation in drug response — high yield because\na \"normal\" dose can harm a genetically distinct patient. Classic associations: <strong>G6PD\ndeficiency</strong> (X-linked) → hemolysis with oxidant drugs (primaquine, dapsone, sulfonamides,\nnitrofurantoin), fava beans, or infection. <strong>Atypical pseudocholinesterase (butyrylcholinesterase)\ndeficiency</strong> → prolonged paralysis after succinylcholine. <strong>Slow acetylators (NAT2)</strong> accumulate\ndrugs like isoniazid, hydralazine, and procainamide, predisposing to drug-induced lupus and\nisoniazid neuropathy. <strong>TPMT deficiency</strong> → myelosuppression from thiopurines (azathioprine,\n6-mercaptopurine). <strong>CYP2D6/CYP2C19</strong> variants alter activation/clearance of many drugs (codeine,\nclopidogrel). <strong>RYR1</strong> mutations → malignant hyperthermia (massive Ca²⁺ release with inhaled\nanesthetics or succinylcholine; treat with dantrolene). <strong>HLA</strong> associations: HLA-B<em>57:01\n(abacavir hypersensitivity) and HLA-B</em>15:02 (carbamazepine Stevens-Johnson syndrome in certain\npopulations).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>G6PD deficiency (X-linked) → oxidant-drug hemolysis (primaquine, dapsone, sulfa).</li>\n<li>Pseudocholinesterase deficiency → prolonged succinylcholine paralysis.</li>\n<li>Slow acetylators (NAT2) → isoniazid/hydralazine/procainamide lupus &amp; INH neuropathy.</li>\n<li>TPMT deficiency → thiopurine (azathioprine/6-MP) myelosuppression.</li>\n<li>CYP2D6/2C19 → codeine and clopidogrel activation variability.</li>\n<li>RYR1 → malignant hyperthermia (treat with dantrolene).</li>\n<li>HLA-B<em>57:01 abacavir; HLA-B</em>15:02 carbamazepine SJS.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Pre-treatment testing prevents serious reactions: HLA-B*57:01 before\nabacavir, TPMT before thiopurines, G6PD before primaquine or rasburicase.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Prolonged paralysis after succinylcholine = pseudocholinesterase deficiency; rigidity +\n  hyperthermia + rising CO₂ under anesthesia = malignant hyperthermia (RYR1).</li>\n<li>Slow acetylators → drug-induced lupus (hydralazine, procainamide, isoniazid).</li>\n<li>G6PD is X-linked; hemolysis is triggered by oxidant stress.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Prolonged apnea after succinylcholine\" → pseudocholinesterase deficiency.</li>\n<li>\"Fever, rigidity, rising end-tidal CO₂ under anesthesia\" → malignant hyperthermia (dantrolene).</li>\n<li>\"Hemolysis after an antimalarial in a Mediterranean or African male\" → G6PD.</li>\n</ul>\n<p><strong>Pharmacogenetic summary</strong></p>\n<table>\n<thead>\n<tr>\n<th>Variant</th>\n<th>Drug(s)</th>\n<th>Consequence</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>G6PD deficiency (X-linked)</td>\n<td>Primaquine, dapsone, sulfa, nitrofurantoin</td>\n<td>Oxidative hemolysis</td>\n</tr>\n<tr>\n<td>Pseudocholinesterase deficiency</td>\n<td>Succinylcholine</td>\n<td>Prolonged paralysis/apnea</td>\n</tr>\n<tr>\n<td>Slow acetylator (NAT2)</td>\n<td>Isoniazid, hydralazine, procainamide</td>\n<td>Drug-induced lupus; INH neuropathy</td>\n</tr>\n<tr>\n<td>TPMT deficiency</td>\n<td>Azathioprine, 6-mercaptopurine</td>\n<td>Myelosuppression</td>\n</tr>\n<tr>\n<td>RYR1 mutation</td>\n<td>Inhaled anesthetics, succinylcholine</td>\n<td>Malignant hyperthermia (dantrolene)</td>\n</tr>\n<tr>\n<td>HLA-B*57:01</td>\n<td>Abacavir</td>\n<td>Hypersensitivity reaction</td>\n</tr>\n<tr>\n<td>HLA-B*15:02</td>\n<td>Carbamazepine</td>\n<td>Stevens-Johnson syndrome</td>\n</tr>\n</tbody>\n</table>\n<hr />", "cards": [{"q": "G6PD deficiency — inheritance and consequence?", "a": "X-linked; oxidant drugs (primaquine, dapsone, sulfonamides, nitrofurantoin), fava beans, or infection trigger hemolysis."}, {"q": "What does pseudocholinesterase (butyrylcholinesterase) deficiency cause?", "a": "Prolonged paralysis/apnea after succinylcholine."}, {"q": "Slow acetylators (NAT2) — which drugs accumulate, and what results?", "a": "Isoniazid, hydralazine, procainamide → drug-induced lupus and isoniazid neuropathy."}, {"q": "TPMT deficiency causes what, with which drugs?", "a": "Myelosuppression from thiopurines (azathioprine, 6-mercaptopurine)."}, {"q": "RYR1 mutations cause what, and what is the treatment?", "a": "Malignant hyperthermia (with inhaled anesthetics or succinylcholine); treat with dantrolene."}, {"q": "Trap: prolonged paralysis after succinylcholine vs rigidity + hyperthermia + rising CO₂ under anesthesia?", "a": "Prolonged paralysis = pseudocholinesterase deficiency; rigidity/hyperthermia/rising CO₂ = malignant hyperthermia (RYR1)."}, {"q": "Which HLA alleles pair with abacavir and carbamazepine reactions?", "a": "HLA-B*57:01 (abacavir hypersensitivity); HLA-B*15:02 (carbamazepine Stevens-Johnson syndrome)."}, {"q": "Vignette: hemolysis after an antimalarial in a Mediterranean or African male — deficiency?", "a": "G6PD deficiency."}]}], "cards": [{"id": "0-0", "q": "What causes trinucleotide repeat disorders?", "a": "Expansion of an unstable trinucleotide repeat past a normal threshold.", "module": "Trinucleotide repeat disorders — overview & anticipation", "moduleIndex": 0, "tags": ["trinucleotide-repeat", "anticipation", "CAG", "CTG", "CGG", "GAA", "polyglutamine"], "high_yield": true}, {"id": "0-1", "q": "What is anticipation?", "a": "Earlier onset and greater severity in successive generations as the repeats lengthen.", "module": "Trinucleotide repeat disorders — overview & anticipation", "moduleIndex": 0, "tags": ["trinucleotide-repeat", "anticipation", "CAG", "CTG", "CGG", "GAA", "polyglutamine"], "high_yield": true}, {"id": "0-2", "q": "Match the repeat: Huntington, myotonic dystrophy, Fragile X, Friedreich ataxia.", "a": "Huntington = CAG; myotonic dystrophy = CTG; Fragile X = CGG; Friedreich ataxia = GAA.", "module": "Trinucleotide repeat disorders — overview & anticipation", "moduleIndex": 0, "tags": ["trinucleotide-repeat", "anticipation", "CAG", "CTG", "CGG", "GAA", "polyglutamine"], "high_yield": true}, {"id": "0-3", "q": "How does repeat location set the mechanism (coding vs noncoding)?", "a": "Coding/polyglutamine (Huntington) = gain of function; noncoding silencing (Fragile X, Friedreich) = loss of function.", "module": "Trinucleotide repeat disorders — overview & anticipation", "moduleIndex": 0, "tags": ["trinucleotide-repeat", "anticipation", "CAG", "CTG", "CGG", "GAA", "polyglutamine"], "high_yield": true}, {"id": "0-4", "q": "Parent-of-origin: which expansions tend to come through father vs mother?", "a": "Large Huntington expansions tend to come through the father; severe congenital myotonic dystrophy and Fragile X expansions classically through the mother.", "module": "Trinucleotide repeat disorders — overview & anticipation", "moduleIndex": 0, "tags": ["trinucleotide-repeat", "anticipation", "CAG", "CTG", "CGG", "GAA", "polyglutamine"], "high_yield": true}, {"id": "0-5", "q": "Vignette: symptoms appear earlier and more severe each generation — phenomenon?", "a": "Anticipation (a trinucleotide repeat disorder).", "module": "Trinucleotide repeat disorders — overview & anticipation", "moduleIndex": 0, "tags": ["trinucleotide-repeat", "anticipation", "CAG", "CTG", "CGG", "GAA", "polyglutamine"], "high_yield": true}, {"id": "1-0", "q": "What repeat and gene cause Fragile X syndrome?", "a": "A CGG repeat expansion in FMR1 (X-linked).", "module": "Fragile X syndrome", "moduleIndex": 1, "tags": ["CGG", "FMR1", "intellectual-disability", "autism", "macroorchidism", "x-linked"], "high_yield": true}, {"id": "1-1", "q": "How does the expansion cause disease in Fragile X?", "a": "Hypermethylation silences FMR1, eliminating its protein FMRP (a loss-of-function mechanism).", "module": "Fragile X syndrome", "moduleIndex": 1, "tags": ["CGG", "FMR1", "intellectual-disability", "autism", "macroorchidism", "x-linked"], "high_yield": true}, {"id": "1-2", "q": "What is Fragile X the most common cause of?", "a": "The most common inherited cause of intellectual disability, and a leading single-gene cause of autism.", "module": "Fragile X syndrome", "moduleIndex": 1, "tags": ["CGG", "FMR1", "intellectual-disability", "autism", "macroorchidism", "x-linked"], "high_yield": true}, {"id": "1-3", "q": "What is the classic physical triad of Fragile X?", "a": "Long face with a large jaw, large protruding ears, and macroorchidism.", "module": "Fragile X syndrome", "moduleIndex": 1, "tags": ["CGG", "FMR1", "intellectual-disability", "autism", "macroorchidism", "x-linked"], "high_yield": true}, {"id": "1-4", "q": "What is the standout physical clue in Fragile X?", "a": "Macroorchidism (enlarged testes, especially post-pubertal).", "module": "Fragile X syndrome", "moduleIndex": 1, "tags": ["CGG", "FMR1", "intellectual-disability", "autism", "macroorchidism", "x-linked"], "high_yield": true}, {"id": "1-5", "q": "What can Fragile X premutation carriers develop?", "a": "Fragile X–associated tremor/ataxia syndrome or primary ovarian insufficiency.", "module": "Fragile X syndrome", "moduleIndex": 1, "tags": ["CGG", "FMR1", "intellectual-disability", "autism", "macroorchidism", "x-linked"], "high_yield": true}, {"id": "1-6", "q": "Trap: Fragile X — which repeat, and gain or loss of function?", "a": "CGG; loss of function via methylation silencing (contrast Huntington's gain of function).", "module": "Fragile X syndrome", "moduleIndex": 1, "tags": ["CGG", "FMR1", "intellectual-disability", "autism", "macroorchidism", "x-linked"], "high_yield": true}, {"id": "2-0", "q": "Repeat, gene, chromosome, and inheritance of Huntington disease?", "a": "CAG repeat in HTT on chromosome 4; autosomal dominant.", "module": "Huntington disease", "moduleIndex": 2, "tags": ["CAG", "HTT", "chorea", "caudate", "polyglutamine", "autosomal-dominant"], "high_yield": true}, {"id": "2-1", "q": "What is the molecular mechanism in Huntington disease?", "a": "Coding CAG → expanded polyglutamine tract → toxic gain-of-function huntingtin that kills neurons.", "module": "Huntington disease", "moduleIndex": 2, "tags": ["CAG", "HTT", "chorea", "caudate", "polyglutamine", "autosomal-dominant"], "high_yield": true}, {"id": "2-2", "q": "Which brain structures atrophy in Huntington disease?", "a": "The caudate and putamen (striatum); caudate atrophy enlarges the frontal horns of the lateral ventricles.", "module": "Huntington disease", "moduleIndex": 2, "tags": ["CAG", "HTT", "chorea", "caudate", "polyglutamine", "autosomal-dominant"], "high_yield": true}, {"id": "2-3", "q": "Classic clinical triad and onset age of Huntington?", "a": "Chorea, psychiatric disturbance, and progressive dementia; onset typically 30s–50s.", "module": "Huntington disease", "moduleIndex": 2, "tags": ["CAG", "HTT", "chorea", "caudate", "polyglutamine", "autosomal-dominant"], "high_yield": true}, {"id": "2-4", "q": "Which neurotransmitters are lost in the Huntington striatum?", "a": "GABA and acetylcholine.", "module": "Huntington disease", "moduleIndex": 2, "tags": ["CAG", "HTT", "chorea", "caudate", "polyglutamine", "autosomal-dominant"], "high_yield": true}, {"id": "2-5", "q": "Trap: Huntington striatal loss involves which neurotransmitters (vs Parkinson)?", "a": "GABA and ACh — not dopamine, which distinguishes it from Parkinson disease.", "module": "Huntington disease", "moduleIndex": 2, "tags": ["CAG", "HTT", "chorea", "caudate", "polyglutamine", "autosomal-dominant"], "high_yield": true}, {"id": "2-6", "q": "Vignette: 40-year-old with chorea, depression, family history, caudate atrophy on MRI — diagnosis?", "a": "Huntington disease.", "module": "Huntington disease", "moduleIndex": 2, "tags": ["CAG", "HTT", "chorea", "caudate", "polyglutamine", "autosomal-dominant"], "high_yield": true}, {"id": "3-0", "q": "Repeat, gene, and inheritance of Friedreich ataxia?", "a": "GAA repeat in FXN; autosomal recessive (the only recessive of the classic four).", "module": "Friedreich ataxia", "moduleIndex": 3, "tags": ["GAA", "FXN", "frataxin", "ataxia", "hypertrophic-cardiomyopathy", "autosomal-recessive"], "high_yield": true}, {"id": "3-1", "q": "What protein is silenced in Friedreich ataxia, and what is its role?", "a": "Frataxin, needed for mitochondrial iron handling; deficiency causes iron accumulation and oxidative damage.", "module": "Friedreich ataxia", "moduleIndex": 3, "tags": ["GAA", "FXN", "frataxin", "ataxia", "hypertrophic-cardiomyopathy", "autosomal-recessive"], "high_yield": true}, {"id": "3-2", "q": "Which tracts degenerate in Friedreich ataxia?", "a": "Spinocerebellar tracts, dorsal columns, and corticospinal tracts.", "module": "Friedreich ataxia", "moduleIndex": 3, "tags": ["GAA", "FXN", "frataxin", "ataxia", "hypertrophic-cardiomyopathy", "autosomal-recessive"], "high_yield": true}, {"id": "3-3", "q": "What is the usual cause of death in Friedreich ataxia?", "a": "Hypertrophic cardiomyopathy.", "module": "Friedreich ataxia", "moduleIndex": 3, "tags": ["GAA", "FXN", "frataxin", "ataxia", "hypertrophic-cardiomyopathy", "autosomal-recessive"], "high_yield": true}, {"id": "3-4", "q": "Neurologic exam findings in Friedreich ataxia?", "a": "Gait/limb ataxia, loss of position and vibration sense, absent deep tendon reflexes, dysarthria — with Babinski present.", "module": "Friedreich ataxia", "moduleIndex": 3, "tags": ["GAA", "FXN", "frataxin", "ataxia", "hypertrophic-cardiomyopathy", "autosomal-recessive"], "high_yield": true}, {"id": "3-5", "q": "Vignette: teenager with progressive ataxia, absent reflexes, and hypertrophic cardiomyopathy — diagnosis?", "a": "Friedreich ataxia.", "module": "Friedreich ataxia", "moduleIndex": 3, "tags": ["GAA", "FXN", "frataxin", "ataxia", "hypertrophic-cardiomyopathy", "autosomal-recessive"], "high_yield": true}, {"id": "4-0", "q": "Repeat, gene, and inheritance of myotonic dystrophy type 1?", "a": "CTG repeat in DMPK; autosomal dominant.", "module": "Myotonic dystrophy", "moduleIndex": 4, "tags": ["CTG", "DMPK", "myotonia", "cataracts", "frontal-balding", "spliceopathy", "autosomal-dominant"], "high_yield": true}, {"id": "4-1", "q": "What is the molecular mechanism of myotonic dystrophy type 1?", "a": "The toxic CUG-containing RNA sequesters the splicing regulator MBNL, mis-splicing many transcripts (a spliceopathy).", "module": "Myotonic dystrophy", "moduleIndex": 4, "tags": ["CTG", "DMPK", "myotonia", "cataracts", "frontal-balding", "spliceopathy", "autosomal-dominant"], "high_yield": true}, {"id": "4-2", "q": "What is myotonia?", "a": "Delayed muscle relaxation — e.g., being unable to release a handshake.", "module": "Myotonic dystrophy", "moduleIndex": 4, "tags": ["CTG", "DMPK", "myotonia", "cataracts", "frontal-balding", "spliceopathy", "autosomal-dominant"], "high_yield": true}, {"id": "4-3", "q": "Is the muscle weakness in myotonic dystrophy proximal or distal early on?", "a": "Distal.", "module": "Myotonic dystrophy", "moduleIndex": 4, "tags": ["CTG", "DMPK", "myotonia", "cataracts", "frontal-balding", "spliceopathy", "autosomal-dominant"], "high_yield": true}, {"id": "4-4", "q": "Multisystem features of myotonic dystrophy type 1?", "a": "Early cataracts, frontal balding, gonadal atrophy, cardiac conduction defects, and insulin resistance.", "module": "Myotonic dystrophy", "moduleIndex": 4, "tags": ["CTG", "DMPK", "myotonia", "cataracts", "frontal-balding", "spliceopathy", "autosomal-dominant"], "high_yield": true}, {"id": "4-5", "q": "Vignette: adult who can't release a grip after a handshake, with early cataracts and frontal balding — diagnosis?", "a": "Myotonic dystrophy (type 1).", "module": "Myotonic dystrophy", "moduleIndex": 4, "tags": ["CTG", "DMPK", "myotonia", "cataracts", "frontal-balding", "spliceopathy", "autosomal-dominant"], "high_yield": true}, {"id": "5-0", "q": "How many alleles must be activated for an oncogene, and what kind of change?", "a": "One — a gain of function, dominant at the cell level.", "module": "Oncogenes", "moduleIndex": 5, "tags": ["oncogene", "gain-of-function", "RAS", "MYC", "HER2", "BCR-ABL", "BCL-2", "translocation"], "high_yield": true}, {"id": "5-1", "q": "By what mechanisms are oncogenes activated?", "a": "Point mutation, gene amplification, translocation, or overexpression.", "module": "Oncogenes", "moduleIndex": 5, "tags": ["oncogene", "gain-of-function", "RAS", "MYC", "HER2", "BCR-ABL", "BCL-2", "translocation"], "high_yield": true}, {"id": "5-2", "q": "RAS — what kind of protein and what alteration?", "a": "A GTPase locked in the active (on) state by point mutation → many carcinomas.", "module": "Oncogenes", "moduleIndex": 5, "tags": ["oncogene", "gain-of-function", "RAS", "MYC", "HER2", "BCR-ABL", "BCL-2", "translocation"], "high_yield": true}, {"id": "5-3", "q": "MYC — translocation and associated cancer?", "a": "t(8;14) → Burkitt lymphoma.", "module": "Oncogenes", "moduleIndex": 5, "tags": ["oncogene", "gain-of-function", "RAS", "MYC", "HER2", "BCR-ABL", "BCL-2", "translocation"], "high_yield": true}, {"id": "5-4", "q": "HER2/neu — alteration, cancer, and targeted therapy?", "a": "Amplification → aggressive breast cancer; targeted by trastuzumab.", "module": "Oncogenes", "moduleIndex": 5, "tags": ["oncogene", "gain-of-function", "RAS", "MYC", "HER2", "BCR-ABL", "BCL-2", "translocation"], "high_yield": true}, {"id": "5-5", "q": "BCR-ABL — translocation, cancer, and drug?", "a": "t(9;22) Philadelphia chromosome → CML; a constitutive tyrosine kinase targeted by imatinib.", "module": "Oncogenes", "moduleIndex": 5, "tags": ["oncogene", "gain-of-function", "RAS", "MYC", "HER2", "BCR-ABL", "BCL-2", "translocation"], "high_yield": true}, {"id": "5-6", "q": "Match translocations: t(9;22), t(8;14), t(14;18), t(15;17).", "a": "t(9;22)→CML, t(8;14)→Burkitt, t(14;18)→follicular lymphoma, t(15;17)→acute promyelocytic leukemia.", "module": "Oncogenes", "moduleIndex": 5, "tags": ["oncogene", "gain-of-function", "RAS", "MYC", "HER2", "BCR-ABL", "BCL-2", "translocation"], "high_yield": true}, {"id": "6-0", "q": "How many alleles must be lost for a tumor suppressor, and what kind of change?", "a": "Both (two-hit, loss of function, recessive at the cell level).", "module": "Tumor suppressor genes", "moduleIndex": 6, "tags": ["tumor-suppressor", "two-hit", "TP53", "RB1", "APC", "BRCA", "NF1", "VHL", "loss-of-function"], "high_yield": true}, {"id": "6-1", "q": "TP53 — chromosome, nickname, and significance?", "a": "Chromosome 17; the guardian of the genome; the most commonly mutated gene in human cancer; germline loss = Li-Fraumeni.", "module": "Tumor suppressor genes", "moduleIndex": 6, "tags": ["tumor-suppressor", "two-hit", "TP53", "RB1", "APC", "BRCA", "NF1", "VHL", "loss-of-function"], "high_yield": true}, {"id": "6-2", "q": "RB1 — chromosome, function, and tumors?", "a": "Chromosome 13; brakes the G1→S transition; retinoblastoma and osteosarcoma.", "module": "Tumor suppressor genes", "moduleIndex": 6, "tags": ["tumor-suppressor", "two-hit", "TP53", "RB1", "APC", "BRCA", "NF1", "VHL", "loss-of-function"], "high_yield": true}, {"id": "6-3", "q": "APC — what syndrome and consequence?", "a": "Familial adenomatous polyposis → hundreds of colon polyps and near-certain colon cancer.", "module": "Tumor suppressor genes", "moduleIndex": 6, "tags": ["tumor-suppressor", "two-hit", "TP53", "RB1", "APC", "BRCA", "NF1", "VHL", "loss-of-function"], "high_yield": true}, {"id": "6-4", "q": "What is the normal function of BRCA1/2?", "a": "Homologous recombination DNA repair (hereditary breast/ovarian cancer).", "module": "Tumor suppressor genes", "moduleIndex": 6, "tags": ["tumor-suppressor", "two-hit", "TP53", "RB1", "APC", "BRCA", "NF1", "VHL", "loss-of-function"], "high_yield": true}, {"id": "6-5", "q": "What is NF1's gene product and its action?", "a": "Neurofibromin, a RAS-GAP that turns RAS off; losing it leaves RAS unchecked.", "module": "Tumor suppressor genes", "moduleIndex": 6, "tags": ["tumor-suppressor", "two-hit", "TP53", "RB1", "APC", "BRCA", "NF1", "VHL", "loss-of-function"], "high_yield": true}, {"id": "6-6", "q": "Vignette: family with sarcomas, breast and brain tumors, and adrenocortical carcinoma — syndrome/gene?", "a": "Li-Fraumeni syndrome (germline TP53).", "module": "Tumor suppressor genes", "moduleIndex": 6, "tags": ["tumor-suppressor", "two-hit", "TP53", "RB1", "APC", "BRCA", "NF1", "VHL", "loss-of-function"], "high_yield": true}, {"id": "7-0", "q": "G6PD deficiency — inheritance and consequence?", "a": "X-linked; oxidant drugs (primaquine, dapsone, sulfonamides, nitrofurantoin), fava beans, or infection trigger hemolysis.", "module": "Pharmacogenetics", "moduleIndex": 7, "tags": ["G6PD", "pseudocholinesterase", "acetylator", "TPMT", "CYP", "malignant-hyperthermia", "HLA"], "high_yield": true}, {"id": "7-1", "q": "What does pseudocholinesterase (butyrylcholinesterase) deficiency cause?", "a": "Prolonged paralysis/apnea after succinylcholine.", "module": "Pharmacogenetics", "moduleIndex": 7, "tags": ["G6PD", "pseudocholinesterase", "acetylator", "TPMT", "CYP", "malignant-hyperthermia", "HLA"], "high_yield": true}, {"id": "7-2", "q": "Slow acetylators (NAT2) — which drugs accumulate, and what results?", "a": "Isoniazid, hydralazine, procainamide → drug-induced lupus and isoniazid neuropathy.", "module": "Pharmacogenetics", "moduleIndex": 7, "tags": ["G6PD", "pseudocholinesterase", "acetylator", "TPMT", "CYP", "malignant-hyperthermia", "HLA"], "high_yield": true}, {"id": "7-3", "q": "TPMT deficiency causes what, with which drugs?", "a": "Myelosuppression from thiopurines (azathioprine, 6-mercaptopurine).", "module": "Pharmacogenetics", "moduleIndex": 7, "tags": ["G6PD", "pseudocholinesterase", "acetylator", "TPMT", "CYP", "malignant-hyperthermia", "HLA"], "high_yield": true}, {"id": "7-4", "q": "RYR1 mutations cause what, and what is the treatment?", "a": "Malignant hyperthermia (with inhaled anesthetics or succinylcholine); treat with dantrolene.", "module": "Pharmacogenetics", "moduleIndex": 7, "tags": ["G6PD", "pseudocholinesterase", "acetylator", "TPMT", "CYP", "malignant-hyperthermia", "HLA"], "high_yield": true}, {"id": "7-5", "q": "Trap: prolonged paralysis after succinylcholine vs rigidity + hyperthermia + rising CO₂ under anesthesia?", "a": "Prolonged paralysis = pseudocholinesterase deficiency; rigidity/hyperthermia/rising CO₂ = malignant hyperthermia (RYR1).", "module": "Pharmacogenetics", "moduleIndex": 7, "tags": ["G6PD", "pseudocholinesterase", "acetylator", "TPMT", "CYP", "malignant-hyperthermia", "HLA"], "high_yield": true}, {"id": "7-6", "q": "Which HLA alleles pair with abacavir and carbamazepine reactions?", "a": "HLA-B*57:01 (abacavir hypersensitivity); HLA-B*15:02 (carbamazepine Stevens-Johnson syndrome).", "module": "Pharmacogenetics", "moduleIndex": 7, "tags": ["G6PD", "pseudocholinesterase", "acetylator", "TPMT", "CYP", "malignant-hyperthermia", "HLA"], "high_yield": true}, {"id": "7-7", "q": "Vignette: hemolysis after an antimalarial in a Mediterranean or African male — deficiency?", "a": "G6PD deficiency.", "module": "Pharmacogenetics", "moduleIndex": 7, "tags": ["G6PD", "pseudocholinesterase", "acetylator", "TPMT", "CYP", "malignant-hyperthermia", "HLA"], "high_yield": true}], "tags": ["APC", "BCL-2", "BCR-ABL", "BRCA", "CAG", "CGG", "CTG", "CYP", "DMPK", "FMR1", "FXN", "G6PD", "GAA", "HER2", "HLA", "HTT", "MYC", "NF1", "RAS", "RB1", "TP53", "TPMT", "VHL", "acetylator", "anticipation", "ataxia", "autism", "autosomal-dominant", "autosomal-recessive", "cataracts", "caudate", "chorea", "frataxin", "frontal-balding", "gain-of-function", "hypertrophic-cardiomyopathy", "intellectual-disability", "loss-of-function", "macroorchidism", "malignant-hyperthermia", "myotonia", "oncogene", "polyglutamine", "pseudocholinesterase", "spliceopathy", "translocation", "trinucleotide-repeat", "tumor-suppressor", "two-hit", "x-linked"], "counts": {"modules": 8, "cards": 54}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* header */
+$('#sectionTitle').textContent = DATA.sectionTitle;
+$('#intro').textContent = DATA.intro;
+$('#stats').innerHTML = `<b>${DATA.counts.modules}</b> modules · <b>${DATA.counts.cards}</b> flashcards`;
+
+/* theme */
+const themeBtn = $('#themeBtn'), root = document.documentElement;
+themeBtn.onclick = () => {
+  const dark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  themeBtn.textContent = dark ? '◐ Night' : '◑ Day';
+};
+
+/* tabs */
+const tabStudy=$('#tabStudy'), tabCards=$('#tabCards'), viewStudy=$('#viewStudy'), viewCards=$('#viewCards');
+function setTab(study){
+  tabStudy.setAttribute('aria-selected', study); tabCards.setAttribute('aria-selected', !study);
+  viewStudy.classList.toggle('hidden', !study); viewCards.classList.toggle('hidden', study);
+}
+tabStudy.onclick=()=>setTab(true); tabCards.onclick=()=>setTab(false);
+
+/* ---------- STUDY ---------- */
+const modList=$('#modList'), article=$('#article');
+DATA.modules.forEach((m,i)=>{
+  const b=document.createElement('button');
+  b.className='modlink'+(m.high_yield?' hy':'');
+  b.innerHTML=`<span class="dot"></span><span>${m.title}</span>`;
+  b.onclick=()=>showModule(i);
+  modList.appendChild(b);
+});
+function showModule(i){
+  const m=DATA.modules[i];
+  $$('.modlink').forEach((el,idx)=>el.setAttribute('aria-current', idx===i));
+  const facts=[];
+  if(m.enzyme) facts.push(`<span class="fact">Enzyme · <b>${m.enzyme}</b></span>`);
+  if(m.inheritance) facts.push(`<span class="fact">Inheritance · <b>${m.inheritance}</b></span>`);
+  if(m.high_yield) facts.push(`<span class="badge-hy">★ High yield</span>`);
+  const tags=m.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  article.innerHTML=`<h2 class="art-title">${m.title}</h2>
+    <div class="factstrip">${facts.join('')}</div>
+    ${tags?`<div class="tagrow">${tags}</div>`:''}
+    <div class="prose">${m.body}</div>`;
+  article.scrollIntoView({behavior:'smooth',block:'start'});
+}
+showModule(0);
+
+/* ---------- FLASHCARDS ---------- */
+let scope='all';
+const scopeSeg=$('#scopeSeg'), moduleField=$('#moduleField'), tagField=$('#tagField');
+const moduleSel=$('#moduleSel'), tagSel=$('#tagSel'), deckCount=$('#deckCount');
+
+DATA.modules.forEach((m,i)=>{
+  const o=document.createElement('option'); o.value=i; o.textContent=`${m.title} (${m.cards.length})`; moduleSel.appendChild(o);
+});
+DATA.tags.forEach(t=>{
+  const n=DATA.cards.filter(c=>c.tags.includes(t)).length;
+  const o=document.createElement('option'); o.value=t; o.textContent=`${t} (${n})`; tagSel.appendChild(o);
+});
+
+scopeSeg.querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>{
+    scope=b.dataset.scope;
+    scopeSeg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+    moduleField.classList.toggle('hidden', scope!=='module');
+    tagField.classList.toggle('hidden', scope!=='tag');
+    updateDeckCount();
+  };
+});
+moduleSel.onchange=updateDeckCount; tagSel.onchange=updateDeckCount;
+
+function currentSelection(){
+  if(scope==='module') return DATA.cards.filter(c=>c.moduleIndex===+moduleSel.value);
+  if(scope==='tag') return DATA.cards.filter(c=>c.tags.includes(tagSel.value));
+  return DATA.cards.slice();
+}
+function updateDeckCount(){
+  const n=currentSelection().length;
+  deckCount.textContent=`${n} card${n===1?'':'s'} in this deck`;
+}
+updateDeckCount();
+
+/* drill state */
+let deck=[], pos=0, revealed=false, got=0, missed=0, missedCards=[];
+const deckSetup=$('#deckSetup'), drill=$('#drill'), results=$('#results');
+const card=$('#card'), qtext=$('#qtext'), atext=$('#atext'), modRef=$('#modRef');
+const judge=$('#judge'), revealHint=$('#revealHint'), pbar=$('#pbar');
+const posLabel=$('#posLabel'), gotCount=$('#gotCount'), missCount=$('#missCount');
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function startDrill(cards){
+  deck=shuffle(cards.slice()); pos=0; got=0; missed=0; missedCards=[];
+  deckSetup.classList.add('hidden'); results.classList.add('hidden'); drill.classList.remove('hidden');
+  render();
+}
+function render(){
+  if(pos>=deck.length){ return finish(); }
+  const c=deck[pos]; revealed=false;
+  qtext.textContent=c.q; atext.textContent=c.a; atext.classList.add('hidden');
+  judge.classList.add('hidden'); revealHint.classList.remove('hidden');
+  modRef.textContent=''; 
+  posLabel.textContent=`Card ${pos+1} of ${deck.length}`;
+  gotCount.textContent=got; missCount.textContent=missed;
+  pbar.style.width=`${(pos/deck.length)*100}%`;
+}
+function reveal(){
+  if(revealed) return;
+  revealed=true;
+  atext.classList.remove('hidden'); judge.classList.remove('hidden');
+  revealHint.classList.add('hidden');
+  modRef.textContent='From: '+deck[pos].module;
+}
+function judgeCard(ok){
+  if(!revealed) return;
+  if(ok) got++; else { missed++; missedCards.push(deck[pos]); }
+  pos++; render();
+}
+function finish(){
+  drill.classList.add('hidden'); results.classList.remove('hidden');
+  const total=got+missed, pct=total?Math.round(got/total*100):0;
+  $('#scoreNum').innerHTML=`${pct}<small>%</small>`;
+  $('#resLine').textContent=`${got} got · ${missed} missed · ${total} cards`;
+  $('#drillMissed').classList.toggle('hidden', missedCards.length===0);
+}
+
+card.onclick=reveal;
+$('#gotBtn').onclick=e=>{e.stopPropagation();judgeCard(true);};
+$('#missBtn').onclick=e=>{e.stopPropagation();judgeCard(false);};
+$('#startBtn').onclick=()=>{const s=currentSelection(); if(s.length) startDrill(s);};
+$('#restartDrill').onclick=()=>startDrill(deck);
+$('#exitDrill').onclick=()=>{drill.classList.add('hidden');deckSetup.classList.remove('hidden');};
+$('#resRestart').onclick=()=>startDrill(deck);
+$('#drillMissed').onclick=()=>startDrill(missedCards);
+$('#resNew').onclick=()=>{results.classList.add('hidden');deckSetup.classList.remove('hidden');};
+
+document.addEventListener('keydown',e=>{
+  if(viewCards.classList.contains('hidden')||drill.classList.contains('hidden'))return;
+  if(e.code==='Space'||e.code==='Enter'){e.preventDefault(); revealed?null:reveal();}
+  else if(revealed&&(e.code==='ArrowRight'||e.key.toLowerCase()==='g')) judgeCard(true);
+  else if(revealed&&(e.code==='ArrowLeft'||e.key.toLowerCase()==='m')) judgeCard(false);
+});
+</script>
+</body>
+</html>

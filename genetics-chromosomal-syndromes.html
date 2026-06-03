@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Genetics — Chromosomal Syndromes — Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ea; --surface:#fbfaf6; --surface-2:#efebe1;
+  --ink:#211f1b; --muted:#6f685b; --faint:#938b7c;
+  --accent:#0b6b63; --accent-ink:#063f3a; --accent-soft:rgba(11,107,99,.10);
+  --hy:#b06a16; --hy-soft:rgba(176,106,22,.12);
+  --line:#e2ddd1; --line-strong:#d3ccbd;
+  --shadow:0 1px 2px rgba(40,34,20,.05),0 8px 28px -14px rgba(40,34,20,.22);
+  --display:"Fraunces",Georgia,serif;
+  --prose:"Newsreader",Georgia,serif;
+  --ui:"Spline Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#14161a; --surface:#1b1e24; --surface-2:#222730;
+  --ink:#e9e5db; --muted:#9d978a; --faint:#76716a;
+  --accent:#54b7ab; --accent-ink:#bfe7e1; --accent-soft:rgba(84,183,171,.12);
+  --hy:#d99f55; --hy-soft:rgba(217,159,85,.14);
+  --line:#2a2f38; --line-strong:#39404b;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--prose);
+  font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 100% 0,var(--accent-soft),transparent 38%);
+  min-height:100vh;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* header */
+header.top{padding:30px 0 14px;border-bottom:1px solid var(--line)}
+.brandrow{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.kicker{font-family:var(--ui);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 6px}
+h1.section{font-family:var(--display);font-weight:600;font-size:clamp(28px,4.4vw,44px);line-height:1.02;margin:0;letter-spacing:-.01em}
+.intro{color:var(--muted);max-width:62ch;margin:14px 0 0;font-size:16.5px}
+.meta-stats{font-family:var(--ui);font-size:12.5px;color:var(--faint);margin-top:12px;letter-spacing:.02em}
+.meta-stats b{color:var(--muted);font-weight:600}
+.theme-btn{font-family:var(--ui);font-size:12.5px;font-weight:500;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:999px;padding:8px 14px;cursor:pointer;white-space:nowrap;transition:.18s}
+.theme-btn:hover{color:var(--ink);border-color:var(--accent)}
+
+/* tabs */
+nav.tabs{display:flex;gap:4px;margin:18px 0 0}
+.tab{font-family:var(--ui);font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--muted);
+  background:none;border:none;border-bottom:2px solid transparent;padding:10px 16px;cursor:pointer;transition:.18s}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+
+main{padding:26px 0 80px}
+
+/* STUDY view */
+.study{display:grid;grid-template-columns:248px 1fr;gap:34px;align-items:start}
+.modlist{position:sticky;top:18px;display:flex;flex-direction:column;gap:2px;font-family:var(--ui)}
+.modlist .lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:0 0 8px 10px;font-weight:600}
+.modlink{text-align:left;background:none;border:none;border-radius:8px;padding:8px 10px;cursor:pointer;
+  color:var(--muted);font-size:13.5px;line-height:1.3;font-weight:500;display:flex;gap:8px;align-items:baseline;transition:.14s}
+.modlink:hover{background:var(--surface);color:var(--ink)}
+.modlink[aria-current="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.modlink .dot{flex:none;width:5px;height:5px;border-radius:50%;background:var(--hy);margin-top:7px;opacity:.0}
+.modlink.hy .dot{opacity:1}
+
+.article{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:34px 38px 40px;box-shadow:var(--shadow);min-height:60vh}
+.art-title{font-family:var(--display);font-weight:600;font-size:30px;line-height:1.08;margin:0 0 4px;letter-spacing:-.01em}
+.factstrip{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px;font-family:var(--ui);font-size:12px}
+.fact{background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:5px 10px;color:var(--muted)}
+.fact b{color:var(--ink);font-weight:600}
+.badge-hy{background:var(--hy-soft);border:1px solid transparent;color:var(--hy);font-weight:600;
+  border-radius:7px;padding:5px 10px;letter-spacing:.04em}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 24px}
+.tag{font-family:var(--ui);font-size:11px;color:var(--faint);background:none;border:1px solid var(--line-strong);
+  border-radius:999px;padding:3px 9px;letter-spacing:.02em}
+
+/* prose */
+.prose{font-family:var(--prose);font-size:18px;color:var(--ink)}
+.prose p{margin:0 0 15px}
+.prose strong{font-weight:600}
+.prose p strong:first-child{color:var(--accent-ink);font-family:var(--ui);font-size:12.5px;letter-spacing:.06em;
+  text-transform:uppercase;font-weight:700;display:inline-block;margin-right:.4em}
+[data-theme="dark"] .prose p strong:first-child{color:var(--accent)}
+.prose ul{margin:0 0 16px;padding-left:0;list-style:none}
+.prose li{position:relative;padding-left:20px;margin:0 0 7px;font-size:16.5px}
+.prose li::before{content:"";position:absolute;left:3px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.55}
+.prose table{width:100%;border-collapse:collapse;margin:10px 0 20px;font-family:var(--ui);font-size:13.5px}
+.prose th{background:var(--surface-2);text-align:left;padding:9px 11px;border:1px solid var(--line);font-weight:600;color:var(--ink)}
+.prose td{padding:9px 11px;border:1px solid var(--line);color:var(--muted);vertical-align:top}
+.prose em{color:var(--muted)}
+
+/* FLASHCARDS view */
+.deck-setup{max-width:560px;margin:6px auto 0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow)}
+.panel h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 18px}
+.field{margin:0 0 16px;font-family:var(--ui)}
+.field label{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 7px}
+select{width:100%;font-family:var(--ui);font-size:14.5px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line-strong);border-radius:9px;padding:11px 12px;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236f685b' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:90px;font-family:var(--ui);font-size:13.5px;font-weight:500;color:var(--muted);
+  background:var(--surface-2);border:1px solid var(--line-strong);border-radius:9px;padding:10px;cursor:pointer;transition:.16s}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+[data-theme="dark"] .seg button[aria-pressed="true"]{color:#0c1416}
+.start-btn,.ctl-primary{font-family:var(--ui);font-size:15px;font-weight:600;color:#fff;background:var(--accent);
+  border:none;border-radius:10px;padding:13px 18px;cursor:pointer;width:100%;transition:.16s;letter-spacing:.01em}
+[data-theme="dark"] .start-btn,[data-theme="dark"] .ctl-primary{color:#0c1416}
+.start-btn:hover,.ctl-primary:hover{filter:brightness(1.06)}
+.deck-count{font-family:var(--ui);font-size:13px;color:var(--faint);text-align:center;margin:14px 0 0}
+
+/* drill */
+.drill{max-width:680px;margin:0 auto}
+.progress{display:flex;align-items:center;justify-content:space-between;font-family:var(--ui);font-size:13px;color:var(--muted);margin:0 0 12px}
+.progress .counts b{font-weight:600}
+.got-c{color:var(--accent)} .miss-c{color:var(--hy)}
+.pbar{height:4px;background:var(--surface-2);border-radius:999px;overflow:hidden;margin:0 0 22px}
+.pbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s ease}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:40px 38px;min-height:280px;display:flex;flex-direction:column;cursor:pointer;
+  transition:transform .15s ease, border-color .2s}
+.card:hover{border-color:var(--line-strong)}
+.card .side-lbl{font-family:var(--ui);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--faint)}
+.card .qtext{font-family:var(--prose);font-size:23px;line-height:1.32;margin:18px 0 0;flex:1;display:flex;align-items:center}
+.card .atext{font-family:var(--prose);font-size:20px;line-height:1.4;margin:16px 0 0;color:var(--accent-ink);
+  border-top:1px solid var(--line);padding-top:18px}
+[data-theme="dark"] .card .atext{color:var(--accent)}
+.card .mod-ref{font-family:var(--ui);font-size:11.5px;color:var(--faint);margin-top:auto;padding-top:18px}
+.reveal-hint{font-family:var(--ui);font-size:12.5px;color:var(--faint);text-align:center;margin:16px 0 0}
+.judge{display:flex;gap:12px;margin:18px 0 0}
+.judge button{flex:1;font-family:var(--ui);font-size:15px;font-weight:600;border-radius:11px;padding:15px;cursor:pointer;transition:.16s;border:1px solid}
+.miss-btn{background:var(--hy-soft);border-color:transparent;color:var(--hy)}
+.miss-btn:hover{background:var(--hy);color:#fff}
+.got-btn{background:var(--accent-soft);border-color:transparent;color:var(--accent-ink)}
+[data-theme="dark"] .got-btn{color:var(--accent)}
+.got-btn:hover{background:var(--accent);color:#fff}
+[data-theme="dark"] .got-btn:hover{color:#0c1416}
+.drill-foot{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 0;font-family:var(--ui);font-size:13px}
+.linkbtn{background:none;border:none;color:var(--muted);font-family:var(--ui);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:hover{color:var(--accent)}
+
+/* results */
+.results{max-width:560px;margin:0 auto;text-align:center}
+.results .panel{padding:40px 30px}
+.score{font-family:var(--display);font-size:54px;font-weight:600;color:var(--accent);line-height:1;margin:6px 0}
+.score small{font-family:var(--ui);font-size:15px;color:var(--faint);font-weight:500}
+.res-line{font-family:var(--ui);font-size:14px;color:var(--muted);margin:8px 0 24px}
+.res-actions{display:flex;flex-direction:column;gap:10px}
+.kbd{font-family:var(--ui);font-size:11px;background:var(--surface-2);border:1px solid var(--line-strong);
+  border-radius:5px;padding:1px 6px;color:var(--faint)}
+
+.hidden{display:none!important}
+@media(max-width:820px){
+  .study{grid-template-columns:1fr;gap:18px}
+  .modlist{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .modlist .lbl{width:100%}
+  .modlink{border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px}
+  .modlink .dot{display:none}
+  .article{padding:26px 22px 30px}
+  body{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brandrow">
+      <div>
+        <p class="kicker">Biochemistry · Study Guide</p>
+        <h1 class="section" id="sectionTitle"></h1>
+      </div>
+      <button class="theme-btn" id="themeBtn">◐ Night</button>
+    </div>
+    <p class="intro" id="intro"></p>
+    <p class="meta-stats" id="stats"></p>
+    <nav class="tabs" role="tablist">
+      <button class="tab" id="tabStudy" role="tab" aria-selected="true">Study</button>
+      <button class="tab" id="tabCards" role="tab" aria-selected="false">Flashcards</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- STUDY -->
+    <section id="viewStudy">
+      <div class="study">
+        <aside class="modlist" id="modList"><p class="lbl">Modules</p></aside>
+        <article class="article" id="article"></article>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section id="viewCards" class="hidden">
+      <div class="deck-setup" id="deckSetup">
+        <div class="panel">
+          <h2>Build a drill deck</h2>
+          <div class="field">
+            <label>Scope</label>
+            <div class="seg" id="scopeSeg">
+              <button data-scope="all" aria-pressed="true">All cards</button>
+              <button data-scope="module">By module</button>
+              <button data-scope="tag">By tag</button>
+            </div>
+          </div>
+          <div class="field hidden" id="moduleField">
+            <label>Module</label>
+            <select id="moduleSel"></select>
+          </div>
+          <div class="field hidden" id="tagField">
+            <label>Tag</label>
+            <select id="tagSel"></select>
+          </div>
+          <button class="start-btn" id="startBtn">Start drill</button>
+          <p class="deck-count" id="deckCount"></p>
+        </div>
+      </div>
+
+      <div class="drill hidden" id="drill">
+        <div class="progress">
+          <span id="posLabel">Card 1</span>
+          <span class="counts"><b class="got-c" id="gotCount">0</b> got · <b class="miss-c" id="missCount">0</b> missed</span>
+        </div>
+        <div class="pbar"><i id="pbar"></i></div>
+        <div class="card" id="card">
+          <span class="side-lbl">Question</span>
+          <div class="qtext" id="qtext"></div>
+          <div class="atext hidden" id="atext"></div>
+          <div class="mod-ref" id="modRef"></div>
+        </div>
+        <p class="reveal-hint" id="revealHint">Tap the card or press <span class="kbd">Space</span> to reveal</p>
+        <div class="judge hidden" id="judge">
+          <button class="miss-btn" id="missBtn">Missed <span class="kbd">←</span></button>
+          <button class="got-btn" id="gotBtn">Got it <span class="kbd">→</span></button>
+        </div>
+        <div class="drill-foot">
+          <button class="linkbtn" id="restartDrill">Restart deck</button>
+          <button class="linkbtn" id="exitDrill">Change deck</button>
+        </div>
+      </div>
+
+      <div class="results hidden" id="results">
+        <div class="panel">
+          <p class="side-lbl" style="font-family:var(--ui);letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--faint)">Deck complete</p>
+          <div class="score" id="scoreNum">0<small>%</small></div>
+          <p class="res-line" id="resLine"></p>
+          <div class="res-actions">
+            <button class="ctl-primary" id="drillMissed">Drill missed only</button>
+            <button class="linkbtn" id="resRestart">Restart full deck</button>
+            <button class="linkbtn" id="resNew">Build a new deck</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script id="data" type="application/json">{"sectionTitle": "Genetics — Chromosomal Syndromes", "intro": "Section D of the biochem coverage checklist: the recognizable clusters produced by whole- chromosome aneuploidies and microdeletions — the autosomal trisomies, the sex-chromosome aneuploidies, and the microdeletion syndromes (including the Prader-Willi/Angelman imprinting pair whose mechanism is covered in Genetics — Principles & Inheritance). ---", "modules": [{"title": "Down syndrome (trisomy 21)", "enzyme": "", "inheritance": "", "system": "genetics", "category": "autosomal trisomy", "high_yield": true, "tags": ["trisomy-21", "nondisjunction", "AV-septal-defect", "duodenal-atresia", "alzheimer", "quad-screen"], "body": "<p><strong>Concept.</strong> Down syndrome is the most common viable autosomal trisomy and the most common\nchromosomal cause of intellectual disability. Most cases arise from <strong>maternal meiotic\nnondisjunction</strong> (risk rises with maternal age); a minority come from a <strong>Robertsonian\ntranslocation</strong> (often involving chromosome 14, which can be inherited and carries an\nage-independent recurrence risk) or mosaicism. Features include intellectual disability, a flat\nfacial profile with epicanthal folds and upslanting palpebral fissures, a single transverse\npalmar (simian) crease, Brushfield spots, and hypotonia. High-yield associations: congenital\nheart disease (the AV septal/endocardial cushion defect is most characteristic), duodenal atresia\n(\"double bubble\"), Hirschsprung disease, early-onset Alzheimer disease (the APP gene is on\nchromosome 21), and increased risk of acute leukemias (ALL and AML). The maternal quad screen\nshows ↓AFP, ↓estriol, ↑hCG, and ↑inhibin A.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Trisomy 21; most common viable autosomal trisomy and chromosomal cause of intellectual disability.</li>\n<li>Usually maternal meiotic nondisjunction (↑ maternal age); also Robertsonian translocation, mosaicism.</li>\n<li>Flat facies, epicanthal folds, simian crease, Brushfield spots, hypotonia.</li>\n<li>AV septal defect, duodenal atresia, Hirschsprung, early Alzheimer (APP), ↑leukemia (ALL/AML).</li>\n<li>Quad screen: ↓AFP, ↓estriol, ↑hCG, ↑inhibin A.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Early-onset Alzheimer disease reflects the APP gene dosage on chromosome\n21; leukemia risk is elevated throughout childhood.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Quad-screen pattern (↓AFP, ↓estriol, ↑hCG, ↑inhibin A) distinguishes it from trisomy 18 (all low).</li>\n<li>The Robertsonian translocation form has an age-independent recurrence risk.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Flat facies, single palmar crease, AV septal defect, duodenal atresia\" →\nDown syndrome.</p>\n<p><strong>Mnemonic.</strong> \"Down quad screen: only hCG and inhibin go <strong>UP</strong>.\"</p>", "cards": [{"q": "What is the most common cause of trisomy 21?", "a": "Maternal meiotic nondisjunction (risk rises with maternal age)."}, {"q": "Which translocation form of Down syndrome carries an age-independent recurrence risk?", "a": "A Robertsonian translocation (often involving chromosome 14)."}, {"q": "Characteristic physical features of Down syndrome?", "a": "Flat facial profile, epicanthal folds, upslanting palpebral fissures, single transverse palmar (simian) crease, Brushfield spots, hypotonia."}, {"q": "Most characteristic congenital heart defect in Down syndrome?", "a": "AV septal (endocardial cushion) defect."}, {"q": "GI associations of Down syndrome?", "a": "Duodenal atresia (double bubble) and Hirschsprung disease."}, {"q": "Why early-onset Alzheimer disease in Down syndrome?", "a": "The APP gene is on chromosome 21 (gene dosage)."}, {"q": "Quad-screen pattern in Down syndrome?", "a": "↓AFP, ↓estriol, ↑hCG, ↑inhibin A."}]}, {"title": "Edwards syndrome (trisomy 18)", "enzyme": "", "inheritance": "", "system": "genetics", "category": "autosomal trisomy", "high_yield": true, "tags": ["trisomy-18", "micrognathia", "clenched-fists", "rocker-bottom-feet", "poor-prognosis"], "body": "<p><strong>Concept.</strong> Edwards syndrome (trisomy 18) is the second most common autosomal trisomy, and most\naffected infants die within the first year. Features include severe intellectual disability,\nmicrognathia, a prominent occiput, low-set ears, <strong>clenched hands with overlapping fingers</strong>, and\n<strong>rocker-bottom feet</strong>, along with congenital heart disease. The quad screen is <strong>uniformly low</strong>\n(↓AFP, ↓estriol, ↓hCG, and low or normal inhibin A).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Trisomy 18; severe; death usually within the first year.</li>\n<li>Micrognathia, prominent occiput, low-set ears, clenched fists with overlapping fingers,\n  rocker-bottom feet.</li>\n<li>Congenital heart disease.</li>\n<li>Quad screen: ↓AFP, ↓estriol, ↓hCG, ↓/normal inhibin A.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Prognosis is poor; management is supportive.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>18 → Edwards (\"<strong>E</strong>lection age,\" 18). Clenched fists + rocker-bottom feet.</li>\n<li>Quad screen all-low, versus Down's mixed pattern.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Clenched hands with overlapping fingers, rocker-bottom feet,\nmicrognathia\" → Edwards (trisomy 18).</p>\n<p><strong>Mnemonic.</strong> \"Edwards = 18 = <strong>E</strong>lection age; clenched fists, rocker-bottom feet.\"</p>", "cards": [{"q": "Karyotype and prognosis of Edwards syndrome?", "a": "Trisomy 18; most affected infants die within the first year."}, {"q": "Hallmark extremity findings of Edwards syndrome?", "a": "Clenched hands with overlapping fingers and rocker-bottom feet."}, {"q": "Other features of Edwards syndrome?", "a": "Micrognathia, prominent occiput, low-set ears, and congenital heart disease."}, {"q": "Quad screen in trisomy 18 vs trisomy 21?", "a": "Trisomy 18 is uniformly low (↓AFP, ↓estriol, ↓hCG, ↓/normal inhibin A); trisomy 21 has ↑hCG and ↑inhibin A."}, {"q": "Vignette: clenched hands with overlapping fingers, rocker-bottom feet, micrognathia — diagnosis?", "a": "Edwards syndrome (trisomy 18)."}]}, {"title": "Patau syndrome (trisomy 13)", "enzyme": "", "inheritance": "", "system": "genetics", "category": "autosomal trisomy", "high_yield": true, "tags": ["trisomy-13", "holoprosencephaly", "cleft-lip-palate", "polydactyly", "cutis-aplasia"], "body": "<p><strong>Concept.</strong> Patau syndrome (trisomy 13) is the third autosomal trisomy and, like Edwards, is\nusually fatal within the first year. Features include severe intellectual disability,\n<strong>holoprosencephaly</strong> (a midline brain defect spanning to the cyclopia end of the spectrum),\n<strong>cleft lip/palate</strong>, microphthalmia, <strong>polydactyly</strong>, cutis aplasia (scalp skin defects), and\ncongenital heart disease.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Trisomy 13; severe; death usually within the first year.</li>\n<li>Holoprosencephaly, cleft lip/palate, microphthalmia, polydactyly, cutis aplasia.</li>\n<li>Congenital heart disease.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Midline facial and forebrain defects are the signature.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>13 → Patau (\"<strong>P</strong>uberty age,\" 13); midline defects (holoprosencephaly, cleft) and polydactyly.</li>\n<li>Distinguish from Edwards (clenched fists, rocker-bottom feet) and Down.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Holoprosencephaly, cleft lip/palate, polydactyly, microphthalmia\" →\nPatau (trisomy 13).</p>\n<p><strong>Mnemonic.</strong> \"Patau = 13 = <strong>P</strong>uberty age; holo<strong>P</strong>rosencephaly, <strong>P</strong>olydactyly, cleft <strong>P</strong>alate.\"</p>", "cards": [{"q": "Karyotype and prognosis of Patau syndrome?", "a": "Trisomy 13; usually fatal within the first year."}, {"q": "Signature midline/brain defect of Patau syndrome?", "a": "Holoprosencephaly (spanning to the cyclopia end of the spectrum)."}, {"q": "Characteristic features of Patau syndrome?", "a": "Holoprosencephaly, cleft lip/palate, microphthalmia, polydactyly, cutis aplasia (scalp defects), congenital heart disease."}, {"q": "Trap: Patau vs Edwards signature features?", "a": "Patau = midline defects (holoprosencephaly, cleft) and polydactyly; Edwards = clenched fists and rocker-bottom feet."}, {"q": "Vignette: holoprosencephaly, cleft lip/palate, polydactyly, microphthalmia — diagnosis?", "a": "Patau syndrome (trisomy 13)."}]}, {"title": "Turner syndrome (45,X)", "enzyme": "", "inheritance": "", "system": "genetics", "category": "sex-chromosome aneuploidy", "high_yield": true, "tags": ["45-X", "monosomy-X", "streak-ovaries", "primary-amenorrhea", "coarctation", "horseshoe-kidney"], "body": "<p><strong>Concept.</strong> Turner syndrome is monosomy X (<strong>45,X</strong>), the most common cause of <strong>primary\namenorrhea</strong>, usually from paternal sex-chromosome nondisjunction (notably <em>not</em> linked to\nadvanced maternal age) or mosaicism. Features: short stature, <strong>ovarian dysgenesis (\"streak\novaries\")</strong> causing primary amenorrhea and infertility, a webbed neck (from a fetal cystic\nhygroma), shield chest with widely spaced nipples, a low hairline, and lymphedema of the hands\nand feet in the newborn. High-yield cardiovascular/renal associations: <strong>bicuspid aortic valve</strong>\nand <strong>coarctation of the aorta</strong> (look for a blood-pressure differential between arms and legs)\nand <strong>horseshoe kidney</strong>. Hormonally there is hypergonadotropic hypogonadism (↑FSH/LH, low\nestrogen), and there is <strong>no Barr body</strong> (a single X).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>45,X (monosomy X); most common cause of primary amenorrhea.</li>\n<li>Short stature, streak ovaries, webbed neck, shield chest, newborn lymphedema.</li>\n<li>Bicuspid aortic valve, coarctation of the aorta, horseshoe kidney.</li>\n<li>↑FSH/LH, ↓estrogen; no Barr body.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Coarctation → arm-leg BP differential; horseshoe kidney; treated with\ngrowth hormone and estrogen replacement.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Hypergonadotropic hypogonadism (↑FSH/LH) — the ovary is the problem.</li>\n<li>Coarctation/bicuspid aortic valve point to Turner.</li>\n<li>No Barr body (only one X), versus Klinefelter.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Short female with webbed neck, primary amenorrhea, and coarctation (arm-\nleg BP gap)\" → Turner.</p>\n<p><strong>Mnemonic.</strong> \"Turner: single X — short, streak ovaries, webbed neck, coarctation.\"</p>", "cards": [{"q": "Karyotype of Turner syndrome and its most common cause?", "a": "45,X (monosomy X), usually paternal sex-chromosome nondisjunction — notably not linked to advanced maternal age."}, {"q": "Turner syndrome is the most common cause of what?", "a": "Primary amenorrhea."}, {"q": "What causes the amenorrhea and infertility in Turner syndrome?", "a": "Ovarian dysgenesis (streak ovaries)."}, {"q": "Characteristic physical features of Turner syndrome?", "a": "Short stature, webbed neck (from a fetal cystic hygroma), shield chest with widely spaced nipples, low hairline, newborn hand/foot lymphedema."}, {"q": "Cardiovascular and renal associations of Turner syndrome?", "a": "Bicuspid aortic valve and coarctation of the aorta (arm-leg BP differential); horseshoe kidney."}, {"q": "Hormone profile and Barr body status in Turner syndrome?", "a": "Hypergonadotropic hypogonadism (↑FSH/LH, low estrogen); no Barr body (single X)."}, {"q": "Vignette: short female with webbed neck, primary amenorrhea, and coarctation (arm-leg BP gap) — diagnosis?", "a": "Turner syndrome."}]}, {"title": "Klinefelter syndrome (47,XXY)", "enzyme": "", "inheritance": "", "system": "genetics", "category": "sex-chromosome aneuploidy", "high_yield": true, "tags": ["47-XXY", "hypogonadism", "gynecomastia", "small-firm-testes", "hypergonadotropic", "barr-body"], "body": "<p><strong>Concept.</strong> Klinefelter syndrome (<strong>47,XXY</strong>) is the most common cause of male hypogonadism and\nprimary testicular failure. The extra X causes seminiferous tubule dysgenesis and Leydig cell\ndysfunction, so <strong>testosterone is low and FSH/LH are high</strong> (hypergonadotropic), with low inhibin\nB. Features emerge at or after puberty: <strong>tall stature with long extremities</strong>, <strong>gynecomastia</strong>,\n<strong>small firm testes</strong>, and infertility (azoospermia), often with subtle learning/behavioral\nissues. The elevated <strong>estrogen-to-androgen ratio</strong> drives the gynecomastia and feminization. A\n<strong>Barr body is present</strong> (the inactivated extra X), and breast cancer risk is increased.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>47,XXY; most common cause of male hypogonadism / primary testicular failure.</li>\n<li>Small firm testes, gynecomastia, tall stature with long extremities, infertility.</li>\n<li>↓testosterone, ↑FSH/LH (hypergonadotropic), ↓inhibin B; ↑estrogen:androgen ratio.</li>\n<li>Barr body present; increased breast cancer risk.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Presents at puberty with incomplete virilization, gynecomastia, and\ninfertility; treated with testosterone replacement.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Hypergonadotropic hypogonadism (↑FSH/LH) — testicular failure.</li>\n<li>Barr body present (extra X inactivated), versus Turner (none).</li>\n<li>Gynecomastia reflects the high estrogen:androgen ratio.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Tall male with gynecomastia, small firm testes, infertility, and high\nFSH/LH\" → Klinefelter.</p>\n<p><strong>Mnemonic.</strong> \"Klinefelter = XX<strong>Y</strong>; the e<strong>X</strong>tra X → gynecomastia, small testes.\"</p>", "cards": [{"q": "Karyotype of Klinefelter syndrome and what it causes?", "a": "47,XXY; the most common cause of male hypogonadism / primary testicular failure."}, {"q": "Hormone profile in Klinefelter syndrome?", "a": "Low testosterone, high FSH/LH (hypergonadotropic), low inhibin B; elevated estrogen-to-androgen ratio."}, {"q": "Characteristic features of Klinefelter syndrome?", "a": "Tall stature with long extremities, gynecomastia, small firm testes, infertility (azoospermia)."}, {"q": "Why does gynecomastia occur in Klinefelter syndrome?", "a": "An elevated estrogen-to-androgen ratio."}, {"q": "Barr body in Klinefelter vs Turner?", "a": "Present in Klinefelter (the extra X is inactivated); absent in Turner."}, {"q": "Vignette: tall male with gynecomastia, small firm testes, infertility, and high FSH/LH — diagnosis?", "a": "Klinefelter syndrome."}]}, {"title": "Cri-du-chat (5p deletion)", "enzyme": "", "inheritance": "", "system": "genetics", "category": "microdeletion", "high_yield": true, "tags": ["5p-deletion", "cat-cry", "microcephaly", "hypertelorism", "VSD"], "body": "<p><strong>Concept.</strong> Cri-du-chat syndrome results from a deletion of the short arm of chromosome 5\n(<strong>5p−</strong>). Its name (\"cry of the cat\") comes from the characteristic high-pitched, mewing cry in\ninfancy. Features include intellectual disability, microcephaly, a round facies with\nhypertelorism (wide-set eyes) and epicanthal folds, and congenital heart disease (often a VSD).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Deletion of chromosome 5p (5p−).</li>\n<li>High-pitched, cat-like cry in infancy.</li>\n<li>Microcephaly, intellectual disability, round facies, hypertelorism, epicanthal folds.</li>\n<li>Congenital heart disease (VSD).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> The distinctive infant cry is the giveaway.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>A deletion (not a trisomy); the cat-like cry is pathognomonic on vignettes.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Infant with a high-pitched, cat-like cry, microcephaly, and intellectual\ndisability\" → cri-du-chat (5p−).</p>\n<p><strong>Mnemonic.</strong> \"Cri-du-chat = <strong>C</strong>hromosome 5 (cinq) minus; <strong>C</strong>at <strong>C</strong>ry.\"</p>", "cards": [{"q": "What deletion causes cri-du-chat syndrome?", "a": "Deletion of the short arm of chromosome 5 (5p−)."}, {"q": "Characteristic clinical sign of cri-du-chat in infancy?", "a": "A high-pitched, cat-like (mewing) cry."}, {"q": "Other features of cri-du-chat?", "a": "Intellectual disability, microcephaly, round facies with hypertelorism and epicanthal folds, congenital heart disease (often VSD)."}, {"q": "Is cri-du-chat a trisomy or a deletion?", "a": "A deletion (5p−), not a trisomy."}, {"q": "Vignette: infant with a high-pitched cat-like cry, microcephaly, and intellectual disability — diagnosis?", "a": "Cri-du-chat syndrome (5p−)."}]}, {"title": "Williams syndrome (7q deletion)", "enzyme": "", "inheritance": "", "system": "genetics", "category": "microdeletion", "high_yield": true, "tags": ["7q-deletion", "elastin", "elfin-facies", "supravalvular-aortic-stenosis", "hypercalcemia", "friendly"], "body": "<p><strong>Concept.</strong> Williams syndrome results from a microdeletion on chromosome <strong>7q</strong> that includes the\nelastin (ELN) gene. Features: an \"elfin\" facies (broad forehead, full cheeks, wide mouth, small\nchin), an extremely friendly, overly social (\"cocktail party\") personality with intellectual\ndisability, <strong>supravalvular aortic stenosis</strong> (from elastin loss), and — the board trap —\n<strong>hypercalcemia</strong> (increased sensitivity to vitamin D). It is confirmed by FISH.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>7q microdeletion (includes the elastin gene).</li>\n<li>Elfin facies, extreme friendliness, intellectual disability.</li>\n<li>Supravalvular aortic stenosis (elastin).</li>\n<li>Hypercalcemia (board trap — unlike Down's normal calcium).</li>\n<li>Diagnosed by FISH.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Hypercalcemia is the distinguishing lab; cardiovascular follow-up for\nthe supravalvular aortic stenosis.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Williams = hypercalcemia + 7q (versus DiGeorge = hypocalcemia + 22q).</li>\n<li>Supravalvular (not valvular) aortic stenosis, from elastin loss.</li>\n<li>A microdeletion → diagnosed by FISH.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Elfin facies, extremely friendly child, supravalvular aortic stenosis,\nhypercalcemia\" → Williams.</p>\n<p><strong>Mnemonic.</strong> \"Williams = 7q: <strong>W</strong>elcoming personality, supra<strong>V</strong>alvular AS, high <strong>C</strong>alcium.\"</p>", "cards": [{"q": "What microdeletion causes Williams syndrome, and which gene does it include?", "a": "A 7q microdeletion that includes the elastin (ELN) gene."}, {"q": "Characteristic facies and personality in Williams syndrome?", "a": "Elfin facies and an extremely friendly, overly social (cocktail-party) personality with intellectual disability."}, {"q": "Cardiovascular lesion in Williams syndrome, and why?", "a": "Supravalvular aortic stenosis, from elastin loss."}, {"q": "Board-trap calcium abnormality in Williams syndrome?", "a": "Hypercalcemia (increased sensitivity to vitamin D)."}, {"q": "Trap: Williams vs DiGeorge — calcium and deletion?", "a": "Williams = hypercalcemia + 7q; DiGeorge = hypocalcemia + 22q."}, {"q": "Vignette: elfin facies, extremely friendly child, supravalvular aortic stenosis, hypercalcemia — diagnosis?", "a": "Williams syndrome."}]}, {"title": "DiGeorge syndrome (22q11.2 deletion)", "enzyme": "", "inheritance": "", "system": "genetics", "category": "microdeletion", "high_yield": true, "tags": ["22q11", "pharyngeal-pouch", "thymic-aplasia", "T-cell-deficiency", "hypocalcemia", "conotruncal", "CATCH-22"], "body": "<p><strong>Concept.</strong> DiGeorge syndrome (<strong>22q11.2 deletion</strong>) results from failure of development of the\n<strong>3rd and 4th pharyngeal pouches</strong>, which form the thymus and parathyroids. The <strong>CATCH-22</strong>\nfeatures: <strong>C</strong>ardiac defects (conotruncal — tetralogy of Fallot, truncus arteriosus, interrupted\naortic arch), <strong>A</strong>bnormal facies, <strong>T</strong>hymic aplasia/hypoplasia (→ T-cell deficiency with\nrecurrent viral and fungal infections and an absent thymic shadow), <strong>C</strong>left palate, and\n<strong>H</strong>ypocalcemia (parathyroid aplasia → hypocalcemic tetany/seizures). It is diagnosed by FISH.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>22q11.2 deletion; failure of the 3rd/4th pharyngeal pouches (thymus + parathyroids).</li>\n<li>CATCH-22: Cardiac (conotruncal), Abnormal facies, Thymic aplasia (T-cell deficiency), Cleft\n  palate, Hypocalcemia.</li>\n<li>Recurrent viral/fungal infections; absent thymic shadow; hypocalcemic tetany.</li>\n<li>Diagnosed by FISH.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Neonatal hypocalcemic seizures + a conotruncal cardiac defect +\nrecurrent infections is the classic triad.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>DiGeorge = hypocalcemia + 22q (versus Williams = hypercalcemia + 7q).</li>\n<li>T-cell deficiency (thymic aplasia) → viral and fungal infections.</li>\n<li>Conotruncal cardiac defects specifically.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Neonate with hypocalcemic seizures, a conotruncal heart defect, recurrent\ninfections, and an absent thymus\" → DiGeorge.</p>\n<p><strong>Mnemonic.</strong> \"<strong>CATCH-22</strong>: Cardiac, Abnormal facies, Thymic aplasia, Cleft palate, Hypocalcemia.\"</p>", "cards": [{"q": "What deletion causes DiGeorge syndrome, and which embryologic structures fail?", "a": "22q11.2 deletion; failure of the 3rd and 4th pharyngeal pouches (forming the thymus and parathyroids)."}, {"q": "What does CATCH-22 stand for?", "a": "Cardiac defects (conotruncal), Abnormal facies, Thymic aplasia (T-cell deficiency), Cleft palate, Hypocalcemia."}, {"q": "Which cardiac defects occur in DiGeorge syndrome?", "a": "Conotruncal defects — tetralogy of Fallot, truncus arteriosus, interrupted aortic arch."}, {"q": "Why recurrent viral/fungal infections in DiGeorge?", "a": "Thymic aplasia → T-cell deficiency (absent thymic shadow)."}, {"q": "Which electrolyte abnormality occurs in DiGeorge, and from what?", "a": "Hypocalcemia, from parathyroid aplasia (causing hypocalcemic tetany/seizures)."}, {"q": "Vignette: neonate with hypocalcemic seizures, a conotruncal heart defect, recurrent infections, and an absent thymus — diagnosis?", "a": "DiGeorge syndrome."}]}, {"title": "Prader-Willi & Angelman (15q imprinting)", "enzyme": "", "inheritance": "", "system": "genetics", "category": "microdeletion", "high_yield": true, "tags": ["15q", "imprinting", "prader-willi", "angelman", "UBE3A", "uniparental-disomy"], "body": "<p><strong>Concept.</strong> These two syndromes both arise from loss of function at chromosome <strong>15q11-13</strong> but\ndiffer by <strong>parent of origin</strong> (genomic imprinting — mechanism in Genetics — Principles &amp;\nInheritance). <strong>Prader-Willi</strong> results from loss of the <em>paternally</em> expressed genes (paternal\ndeletion in ~70%, or maternal uniparental disomy): neonatal hypotonia and poor feeding give way\nto <strong>hyperphagia and obesity</strong>, short stature, hypogonadism, intellectual disability, and\ncharacteristic behaviors. <strong>Angelman</strong> results from loss of the <em>maternally</em> expressed <strong>UBE3A</strong>\n(maternal deletion, or paternal uniparental disomy): severe intellectual disability, an ataxic\n\"puppet-like\" gait, <strong>inappropriate laughter</strong> and a happy demeanor, seizures, and minimal speech.\nSame locus, opposite parent.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Both at 15q11-13; differ by parent of origin (imprinting).</li>\n<li>Prader-Willi: loss of PATERNAL genes → hyperphagia/obesity, hypotonia, hypogonadism, intellectual disability.</li>\n<li>Angelman: loss of MATERNAL UBE3A → ataxia, inappropriate laughter, seizures, severe intellectual disability, minimal speech.</li>\n<li>Mechanisms: deletion of the active-parent allele, or uniparental disomy of the silent parent.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> This contrast is a classic board pairing; methylation testing confirms\nthe diagnosis and distinguishes the mechanisms.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Prader-Willi = <strong>P</strong>aternal loss; Angelman = m<strong>A</strong>ternal loss.</li>\n<li>Same 15q region, opposite parent of origin.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Obesity, hyperphagia, hypotonia, paternal 15q deletion\" → Prader-Willi.</li>\n<li>\"Ataxia, inappropriate laughter, seizures, maternal 15q deletion\" → Angelman.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"<strong>P</strong>rader = <strong>P</strong>aternal; <strong>A</strong>ngelman = m<strong>A</strong>ternal.\"</p>\n<p><strong>Prader-Willi vs Angelman</strong></p>\n<table>\n<thead>\n<tr>\n<th>Feature</th>\n<th>Prader-Willi</th>\n<th>Angelman</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Lost contribution</td>\n<td>Paternal 15q</td>\n<td>Maternal 15q (UBE3A)</td>\n</tr>\n<tr>\n<td>Common mechanism</td>\n<td>Paternal deletion / maternal UPD</td>\n<td>Maternal deletion / paternal UPD</td>\n</tr>\n<tr>\n<td>Hallmark</td>\n<td>Hyperphagia, obesity, hypotonia, hypogonadism</td>\n<td>Ataxia, inappropriate laughter, seizures</td>\n</tr>\n<tr>\n<td>Speech/cognition</td>\n<td>Intellectual disability</td>\n<td>Severe intellectual disability, minimal speech</td>\n</tr>\n</tbody>\n</table>\n<hr />", "cards": [{"q": "Both Prader-Willi and Angelman map to which chromosomal region?", "a": "15q11-13; they differ by parent of origin (imprinting)."}, {"q": "Prader-Willi results from loss of which parent's genes, and by what mechanisms?", "a": "Loss of paternally expressed genes — paternal deletion (~70%) or maternal uniparental disomy."}, {"q": "Clinical features of Prader-Willi?", "a": "Neonatal hypotonia/poor feeding giving way to hyperphagia and obesity, short stature, hypogonadism, intellectual disability."}, {"q": "Angelman results from loss of which maternally expressed gene?", "a": "UBE3A (maternal deletion, or paternal uniparental disomy)."}, {"q": "Clinical features of Angelman?", "a": "Severe intellectual disability, an ataxic puppet-like gait, inappropriate laughter, seizures, minimal speech."}, {"q": "Trap: Prader-Willi vs Angelman parent of origin?", "a": "Prader-Willi = paternal loss; Angelman = maternal loss (same 15q region)."}]}, {"title": "Microdeletion summary", "enzyme": "", "inheritance": "", "system": "genetics", "category": "microdeletion", "high_yield": true, "tags": ["microdeletion", "FISH", "chromosomal-microarray", "reference-table"], "body": "<p><strong>Concept.</strong> Microdeletions are submicroscopic chromosomal losses too small to see on a standard\nkaryotype; they are detected by <strong>FISH</strong> or <strong>chromosomal microarray</strong>. This module consolidates\nthe high-yield ones into a single reference; each is detailed in its own module above.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Detected by FISH or chromosomal microarray (not standard karyotype).</li>\n<li>5p− → cri-du-chat; 7q → Williams; 15q → Prader-Willi/Angelman; 22q11.2 → DiGeorge.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> When a syndrome is suspected clinically but the karyotype is normal, a\nmicrodeletion is the likely explanation — order FISH/microarray.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Williams (7q) hypercalcemia vs DiGeorge (22q) hypocalcemia is the most-tested contrast.</li>\n<li>15q is parent-of-origin dependent (Prader-Willi vs Angelman).</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Clinical syndrome with a normal karyotype, confirmed by FISH\" →\nmicrodeletion.</p>\n<p><strong>Microdeletion summary table</strong></p>\n<table>\n<thead>\n<tr>\n<th>Deletion</th>\n<th>Syndrome</th>\n<th>Hallmark</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>5p−</td>\n<td>Cri-du-chat</td>\n<td>High-pitched cat-like cry</td>\n</tr>\n<tr>\n<td>7q</td>\n<td>Williams</td>\n<td>Elfin facies, supravalvular AS, hypercalcemia</td>\n</tr>\n<tr>\n<td>15q (paternal)</td>\n<td>Prader-Willi</td>\n<td>Hyperphagia, obesity, hypotonia</td>\n</tr>\n<tr>\n<td>15q (maternal)</td>\n<td>Angelman</td>\n<td>Ataxia, inappropriate laughter, seizures</td>\n</tr>\n<tr>\n<td>22q11.2</td>\n<td>DiGeorge</td>\n<td>Conotruncal defect, thymic aplasia, hypocalcemia</td>\n</tr>\n</tbody>\n</table>\n<hr />", "cards": [{"q": "How are microdeletions detected?", "a": "By FISH or chromosomal microarray (not a standard karyotype)."}, {"q": "Match the deletion to the syndrome: 5p−, 7q, 15q, 22q11.2.", "a": "5p− → cri-du-chat; 7q → Williams; 15q → Prader-Willi/Angelman; 22q11.2 → DiGeorge."}, {"q": "Most-tested calcium contrast among the microdeletion syndromes?", "a": "Williams (7q) hypercalcemia vs DiGeorge (22q) hypocalcemia."}, {"q": "Vignette: a clinical syndrome with a normal karyotype, confirmed by FISH — what category?", "a": "A microdeletion syndrome."}]}], "cards": [{"id": "0-0", "q": "What is the most common cause of trisomy 21?", "a": "Maternal meiotic nondisjunction (risk rises with maternal age).", "module": "Down syndrome (trisomy 21)", "moduleIndex": 0, "tags": ["trisomy-21", "nondisjunction", "AV-septal-defect", "duodenal-atresia", "alzheimer", "quad-screen"], "high_yield": true}, {"id": "0-1", "q": "Which translocation form of Down syndrome carries an age-independent recurrence risk?", "a": "A Robertsonian translocation (often involving chromosome 14).", "module": "Down syndrome (trisomy 21)", "moduleIndex": 0, "tags": ["trisomy-21", "nondisjunction", "AV-septal-defect", "duodenal-atresia", "alzheimer", "quad-screen"], "high_yield": true}, {"id": "0-2", "q": "Characteristic physical features of Down syndrome?", "a": "Flat facial profile, epicanthal folds, upslanting palpebral fissures, single transverse palmar (simian) crease, Brushfield spots, hypotonia.", "module": "Down syndrome (trisomy 21)", "moduleIndex": 0, "tags": ["trisomy-21", "nondisjunction", "AV-septal-defect", "duodenal-atresia", "alzheimer", "quad-screen"], "high_yield": true}, {"id": "0-3", "q": "Most characteristic congenital heart defect in Down syndrome?", "a": "AV septal (endocardial cushion) defect.", "module": "Down syndrome (trisomy 21)", "moduleIndex": 0, "tags": ["trisomy-21", "nondisjunction", "AV-septal-defect", "duodenal-atresia", "alzheimer", "quad-screen"], "high_yield": true}, {"id": "0-4", "q": "GI associations of Down syndrome?", "a": "Duodenal atresia (double bubble) and Hirschsprung disease.", "module": "Down syndrome (trisomy 21)", "moduleIndex": 0, "tags": ["trisomy-21", "nondisjunction", "AV-septal-defect", "duodenal-atresia", "alzheimer", "quad-screen"], "high_yield": true}, {"id": "0-5", "q": "Why early-onset Alzheimer disease in Down syndrome?", "a": "The APP gene is on chromosome 21 (gene dosage).", "module": "Down syndrome (trisomy 21)", "moduleIndex": 0, "tags": ["trisomy-21", "nondisjunction", "AV-septal-defect", "duodenal-atresia", "alzheimer", "quad-screen"], "high_yield": true}, {"id": "0-6", "q": "Quad-screen pattern in Down syndrome?", "a": "↓AFP, ↓estriol, ↑hCG, ↑inhibin A.", "module": "Down syndrome (trisomy 21)", "moduleIndex": 0, "tags": ["trisomy-21", "nondisjunction", "AV-septal-defect", "duodenal-atresia", "alzheimer", "quad-screen"], "high_yield": true}, {"id": "1-0", "q": "Karyotype and prognosis of Edwards syndrome?", "a": "Trisomy 18; most affected infants die within the first year.", "module": "Edwards syndrome (trisomy 18)", "moduleIndex": 1, "tags": ["trisomy-18", "micrognathia", "clenched-fists", "rocker-bottom-feet", "poor-prognosis"], "high_yield": true}, {"id": "1-1", "q": "Hallmark extremity findings of Edwards syndrome?", "a": "Clenched hands with overlapping fingers and rocker-bottom feet.", "module": "Edwards syndrome (trisomy 18)", "moduleIndex": 1, "tags": ["trisomy-18", "micrognathia", "clenched-fists", "rocker-bottom-feet", "poor-prognosis"], "high_yield": true}, {"id": "1-2", "q": "Other features of Edwards syndrome?", "a": "Micrognathia, prominent occiput, low-set ears, and congenital heart disease.", "module": "Edwards syndrome (trisomy 18)", "moduleIndex": 1, "tags": ["trisomy-18", "micrognathia", "clenched-fists", "rocker-bottom-feet", "poor-prognosis"], "high_yield": true}, {"id": "1-3", "q": "Quad screen in trisomy 18 vs trisomy 21?", "a": "Trisomy 18 is uniformly low (↓AFP, ↓estriol, ↓hCG, ↓/normal inhibin A); trisomy 21 has ↑hCG and ↑inhibin A.", "module": "Edwards syndrome (trisomy 18)", "moduleIndex": 1, "tags": ["trisomy-18", "micrognathia", "clenched-fists", "rocker-bottom-feet", "poor-prognosis"], "high_yield": true}, {"id": "1-4", "q": "Vignette: clenched hands with overlapping fingers, rocker-bottom feet, micrognathia — diagnosis?", "a": "Edwards syndrome (trisomy 18).", "module": "Edwards syndrome (trisomy 18)", "moduleIndex": 1, "tags": ["trisomy-18", "micrognathia", "clenched-fists", "rocker-bottom-feet", "poor-prognosis"], "high_yield": true}, {"id": "2-0", "q": "Karyotype and prognosis of Patau syndrome?", "a": "Trisomy 13; usually fatal within the first year.", "module": "Patau syndrome (trisomy 13)", "moduleIndex": 2, "tags": ["trisomy-13", "holoprosencephaly", "cleft-lip-palate", "polydactyly", "cutis-aplasia"], "high_yield": true}, {"id": "2-1", "q": "Signature midline/brain defect of Patau syndrome?", "a": "Holoprosencephaly (spanning to the cyclopia end of the spectrum).", "module": "Patau syndrome (trisomy 13)", "moduleIndex": 2, "tags": ["trisomy-13", "holoprosencephaly", "cleft-lip-palate", "polydactyly", "cutis-aplasia"], "high_yield": true}, {"id": "2-2", "q": "Characteristic features of Patau syndrome?", "a": "Holoprosencephaly, cleft lip/palate, microphthalmia, polydactyly, cutis aplasia (scalp defects), congenital heart disease.", "module": "Patau syndrome (trisomy 13)", "moduleIndex": 2, "tags": ["trisomy-13", "holoprosencephaly", "cleft-lip-palate", "polydactyly", "cutis-aplasia"], "high_yield": true}, {"id": "2-3", "q": "Trap: Patau vs Edwards signature features?", "a": "Patau = midline defects (holoprosencephaly, cleft) and polydactyly; Edwards = clenched fists and rocker-bottom feet.", "module": "Patau syndrome (trisomy 13)", "moduleIndex": 2, "tags": ["trisomy-13", "holoprosencephaly", "cleft-lip-palate", "polydactyly", "cutis-aplasia"], "high_yield": true}, {"id": "2-4", "q": "Vignette: holoprosencephaly, cleft lip/palate, polydactyly, microphthalmia — diagnosis?", "a": "Patau syndrome (trisomy 13).", "module": "Patau syndrome (trisomy 13)", "moduleIndex": 2, "tags": ["trisomy-13", "holoprosencephaly", "cleft-lip-palate", "polydactyly", "cutis-aplasia"], "high_yield": true}, {"id": "3-0", "q": "Karyotype of Turner syndrome and its most common cause?", "a": "45,X (monosomy X), usually paternal sex-chromosome nondisjunction — notably not linked to advanced maternal age.", "module": "Turner syndrome (45,X)", "moduleIndex": 3, "tags": ["45-X", "monosomy-X", "streak-ovaries", "primary-amenorrhea", "coarctation", "horseshoe-kidney"], "high_yield": true}, {"id": "3-1", "q": "Turner syndrome is the most common cause of what?", "a": "Primary amenorrhea.", "module": "Turner syndrome (45,X)", "moduleIndex": 3, "tags": ["45-X", "monosomy-X", "streak-ovaries", "primary-amenorrhea", "coarctation", "horseshoe-kidney"], "high_yield": true}, {"id": "3-2", "q": "What causes the amenorrhea and infertility in Turner syndrome?", "a": "Ovarian dysgenesis (streak ovaries).", "module": "Turner syndrome (45,X)", "moduleIndex": 3, "tags": ["45-X", "monosomy-X", "streak-ovaries", "primary-amenorrhea", "coarctation", "horseshoe-kidney"], "high_yield": true}, {"id": "3-3", "q": "Characteristic physical features of Turner syndrome?", "a": "Short stature, webbed neck (from a fetal cystic hygroma), shield chest with widely spaced nipples, low hairline, newborn hand/foot lymphedema.", "module": "Turner syndrome (45,X)", "moduleIndex": 3, "tags": ["45-X", "monosomy-X", "streak-ovaries", "primary-amenorrhea", "coarctation", "horseshoe-kidney"], "high_yield": true}, {"id": "3-4", "q": "Cardiovascular and renal associations of Turner syndrome?", "a": "Bicuspid aortic valve and coarctation of the aorta (arm-leg BP differential); horseshoe kidney.", "module": "Turner syndrome (45,X)", "moduleIndex": 3, "tags": ["45-X", "monosomy-X", "streak-ovaries", "primary-amenorrhea", "coarctation", "horseshoe-kidney"], "high_yield": true}, {"id": "3-5", "q": "Hormone profile and Barr body status in Turner syndrome?", "a": "Hypergonadotropic hypogonadism (↑FSH/LH, low estrogen); no Barr body (single X).", "module": "Turner syndrome (45,X)", "moduleIndex": 3, "tags": ["45-X", "monosomy-X", "streak-ovaries", "primary-amenorrhea", "coarctation", "horseshoe-kidney"], "high_yield": true}, {"id": "3-6", "q": "Vignette: short female with webbed neck, primary amenorrhea, and coarctation (arm-leg BP gap) — diagnosis?", "a": "Turner syndrome.", "module": "Turner syndrome (45,X)", "moduleIndex": 3, "tags": ["45-X", "monosomy-X", "streak-ovaries", "primary-amenorrhea", "coarctation", "horseshoe-kidney"], "high_yield": true}, {"id": "4-0", "q": "Karyotype of Klinefelter syndrome and what it causes?", "a": "47,XXY; the most common cause of male hypogonadism / primary testicular failure.", "module": "Klinefelter syndrome (47,XXY)", "moduleIndex": 4, "tags": ["47-XXY", "hypogonadism", "gynecomastia", "small-firm-testes", "hypergonadotropic", "barr-body"], "high_yield": true}, {"id": "4-1", "q": "Hormone profile in Klinefelter syndrome?", "a": "Low testosterone, high FSH/LH (hypergonadotropic), low inhibin B; elevated estrogen-to-androgen ratio.", "module": "Klinefelter syndrome (47,XXY)", "moduleIndex": 4, "tags": ["47-XXY", "hypogonadism", "gynecomastia", "small-firm-testes", "hypergonadotropic", "barr-body"], "high_yield": true}, {"id": "4-2", "q": "Characteristic features of Klinefelter syndrome?", "a": "Tall stature with long extremities, gynecomastia, small firm testes, infertility (azoospermia).", "module": "Klinefelter syndrome (47,XXY)", "moduleIndex": 4, "tags": ["47-XXY", "hypogonadism", "gynecomastia", "small-firm-testes", "hypergonadotropic", "barr-body"], "high_yield": true}, {"id": "4-3", "q": "Why does gynecomastia occur in Klinefelter syndrome?", "a": "An elevated estrogen-to-androgen ratio.", "module": "Klinefelter syndrome (47,XXY)", "moduleIndex": 4, "tags": ["47-XXY", "hypogonadism", "gynecomastia", "small-firm-testes", "hypergonadotropic", "barr-body"], "high_yield": true}, {"id": "4-4", "q": "Barr body in Klinefelter vs Turner?", "a": "Present in Klinefelter (the extra X is inactivated); absent in Turner.", "module": "Klinefelter syndrome (47,XXY)", "moduleIndex": 4, "tags": ["47-XXY", "hypogonadism", "gynecomastia", "small-firm-testes", "hypergonadotropic", "barr-body"], "high_yield": true}, {"id": "4-5", "q": "Vignette: tall male with gynecomastia, small firm testes, infertility, and high FSH/LH — diagnosis?", "a": "Klinefelter syndrome.", "module": "Klinefelter syndrome (47,XXY)", "moduleIndex": 4, "tags": ["47-XXY", "hypogonadism", "gynecomastia", "small-firm-testes", "hypergonadotropic", "barr-body"], "high_yield": true}, {"id": "5-0", "q": "What deletion causes cri-du-chat syndrome?", "a": "Deletion of the short arm of chromosome 5 (5p−).", "module": "Cri-du-chat (5p deletion)", "moduleIndex": 5, "tags": ["5p-deletion", "cat-cry", "microcephaly", "hypertelorism", "VSD"], "high_yield": true}, {"id": "5-1", "q": "Characteristic clinical sign of cri-du-chat in infancy?", "a": "A high-pitched, cat-like (mewing) cry.", "module": "Cri-du-chat (5p deletion)", "moduleIndex": 5, "tags": ["5p-deletion", "cat-cry", "microcephaly", "hypertelorism", "VSD"], "high_yield": true}, {"id": "5-2", "q": "Other features of cri-du-chat?", "a": "Intellectual disability, microcephaly, round facies with hypertelorism and epicanthal folds, congenital heart disease (often VSD).", "module": "Cri-du-chat (5p deletion)", "moduleIndex": 5, "tags": ["5p-deletion", "cat-cry", "microcephaly", "hypertelorism", "VSD"], "high_yield": true}, {"id": "5-3", "q": "Is cri-du-chat a trisomy or a deletion?", "a": "A deletion (5p−), not a trisomy.", "module": "Cri-du-chat (5p deletion)", "moduleIndex": 5, "tags": ["5p-deletion", "cat-cry", "microcephaly", "hypertelorism", "VSD"], "high_yield": true}, {"id": "5-4", "q": "Vignette: infant with a high-pitched cat-like cry, microcephaly, and intellectual disability — diagnosis?", "a": "Cri-du-chat syndrome (5p−).", "module": "Cri-du-chat (5p deletion)", "moduleIndex": 5, "tags": ["5p-deletion", "cat-cry", "microcephaly", "hypertelorism", "VSD"], "high_yield": true}, {"id": "6-0", "q": "What microdeletion causes Williams syndrome, and which gene does it include?", "a": "A 7q microdeletion that includes the elastin (ELN) gene.", "module": "Williams syndrome (7q deletion)", "moduleIndex": 6, "tags": ["7q-deletion", "elastin", "elfin-facies", "supravalvular-aortic-stenosis", "hypercalcemia", "friendly"], "high_yield": true}, {"id": "6-1", "q": "Characteristic facies and personality in Williams syndrome?", "a": "Elfin facies and an extremely friendly, overly social (cocktail-party) personality with intellectual disability.", "module": "Williams syndrome (7q deletion)", "moduleIndex": 6, "tags": ["7q-deletion", "elastin", "elfin-facies", "supravalvular-aortic-stenosis", "hypercalcemia", "friendly"], "high_yield": true}, {"id": "6-2", "q": "Cardiovascular lesion in Williams syndrome, and why?", "a": "Supravalvular aortic stenosis, from elastin loss.", "module": "Williams syndrome (7q deletion)", "moduleIndex": 6, "tags": ["7q-deletion", "elastin", "elfin-facies", "supravalvular-aortic-stenosis", "hypercalcemia", "friendly"], "high_yield": true}, {"id": "6-3", "q": "Board-trap calcium abnormality in Williams syndrome?", "a": "Hypercalcemia (increased sensitivity to vitamin D).", "module": "Williams syndrome (7q deletion)", "moduleIndex": 6, "tags": ["7q-deletion", "elastin", "elfin-facies", "supravalvular-aortic-stenosis", "hypercalcemia", "friendly"], "high_yield": true}, {"id": "6-4", "q": "Trap: Williams vs DiGeorge — calcium and deletion?", "a": "Williams = hypercalcemia + 7q; DiGeorge = hypocalcemia + 22q.", "module": "Williams syndrome (7q deletion)", "moduleIndex": 6, "tags": ["7q-deletion", "elastin", "elfin-facies", "supravalvular-aortic-stenosis", "hypercalcemia", "friendly"], "high_yield": true}, {"id": "6-5", "q": "Vignette: elfin facies, extremely friendly child, supravalvular aortic stenosis, hypercalcemia — diagnosis?", "a": "Williams syndrome.", "module": "Williams syndrome (7q deletion)", "moduleIndex": 6, "tags": ["7q-deletion", "elastin", "elfin-facies", "supravalvular-aortic-stenosis", "hypercalcemia", "friendly"], "high_yield": true}, {"id": "7-0", "q": "What deletion causes DiGeorge syndrome, and which embryologic structures fail?", "a": "22q11.2 deletion; failure of the 3rd and 4th pharyngeal pouches (forming the thymus and parathyroids).", "module": "DiGeorge syndrome (22q11.2 deletion)", "moduleIndex": 7, "tags": ["22q11", "pharyngeal-pouch", "thymic-aplasia", "T-cell-deficiency", "hypocalcemia", "conotruncal", "CATCH-22"], "high_yield": true}, {"id": "7-1", "q": "What does CATCH-22 stand for?", "a": "Cardiac defects (conotruncal), Abnormal facies, Thymic aplasia (T-cell deficiency), Cleft palate, Hypocalcemia.", "module": "DiGeorge syndrome (22q11.2 deletion)", "moduleIndex": 7, "tags": ["22q11", "pharyngeal-pouch", "thymic-aplasia", "T-cell-deficiency", "hypocalcemia", "conotruncal", "CATCH-22"], "high_yield": true}, {"id": "7-2", "q": "Which cardiac defects occur in DiGeorge syndrome?", "a": "Conotruncal defects — tetralogy of Fallot, truncus arteriosus, interrupted aortic arch.", "module": "DiGeorge syndrome (22q11.2 deletion)", "moduleIndex": 7, "tags": ["22q11", "pharyngeal-pouch", "thymic-aplasia", "T-cell-deficiency", "hypocalcemia", "conotruncal", "CATCH-22"], "high_yield": true}, {"id": "7-3", "q": "Why recurrent viral/fungal infections in DiGeorge?", "a": "Thymic aplasia → T-cell deficiency (absent thymic shadow).", "module": "DiGeorge syndrome (22q11.2 deletion)", "moduleIndex": 7, "tags": ["22q11", "pharyngeal-pouch", "thymic-aplasia", "T-cell-deficiency", "hypocalcemia", "conotruncal", "CATCH-22"], "high_yield": true}, {"id": "7-4", "q": "Which electrolyte abnormality occurs in DiGeorge, and from what?", "a": "Hypocalcemia, from parathyroid aplasia (causing hypocalcemic tetany/seizures).", "module": "DiGeorge syndrome (22q11.2 deletion)", "moduleIndex": 7, "tags": ["22q11", "pharyngeal-pouch", "thymic-aplasia", "T-cell-deficiency", "hypocalcemia", "conotruncal", "CATCH-22"], "high_yield": true}, {"id": "7-5", "q": "Vignette: neonate with hypocalcemic seizures, a conotruncal heart defect, recurrent infections, and an absent thymus — diagnosis?", "a": "DiGeorge syndrome.", "module": "DiGeorge syndrome (22q11.2 deletion)", "moduleIndex": 7, "tags": ["22q11", "pharyngeal-pouch", "thymic-aplasia", "T-cell-deficiency", "hypocalcemia", "conotruncal", "CATCH-22"], "high_yield": true}, {"id": "8-0", "q": "Both Prader-Willi and Angelman map to which chromosomal region?", "a": "15q11-13; they differ by parent of origin (imprinting).", "module": "Prader-Willi & Angelman (15q imprinting)", "moduleIndex": 8, "tags": ["15q", "imprinting", "prader-willi", "angelman", "UBE3A", "uniparental-disomy"], "high_yield": true}, {"id": "8-1", "q": "Prader-Willi results from loss of which parent's genes, and by what mechanisms?", "a": "Loss of paternally expressed genes — paternal deletion (~70%) or maternal uniparental disomy.", "module": "Prader-Willi & Angelman (15q imprinting)", "moduleIndex": 8, "tags": ["15q", "imprinting", "prader-willi", "angelman", "UBE3A", "uniparental-disomy"], "high_yield": true}, {"id": "8-2", "q": "Clinical features of Prader-Willi?", "a": "Neonatal hypotonia/poor feeding giving way to hyperphagia and obesity, short stature, hypogonadism, intellectual disability.", "module": "Prader-Willi & Angelman (15q imprinting)", "moduleIndex": 8, "tags": ["15q", "imprinting", "prader-willi", "angelman", "UBE3A", "uniparental-disomy"], "high_yield": true}, {"id": "8-3", "q": "Angelman results from loss of which maternally expressed gene?", "a": "UBE3A (maternal deletion, or paternal uniparental disomy).", "module": "Prader-Willi & Angelman (15q imprinting)", "moduleIndex": 8, "tags": ["15q", "imprinting", "prader-willi", "angelman", "UBE3A", "uniparental-disomy"], "high_yield": true}, {"id": "8-4", "q": "Clinical features of Angelman?", "a": "Severe intellectual disability, an ataxic puppet-like gait, inappropriate laughter, seizures, minimal speech.", "module": "Prader-Willi & Angelman (15q imprinting)", "moduleIndex": 8, "tags": ["15q", "imprinting", "prader-willi", "angelman", "UBE3A", "uniparental-disomy"], "high_yield": true}, {"id": "8-5", "q": "Trap: Prader-Willi vs Angelman parent of origin?", "a": "Prader-Willi = paternal loss; Angelman = maternal loss (same 15q region).", "module": "Prader-Willi & Angelman (15q imprinting)", "moduleIndex": 8, "tags": ["15q", "imprinting", "prader-willi", "angelman", "UBE3A", "uniparental-disomy"], "high_yield": true}, {"id": "9-0", "q": "How are microdeletions detected?", "a": "By FISH or chromosomal microarray (not a standard karyotype).", "module": "Microdeletion summary", "moduleIndex": 9, "tags": ["microdeletion", "FISH", "chromosomal-microarray", "reference-table"], "high_yield": true}, {"id": "9-1", "q": "Match the deletion to the syndrome: 5p−, 7q, 15q, 22q11.2.", "a": "5p− → cri-du-chat; 7q → Williams; 15q → Prader-Willi/Angelman; 22q11.2 → DiGeorge.", "module": "Microdeletion summary", "moduleIndex": 9, "tags": ["microdeletion", "FISH", "chromosomal-microarray", "reference-table"], "high_yield": true}, {"id": "9-2", "q": "Most-tested calcium contrast among the microdeletion syndromes?", "a": "Williams (7q) hypercalcemia vs DiGeorge (22q) hypocalcemia.", "module": "Microdeletion summary", "moduleIndex": 9, "tags": ["microdeletion", "FISH", "chromosomal-microarray", "reference-table"], "high_yield": true}, {"id": "9-3", "q": "Vignette: a clinical syndrome with a normal karyotype, confirmed by FISH — what category?", "a": "A microdeletion syndrome.", "module": "Microdeletion summary", "moduleIndex": 9, "tags": ["microdeletion", "FISH", "chromosomal-microarray", "reference-table"], "high_yield": true}], "tags": ["15q", "22q11", "45-X", "47-XXY", "5p-deletion", "7q-deletion", "AV-septal-defect", "CATCH-22", "FISH", "T-cell-deficiency", "UBE3A", "VSD", "alzheimer", "angelman", "barr-body", "cat-cry", "chromosomal-microarray", "cleft-lip-palate", "clenched-fists", "coarctation", "conotruncal", "cutis-aplasia", "duodenal-atresia", "elastin", "elfin-facies", "friendly", "gynecomastia", "holoprosencephaly", "horseshoe-kidney", "hypercalcemia", "hypergonadotropic", "hypertelorism", "hypocalcemia", "hypogonadism", "imprinting", "microcephaly", "microdeletion", "micrognathia", "monosomy-X", "nondisjunction", "pharyngeal-pouch", "polydactyly", "poor-prognosis", "prader-willi", "primary-amenorrhea", "quad-screen", "reference-table", "rocker-bottom-feet", "small-firm-testes", "streak-ovaries", "supravalvular-aortic-stenosis", "thymic-aplasia", "trisomy-13", "trisomy-18", "trisomy-21", "uniparental-disomy"], "counts": {"modules": 10, "cards": 57}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* header */
+$('#sectionTitle').textContent = DATA.sectionTitle;
+$('#intro').textContent = DATA.intro;
+$('#stats').innerHTML = `<b>${DATA.counts.modules}</b> modules · <b>${DATA.counts.cards}</b> flashcards`;
+
+/* theme */
+const themeBtn = $('#themeBtn'), root = document.documentElement;
+themeBtn.onclick = () => {
+  const dark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  themeBtn.textContent = dark ? '◐ Night' : '◑ Day';
+};
+
+/* tabs */
+const tabStudy=$('#tabStudy'), tabCards=$('#tabCards'), viewStudy=$('#viewStudy'), viewCards=$('#viewCards');
+function setTab(study){
+  tabStudy.setAttribute('aria-selected', study); tabCards.setAttribute('aria-selected', !study);
+  viewStudy.classList.toggle('hidden', !study); viewCards.classList.toggle('hidden', study);
+}
+tabStudy.onclick=()=>setTab(true); tabCards.onclick=()=>setTab(false);
+
+/* ---------- STUDY ---------- */
+const modList=$('#modList'), article=$('#article');
+DATA.modules.forEach((m,i)=>{
+  const b=document.createElement('button');
+  b.className='modlink'+(m.high_yield?' hy':'');
+  b.innerHTML=`<span class="dot"></span><span>${m.title}</span>`;
+  b.onclick=()=>showModule(i);
+  modList.appendChild(b);
+});
+function showModule(i){
+  const m=DATA.modules[i];
+  $$('.modlink').forEach((el,idx)=>el.setAttribute('aria-current', idx===i));
+  const facts=[];
+  if(m.enzyme) facts.push(`<span class="fact">Enzyme · <b>${m.enzyme}</b></span>`);
+  if(m.inheritance) facts.push(`<span class="fact">Inheritance · <b>${m.inheritance}</b></span>`);
+  if(m.high_yield) facts.push(`<span class="badge-hy">★ High yield</span>`);
+  const tags=m.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  article.innerHTML=`<h2 class="art-title">${m.title}</h2>
+    <div class="factstrip">${facts.join('')}</div>
+    ${tags?`<div class="tagrow">${tags}</div>`:''}
+    <div class="prose">${m.body}</div>`;
+  article.scrollIntoView({behavior:'smooth',block:'start'});
+}
+showModule(0);
+
+/* ---------- FLASHCARDS ---------- */
+let scope='all';
+const scopeSeg=$('#scopeSeg'), moduleField=$('#moduleField'), tagField=$('#tagField');
+const moduleSel=$('#moduleSel'), tagSel=$('#tagSel'), deckCount=$('#deckCount');
+
+DATA.modules.forEach((m,i)=>{
+  const o=document.createElement('option'); o.value=i; o.textContent=`${m.title} (${m.cards.length})`; moduleSel.appendChild(o);
+});
+DATA.tags.forEach(t=>{
+  const n=DATA.cards.filter(c=>c.tags.includes(t)).length;
+  const o=document.createElement('option'); o.value=t; o.textContent=`${t} (${n})`; tagSel.appendChild(o);
+});
+
+scopeSeg.querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>{
+    scope=b.dataset.scope;
+    scopeSeg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+    moduleField.classList.toggle('hidden', scope!=='module');
+    tagField.classList.toggle('hidden', scope!=='tag');
+    updateDeckCount();
+  };
+});
+moduleSel.onchange=updateDeckCount; tagSel.onchange=updateDeckCount;
+
+function currentSelection(){
+  if(scope==='module') return DATA.cards.filter(c=>c.moduleIndex===+moduleSel.value);
+  if(scope==='tag') return DATA.cards.filter(c=>c.tags.includes(tagSel.value));
+  return DATA.cards.slice();
+}
+function updateDeckCount(){
+  const n=currentSelection().length;
+  deckCount.textContent=`${n} card${n===1?'':'s'} in this deck`;
+}
+updateDeckCount();
+
+/* drill state */
+let deck=[], pos=0, revealed=false, got=0, missed=0, missedCards=[];
+const deckSetup=$('#deckSetup'), drill=$('#drill'), results=$('#results');
+const card=$('#card'), qtext=$('#qtext'), atext=$('#atext'), modRef=$('#modRef');
+const judge=$('#judge'), revealHint=$('#revealHint'), pbar=$('#pbar');
+const posLabel=$('#posLabel'), gotCount=$('#gotCount'), missCount=$('#missCount');
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function startDrill(cards){
+  deck=shuffle(cards.slice()); pos=0; got=0; missed=0; missedCards=[];
+  deckSetup.classList.add('hidden'); results.classList.add('hidden'); drill.classList.remove('hidden');
+  render();
+}
+function render(){
+  if(pos>=deck.length){ return finish(); }
+  const c=deck[pos]; revealed=false;
+  qtext.textContent=c.q; atext.textContent=c.a; atext.classList.add('hidden');
+  judge.classList.add('hidden'); revealHint.classList.remove('hidden');
+  modRef.textContent=''; 
+  posLabel.textContent=`Card ${pos+1} of ${deck.length}`;
+  gotCount.textContent=got; missCount.textContent=missed;
+  pbar.style.width=`${(pos/deck.length)*100}%`;
+}
+function reveal(){
+  if(revealed) return;
+  revealed=true;
+  atext.classList.remove('hidden'); judge.classList.remove('hidden');
+  revealHint.classList.add('hidden');
+  modRef.textContent='From: '+deck[pos].module;
+}
+function judgeCard(ok){
+  if(!revealed) return;
+  if(ok) got++; else { missed++; missedCards.push(deck[pos]); }
+  pos++; render();
+}
+function finish(){
+  drill.classList.add('hidden'); results.classList.remove('hidden');
+  const total=got+missed, pct=total?Math.round(got/total*100):0;
+  $('#scoreNum').innerHTML=`${pct}<small>%</small>`;
+  $('#resLine').textContent=`${got} got · ${missed} missed · ${total} cards`;
+  $('#drillMissed').classList.toggle('hidden', missedCards.length===0);
+}
+
+card.onclick=reveal;
+$('#gotBtn').onclick=e=>{e.stopPropagation();judgeCard(true);};
+$('#missBtn').onclick=e=>{e.stopPropagation();judgeCard(false);};
+$('#startBtn').onclick=()=>{const s=currentSelection(); if(s.length) startDrill(s);};
+$('#restartDrill').onclick=()=>startDrill(deck);
+$('#exitDrill').onclick=()=>{drill.classList.add('hidden');deckSetup.classList.remove('hidden');};
+$('#resRestart').onclick=()=>startDrill(deck);
+$('#drillMissed').onclick=()=>startDrill(missedCards);
+$('#resNew').onclick=()=>{results.classList.add('hidden');deckSetup.classList.remove('hidden');};
+
+document.addEventListener('keydown',e=>{
+  if(viewCards.classList.contains('hidden')||drill.classList.contains('hidden'))return;
+  if(e.code==='Space'||e.code==='Enter'){e.preventDefault(); revealed?null:reveal();}
+  else if(revealed&&(e.code==='ArrowRight'||e.key.toLowerCase()==='g')) judgeCard(true);
+  else if(revealed&&(e.code==='ArrowLeft'||e.key.toLowerCase()==='m')) judgeCard(false);
+});
+</script>
+</body>
+</html>

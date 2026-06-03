@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nutrition — Macronutrient &amp; Minerals — Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ea; --surface:#fbfaf6; --surface-2:#efebe1;
+  --ink:#211f1b; --muted:#6f685b; --faint:#938b7c;
+  --accent:#0b6b63; --accent-ink:#063f3a; --accent-soft:rgba(11,107,99,.10);
+  --hy:#b06a16; --hy-soft:rgba(176,106,22,.12);
+  --line:#e2ddd1; --line-strong:#d3ccbd;
+  --shadow:0 1px 2px rgba(40,34,20,.05),0 8px 28px -14px rgba(40,34,20,.22);
+  --display:"Fraunces",Georgia,serif;
+  --prose:"Newsreader",Georgia,serif;
+  --ui:"Spline Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#14161a; --surface:#1b1e24; --surface-2:#222730;
+  --ink:#e9e5db; --muted:#9d978a; --faint:#76716a;
+  --accent:#54b7ab; --accent-ink:#bfe7e1; --accent-soft:rgba(84,183,171,.12);
+  --hy:#d99f55; --hy-soft:rgba(217,159,85,.14);
+  --line:#2a2f38; --line-strong:#39404b;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--prose);
+  font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 100% 0,var(--accent-soft),transparent 38%);
+  min-height:100vh;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* header */
+header.top{padding:30px 0 14px;border-bottom:1px solid var(--line)}
+.brandrow{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.kicker{font-family:var(--ui);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 6px}
+h1.section{font-family:var(--display);font-weight:600;font-size:clamp(28px,4.4vw,44px);line-height:1.02;margin:0;letter-spacing:-.01em}
+.intro{color:var(--muted);max-width:62ch;margin:14px 0 0;font-size:16.5px}
+.meta-stats{font-family:var(--ui);font-size:12.5px;color:var(--faint);margin-top:12px;letter-spacing:.02em}
+.meta-stats b{color:var(--muted);font-weight:600}
+.theme-btn{font-family:var(--ui);font-size:12.5px;font-weight:500;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:999px;padding:8px 14px;cursor:pointer;white-space:nowrap;transition:.18s}
+.theme-btn:hover{color:var(--ink);border-color:var(--accent)}
+
+/* tabs */
+nav.tabs{display:flex;gap:4px;margin:18px 0 0}
+.tab{font-family:var(--ui);font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--muted);
+  background:none;border:none;border-bottom:2px solid transparent;padding:10px 16px;cursor:pointer;transition:.18s}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+
+main{padding:26px 0 80px}
+
+/* STUDY view */
+.study{display:grid;grid-template-columns:248px 1fr;gap:34px;align-items:start}
+.modlist{position:sticky;top:18px;display:flex;flex-direction:column;gap:2px;font-family:var(--ui)}
+.modlist .lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:0 0 8px 10px;font-weight:600}
+.modlink{text-align:left;background:none;border:none;border-radius:8px;padding:8px 10px;cursor:pointer;
+  color:var(--muted);font-size:13.5px;line-height:1.3;font-weight:500;display:flex;gap:8px;align-items:baseline;transition:.14s}
+.modlink:hover{background:var(--surface);color:var(--ink)}
+.modlink[aria-current="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.modlink .dot{flex:none;width:5px;height:5px;border-radius:50%;background:var(--hy);margin-top:7px;opacity:.0}
+.modlink.hy .dot{opacity:1}
+
+.article{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:34px 38px 40px;box-shadow:var(--shadow);min-height:60vh}
+.art-title{font-family:var(--display);font-weight:600;font-size:30px;line-height:1.08;margin:0 0 4px;letter-spacing:-.01em}
+.factstrip{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px;font-family:var(--ui);font-size:12px}
+.fact{background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:5px 10px;color:var(--muted)}
+.fact b{color:var(--ink);font-weight:600}
+.badge-hy{background:var(--hy-soft);border:1px solid transparent;color:var(--hy);font-weight:600;
+  border-radius:7px;padding:5px 10px;letter-spacing:.04em}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 24px}
+.tag{font-family:var(--ui);font-size:11px;color:var(--faint);background:none;border:1px solid var(--line-strong);
+  border-radius:999px;padding:3px 9px;letter-spacing:.02em}
+
+/* prose */
+.prose{font-family:var(--prose);font-size:18px;color:var(--ink)}
+.prose p{margin:0 0 15px}
+.prose strong{font-weight:600}
+.prose p strong:first-child{color:var(--accent-ink);font-family:var(--ui);font-size:12.5px;letter-spacing:.06em;
+  text-transform:uppercase;font-weight:700;display:inline-block;margin-right:.4em}
+[data-theme="dark"] .prose p strong:first-child{color:var(--accent)}
+.prose ul{margin:0 0 16px;padding-left:0;list-style:none}
+.prose li{position:relative;padding-left:20px;margin:0 0 7px;font-size:16.5px}
+.prose li::before{content:"";position:absolute;left:3px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.55}
+.prose table{width:100%;border-collapse:collapse;margin:10px 0 20px;font-family:var(--ui);font-size:13.5px}
+.prose th{background:var(--surface-2);text-align:left;padding:9px 11px;border:1px solid var(--line);font-weight:600;color:var(--ink)}
+.prose td{padding:9px 11px;border:1px solid var(--line);color:var(--muted);vertical-align:top}
+.prose em{color:var(--muted)}
+
+/* FLASHCARDS view */
+.deck-setup{max-width:560px;margin:6px auto 0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow)}
+.panel h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 18px}
+.field{margin:0 0 16px;font-family:var(--ui)}
+.field label{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 7px}
+select{width:100%;font-family:var(--ui);font-size:14.5px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line-strong);border-radius:9px;padding:11px 12px;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236f685b' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:90px;font-family:var(--ui);font-size:13.5px;font-weight:500;color:var(--muted);
+  background:var(--surface-2);border:1px solid var(--line-strong);border-radius:9px;padding:10px;cursor:pointer;transition:.16s}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+[data-theme="dark"] .seg button[aria-pressed="true"]{color:#0c1416}
+.start-btn,.ctl-primary{font-family:var(--ui);font-size:15px;font-weight:600;color:#fff;background:var(--accent);
+  border:none;border-radius:10px;padding:13px 18px;cursor:pointer;width:100%;transition:.16s;letter-spacing:.01em}
+[data-theme="dark"] .start-btn,[data-theme="dark"] .ctl-primary{color:#0c1416}
+.start-btn:hover,.ctl-primary:hover{filter:brightness(1.06)}
+.deck-count{font-family:var(--ui);font-size:13px;color:var(--faint);text-align:center;margin:14px 0 0}
+
+/* drill */
+.drill{max-width:680px;margin:0 auto}
+.progress{display:flex;align-items:center;justify-content:space-between;font-family:var(--ui);font-size:13px;color:var(--muted);margin:0 0 12px}
+.progress .counts b{font-weight:600}
+.got-c{color:var(--accent)} .miss-c{color:var(--hy)}
+.pbar{height:4px;background:var(--surface-2);border-radius:999px;overflow:hidden;margin:0 0 22px}
+.pbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s ease}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:40px 38px;min-height:280px;display:flex;flex-direction:column;cursor:pointer;
+  transition:transform .15s ease, border-color .2s}
+.card:hover{border-color:var(--line-strong)}
+.card .side-lbl{font-family:var(--ui);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--faint)}
+.card .qtext{font-family:var(--prose);font-size:23px;line-height:1.32;margin:18px 0 0;flex:1;display:flex;align-items:center}
+.card .atext{font-family:var(--prose);font-size:20px;line-height:1.4;margin:16px 0 0;color:var(--accent-ink);
+  border-top:1px solid var(--line);padding-top:18px}
+[data-theme="dark"] .card .atext{color:var(--accent)}
+.card .mod-ref{font-family:var(--ui);font-size:11.5px;color:var(--faint);margin-top:auto;padding-top:18px}
+.reveal-hint{font-family:var(--ui);font-size:12.5px;color:var(--faint);text-align:center;margin:16px 0 0}
+.judge{display:flex;gap:12px;margin:18px 0 0}
+.judge button{flex:1;font-family:var(--ui);font-size:15px;font-weight:600;border-radius:11px;padding:15px;cursor:pointer;transition:.16s;border:1px solid}
+.miss-btn{background:var(--hy-soft);border-color:transparent;color:var(--hy)}
+.miss-btn:hover{background:var(--hy);color:#fff}
+.got-btn{background:var(--accent-soft);border-color:transparent;color:var(--accent-ink)}
+[data-theme="dark"] .got-btn{color:var(--accent)}
+.got-btn:hover{background:var(--accent);color:#fff}
+[data-theme="dark"] .got-btn:hover{color:#0c1416}
+.drill-foot{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 0;font-family:var(--ui);font-size:13px}
+.linkbtn{background:none;border:none;color:var(--muted);font-family:var(--ui);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:hover{color:var(--accent)}
+
+/* results */
+.results{max-width:560px;margin:0 auto;text-align:center}
+.results .panel{padding:40px 30px}
+.score{font-family:var(--display);font-size:54px;font-weight:600;color:var(--accent);line-height:1;margin:6px 0}
+.score small{font-family:var(--ui);font-size:15px;color:var(--faint);font-weight:500}
+.res-line{font-family:var(--ui);font-size:14px;color:var(--muted);margin:8px 0 24px}
+.res-actions{display:flex;flex-direction:column;gap:10px}
+.kbd{font-family:var(--ui);font-size:11px;background:var(--surface-2);border:1px solid var(--line-strong);
+  border-radius:5px;padding:1px 6px;color:var(--faint)}
+
+.hidden{display:none!important}
+@media(max-width:820px){
+  .study{grid-template-columns:1fr;gap:18px}
+  .modlist{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .modlist .lbl{width:100%}
+  .modlink{border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px}
+  .modlink .dot{display:none}
+  .article{padding:26px 22px 30px}
+  body{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brandrow">
+      <div>
+        <p class="kicker">Biochemistry · Study Guide</p>
+        <h1 class="section" id="sectionTitle"></h1>
+      </div>
+      <button class="theme-btn" id="themeBtn">◐ Night</button>
+    </div>
+    <p class="intro" id="intro"></p>
+    <p class="meta-stats" id="stats"></p>
+    <nav class="tabs" role="tablist">
+      <button class="tab" id="tabStudy" role="tab" aria-selected="true">Study</button>
+      <button class="tab" id="tabCards" role="tab" aria-selected="false">Flashcards</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- STUDY -->
+    <section id="viewStudy">
+      <div class="study">
+        <aside class="modlist" id="modList"><p class="lbl">Modules</p></aside>
+        <article class="article" id="article"></article>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section id="viewCards" class="hidden">
+      <div class="deck-setup" id="deckSetup">
+        <div class="panel">
+          <h2>Build a drill deck</h2>
+          <div class="field">
+            <label>Scope</label>
+            <div class="seg" id="scopeSeg">
+              <button data-scope="all" aria-pressed="true">All cards</button>
+              <button data-scope="module">By module</button>
+              <button data-scope="tag">By tag</button>
+            </div>
+          </div>
+          <div class="field hidden" id="moduleField">
+            <label>Module</label>
+            <select id="moduleSel"></select>
+          </div>
+          <div class="field hidden" id="tagField">
+            <label>Tag</label>
+            <select id="tagSel"></select>
+          </div>
+          <button class="start-btn" id="startBtn">Start drill</button>
+          <p class="deck-count" id="deckCount"></p>
+        </div>
+      </div>
+
+      <div class="drill hidden" id="drill">
+        <div class="progress">
+          <span id="posLabel">Card 1</span>
+          <span class="counts"><b class="got-c" id="gotCount">0</b> got · <b class="miss-c" id="missCount">0</b> missed</span>
+        </div>
+        <div class="pbar"><i id="pbar"></i></div>
+        <div class="card" id="card">
+          <span class="side-lbl">Question</span>
+          <div class="qtext" id="qtext"></div>
+          <div class="atext hidden" id="atext"></div>
+          <div class="mod-ref" id="modRef"></div>
+        </div>
+        <p class="reveal-hint" id="revealHint">Tap the card or press <span class="kbd">Space</span> to reveal</p>
+        <div class="judge hidden" id="judge">
+          <button class="miss-btn" id="missBtn">Missed <span class="kbd">←</span></button>
+          <button class="got-btn" id="gotBtn">Got it <span class="kbd">→</span></button>
+        </div>
+        <div class="drill-foot">
+          <button class="linkbtn" id="restartDrill">Restart deck</button>
+          <button class="linkbtn" id="exitDrill">Change deck</button>
+        </div>
+      </div>
+
+      <div class="results hidden" id="results">
+        <div class="panel">
+          <p class="side-lbl" style="font-family:var(--ui);letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--faint)">Deck complete</p>
+          <div class="score" id="scoreNum">0<small>%</small></div>
+          <p class="res-line" id="resLine"></p>
+          <div class="res-actions">
+            <button class="ctl-primary" id="drillMissed">Drill missed only</button>
+            <button class="linkbtn" id="resRestart">Restart full deck</button>
+            <button class="linkbtn" id="resNew">Build a new deck</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script id="data" type="application/json">{"sectionTitle": "Nutrition — Macronutrient & Minerals", "intro": "Section P of the biochem coverage checklist: protein-calorie malnutrition, the high-yield trace minerals, and the metabolic fuel timeline of fasting and starvation. ---", "modules": [{"title": "Protein-calorie malnutrition: marasmus vs kwashiorkor", "enzyme": "", "inheritance": "", "system": "nutrition", "category": "macronutrient", "high_yield": true, "tags": ["marasmus", "kwashiorkor", "protein-energy-malnutrition", "edema", "fatty-liver", "hypoalbuminemia"], "body": "<p><strong>Concept.</strong> Protein-energy malnutrition takes two classic forms. <strong>Marasmus</strong> is a total\n<strong>calorie (energy) deficiency</strong>: severe muscle wasting and loss of subcutaneous fat, emaciation, and\na \"skin and bones\" appearance in a child who is often alert but severely underweight — and notably\n<strong>no edema</strong>. <strong>Kwashiorkor</strong> is primarily a <strong>protein deficiency</strong> (with relatively adequate\ncalories): the hallmark is <strong>edema</strong> (from low oncotic pressure due to hypoalbuminemia), along with\na swollen/distended belly and <strong>fatty liver</strong> (hepatomegaly), skin and hair changes (depigmentation,\nthe \"flag sign\"), and an apathetic child.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Marasmus = total calorie deficiency → muscle/fat wasting, emaciation, <em>no</em> edema.</li>\n<li>Kwashiorkor = protein deficiency (calories relatively adequate) → edema (hypoalbuminemia), fatty\n  liver, distended belly, skin/hair changes, apathy.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Distinguish by edema and fatty liver (kwashiorkor) versus pure wasting\nwithout edema (marasmus).</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Edema + fatty liver = kwashiorkor (protein); wasting without edema = marasmus (calories).</li>\n<li>Kwashiorkor edema is from low albumin / reduced oncotic pressure.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Child with edema, distended belly, fatty liver, and skin/hair changes\" → kwashiorkor.</li>\n<li>\"Emaciated child with severe wasting and no edema\" → marasmus.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"<strong>K</strong>washiorkor: protein <strong>K</strong>onked out → edema/fatty liver. <strong>M</strong>arasmus: <strong>M</strong>uscle\nwasting (energy), no edema.\"</p>\n<p><strong>Marasmus vs kwashiorkor</strong></p>\n<table>\n<thead>\n<tr>\n<th>Feature</th>\n<th>Marasmus</th>\n<th>Kwashiorkor</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Primary deficiency</td>\n<td>Total calories (energy)</td>\n<td>Protein (calories adequate)</td>\n</tr>\n<tr>\n<td>Edema</td>\n<td>Absent</td>\n<td>Present (hypoalbuminemia)</td>\n</tr>\n<tr>\n<td>Liver</td>\n<td>Not fatty</td>\n<td>Fatty liver / hepatomegaly</td>\n</tr>\n<tr>\n<td>Body habitus</td>\n<td>Severe wasting, emaciation</td>\n<td>Edematous, distended belly</td>\n</tr>\n<tr>\n<td>Other</td>\n<td>Often alert</td>\n<td>Apathy, skin/hair changes</td>\n</tr>\n</tbody>\n</table>", "cards": [{"q": "Marasmus — primary deficiency and key features?", "a": "Total calorie (energy) deficiency → severe muscle and fat wasting, emaciation, and no edema."}, {"q": "Kwashiorkor — primary deficiency and key features?", "a": "Protein deficiency (calories relatively adequate) → edema, fatty liver, distended belly, skin/hair changes, apathy."}, {"q": "Why does kwashiorkor cause edema?", "a": "Hypoalbuminemia lowers oncotic pressure."}, {"q": "Trap: which has edema and a fatty liver — marasmus or kwashiorkor?", "a": "Kwashiorkor (protein); marasmus is wasting without edema (calories)."}, {"q": "Vignette: child with edema, distended belly, fatty liver, and skin/hair changes — diagnosis?", "a": "Kwashiorkor."}]}, {"title": "Trace minerals (zinc, copper, selenium, iodine)", "enzyme": "", "inheritance": "", "system": "nutrition", "category": "minerals", "high_yield": true, "tags": ["zinc", "copper", "selenium", "iodine", "wound-healing", "lysyl-oxidase", "keshan", "goiter"], "body": "<p><strong>Concept.</strong> Four trace minerals are high-yield. <strong>Zinc</strong> is a cofactor for many enzymes (important\nfor wound healing and the senses of taste and smell); deficiency causes poor wound healing,\nhypogeusia (impaired taste), alopecia, perioral/acral dermatitis (the inherited zinc-malabsorption\nform is <strong>acrodermatitis enteropathica</strong>), impaired immunity, and hypogonadism. <strong>Copper</strong> is a\ncofactor for lysyl oxidase (collagen/elastin cross-linking — see Menkes in the connective-tissue\nsection), cytochrome c oxidase, ceruloplasmin (iron metabolism), and others; deficiency causes\nanemia (impaired iron use), neutropenia, connective-tissue/vascular fragility, and neurologic\nproblems (Menkes is genetic copper <em>deficiency</em>; Wilson disease is copper <em>overload</em>). <strong>Selenium</strong>\nis a component of glutathione peroxidase (an antioxidant); deficiency causes a cardiomyopathy\n(<strong>Keshan disease</strong>). <strong>Iodine</strong> is required for thyroid hormone (T3/T4) synthesis; deficiency causes\ngoiter, hypothyroidism, and — in pregnancy — congenital hypothyroidism (cretinism).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Zinc: enzyme cofactor (wound healing, taste/smell); deficiency → poor wound healing, hypogeusia,\n  alopecia, dermatitis (acrodermatitis enteropathica), hypogonadism.</li>\n<li>Copper: lysyl oxidase, cytochrome c oxidase, ceruloplasmin; deficiency → anemia, neutropenia,\n  connective-tissue fragility (Menkes = genetic; Wilson = overload).</li>\n<li>Selenium: glutathione peroxidase (antioxidant); deficiency → cardiomyopathy (Keshan disease).</li>\n<li>Iodine: thyroid hormone (T3/T4) synthesis; deficiency → goiter, hypothyroidism, cretinism.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Zinc — poor wound healing and loss of taste; iodine — goiter; selenium —\ncardiomyopathy.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Zinc deficiency → poor wound healing, loss of taste, acrodermatitis enteropathica.</li>\n<li>Copper → lysyl oxidase (connective tissue) and ceruloplasmin (links to Menkes/Wilson).</li>\n<li>Selenium → Keshan cardiomyopathy; iodine → goiter/cretinism.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Poor wound healing, loss of taste, perioral/acral dermatitis\" → zinc.</li>\n<li>\"Goiter and hypothyroidism\" → iodine.</li>\n<li>\"Cardiomyopathy from a dietary deficiency\" → selenium (Keshan).</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"Zinc = wound healing + taste; Copper = cross-linking (lysyl oxidase); Selenium =\ncardiomyopathy (Keshan); Iodine = thyroid.\"</p>", "cards": [{"q": "Zinc deficiency features?", "a": "Poor wound healing, hypogeusia (impaired taste), alopecia, perioral/acral dermatitis, impaired immunity, hypogonadism."}, {"q": "What is the inherited zinc-malabsorption disorder?", "a": "Acrodermatitis enteropathica."}, {"q": "Copper's roles, and its deficiency features?", "a": "Cofactor for lysyl oxidase, cytochrome c oxidase, ceruloplasmin; deficiency → anemia, neutropenia, connective-tissue fragility."}, {"q": "Trap: Menkes vs Wilson copper status?", "a": "Menkes = genetic copper deficiency; Wilson = copper overload."}, {"q": "Selenium deficiency causes what?", "a": "Cardiomyopathy (Keshan disease) — selenium is part of glutathione peroxidase."}, {"q": "Iodine deficiency causes what?", "a": "Goiter, hypothyroidism, and (in pregnancy) congenital hypothyroidism/cretinism — iodine is needed for T3/T4 synthesis."}]}, {"title": "Starvation & metabolic fuel timeline", "enzyme": "", "inheritance": "", "system": "nutrition", "category": "macronutrient", "high_yield": true, "tags": ["starvation", "fasting", "glycogenolysis", "gluconeogenesis", "ketogenesis", "protein-sparing"], "body": "<p><strong>Concept.</strong> This module ties the fed/fasting transitions from Metabolism — Foundations into a\ntimeline. In the <strong>fed state</strong> (insulin high), glucose is stored as glycogen and fat is synthesized.\nIn <strong>early fasting</strong> (hours), blood glucose is maintained first by <strong>hepatic glycogenolysis</strong> (which\nlasts roughly 12–24 hours), then by <strong>gluconeogenesis</strong> (from lactate, glycerol, and glucogenic\namino acids). As fasting extends into days, <strong>fatty acid oxidation and ketogenesis</strong> ramp up, and the\nbrain shifts from glucose toward <strong>ketone bodies</strong>, sparing protein. In <strong>prolonged starvation</strong>\n(weeks), maximal ketone use by the brain minimizes glucose need and protein breakdown, so muscle\nprotein is preserved as long as possible, and survival is ultimately limited by fat stores. Glucagon,\nepinephrine, and cortisol drive the fasting program.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Fed (insulin): glycogen and fat synthesis.</li>\n<li>Early fasting: hepatic glycogenolysis (~12–24 h) → gluconeogenesis (lactate, glycerol, amino acids).</li>\n<li>Days: fatty acid oxidation + ketogenesis rise; brain shifts to ketones, sparing protein/glucose.</li>\n<li>Prolonged starvation (weeks): ketones spare muscle protein; fat stores limit survival.</li>\n<li>Hormones: glucagon, epinephrine, cortisol drive fasting.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Explains hypoglycemia once glycogen depletes, ketosis in starvation, and\nprotein-sparing adaptation.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Order: glycogenolysis (first ~1 day) → gluconeogenesis → ketogenesis.</li>\n<li>Ketones spare protein in prolonged starvation (the brain adapts to use them).</li>\n<li>Glycogen stores last roughly a day.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Fuel source maintaining glucose in the first day of a fast\" → hepatic glycogenolysis.</li>\n<li>\"Why protein is spared in prolonged starvation\" → the brain uses ketones.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"Fasting order: <strong>G</strong>lycogen → <strong>G</strong>luconeogenesis → <strong>K</strong>etones (then fat runs out).\"</p>", "cards": [{"q": "Primary source of blood glucose in the first ~24 hours of fasting?", "a": "Hepatic glycogenolysis (lasts roughly 12–24 hours)."}, {"q": "After glycogen is depleted, what maintains blood glucose?", "a": "Gluconeogenesis (from lactate, glycerol, and glucogenic amino acids)."}, {"q": "What ramps up as fasting extends into days?", "a": "Fatty acid oxidation and ketogenesis; the brain shifts toward ketone bodies."}, {"q": "In prolonged starvation, what spares protein, and what limits survival?", "a": "Ketones spare muscle protein; fat stores ultimately limit survival."}, {"q": "What is the order of fuel use in fasting?", "a": "Glycogenolysis → gluconeogenesis → ketogenesis."}]}], "cards": [{"id": "0-0", "q": "Marasmus — primary deficiency and key features?", "a": "Total calorie (energy) deficiency → severe muscle and fat wasting, emaciation, and no edema.", "module": "Protein-calorie malnutrition: marasmus vs kwashiorkor", "moduleIndex": 0, "tags": ["marasmus", "kwashiorkor", "protein-energy-malnutrition", "edema", "fatty-liver", "hypoalbuminemia"], "high_yield": true}, {"id": "0-1", "q": "Kwashiorkor — primary deficiency and key features?", "a": "Protein deficiency (calories relatively adequate) → edema, fatty liver, distended belly, skin/hair changes, apathy.", "module": "Protein-calorie malnutrition: marasmus vs kwashiorkor", "moduleIndex": 0, "tags": ["marasmus", "kwashiorkor", "protein-energy-malnutrition", "edema", "fatty-liver", "hypoalbuminemia"], "high_yield": true}, {"id": "0-2", "q": "Why does kwashiorkor cause edema?", "a": "Hypoalbuminemia lowers oncotic pressure.", "module": "Protein-calorie malnutrition: marasmus vs kwashiorkor", "moduleIndex": 0, "tags": ["marasmus", "kwashiorkor", "protein-energy-malnutrition", "edema", "fatty-liver", "hypoalbuminemia"], "high_yield": true}, {"id": "0-3", "q": "Trap: which has edema and a fatty liver — marasmus or kwashiorkor?", "a": "Kwashiorkor (protein); marasmus is wasting without edema (calories).", "module": "Protein-calorie malnutrition: marasmus vs kwashiorkor", "moduleIndex": 0, "tags": ["marasmus", "kwashiorkor", "protein-energy-malnutrition", "edema", "fatty-liver", "hypoalbuminemia"], "high_yield": true}, {"id": "0-4", "q": "Vignette: child with edema, distended belly, fatty liver, and skin/hair changes — diagnosis?", "a": "Kwashiorkor.", "module": "Protein-calorie malnutrition: marasmus vs kwashiorkor", "moduleIndex": 0, "tags": ["marasmus", "kwashiorkor", "protein-energy-malnutrition", "edema", "fatty-liver", "hypoalbuminemia"], "high_yield": true}, {"id": "1-0", "q": "Zinc deficiency features?", "a": "Poor wound healing, hypogeusia (impaired taste), alopecia, perioral/acral dermatitis, impaired immunity, hypogonadism.", "module": "Trace minerals (zinc, copper, selenium, iodine)", "moduleIndex": 1, "tags": ["zinc", "copper", "selenium", "iodine", "wound-healing", "lysyl-oxidase", "keshan", "goiter"], "high_yield": true}, {"id": "1-1", "q": "What is the inherited zinc-malabsorption disorder?", "a": "Acrodermatitis enteropathica.", "module": "Trace minerals (zinc, copper, selenium, iodine)", "moduleIndex": 1, "tags": ["zinc", "copper", "selenium", "iodine", "wound-healing", "lysyl-oxidase", "keshan", "goiter"], "high_yield": true}, {"id": "1-2", "q": "Copper's roles, and its deficiency features?", "a": "Cofactor for lysyl oxidase, cytochrome c oxidase, ceruloplasmin; deficiency → anemia, neutropenia, connective-tissue fragility.", "module": "Trace minerals (zinc, copper, selenium, iodine)", "moduleIndex": 1, "tags": ["zinc", "copper", "selenium", "iodine", "wound-healing", "lysyl-oxidase", "keshan", "goiter"], "high_yield": true}, {"id": "1-3", "q": "Trap: Menkes vs Wilson copper status?", "a": "Menkes = genetic copper deficiency; Wilson = copper overload.", "module": "Trace minerals (zinc, copper, selenium, iodine)", "moduleIndex": 1, "tags": ["zinc", "copper", "selenium", "iodine", "wound-healing", "lysyl-oxidase", "keshan", "goiter"], "high_yield": true}, {"id": "1-4", "q": "Selenium deficiency causes what?", "a": "Cardiomyopathy (Keshan disease) — selenium is part of glutathione peroxidase.", "module": "Trace minerals (zinc, copper, selenium, iodine)", "moduleIndex": 1, "tags": ["zinc", "copper", "selenium", "iodine", "wound-healing", "lysyl-oxidase", "keshan", "goiter"], "high_yield": true}, {"id": "1-5", "q": "Iodine deficiency causes what?", "a": "Goiter, hypothyroidism, and (in pregnancy) congenital hypothyroidism/cretinism — iodine is needed for T3/T4 synthesis.", "module": "Trace minerals (zinc, copper, selenium, iodine)", "moduleIndex": 1, "tags": ["zinc", "copper", "selenium", "iodine", "wound-healing", "lysyl-oxidase", "keshan", "goiter"], "high_yield": true}, {"id": "2-0", "q": "Primary source of blood glucose in the first ~24 hours of fasting?", "a": "Hepatic glycogenolysis (lasts roughly 12–24 hours).", "module": "Starvation & metabolic fuel timeline", "moduleIndex": 2, "tags": ["starvation", "fasting", "glycogenolysis", "gluconeogenesis", "ketogenesis", "protein-sparing"], "high_yield": true}, {"id": "2-1", "q": "After glycogen is depleted, what maintains blood glucose?", "a": "Gluconeogenesis (from lactate, glycerol, and glucogenic amino acids).", "module": "Starvation & metabolic fuel timeline", "moduleIndex": 2, "tags": ["starvation", "fasting", "glycogenolysis", "gluconeogenesis", "ketogenesis", "protein-sparing"], "high_yield": true}, {"id": "2-2", "q": "What ramps up as fasting extends into days?", "a": "Fatty acid oxidation and ketogenesis; the brain shifts toward ketone bodies.", "module": "Starvation & metabolic fuel timeline", "moduleIndex": 2, "tags": ["starvation", "fasting", "glycogenolysis", "gluconeogenesis", "ketogenesis", "protein-sparing"], "high_yield": true}, {"id": "2-3", "q": "In prolonged starvation, what spares protein, and what limits survival?", "a": "Ketones spare muscle protein; fat stores ultimately limit survival.", "module": "Starvation & metabolic fuel timeline", "moduleIndex": 2, "tags": ["starvation", "fasting", "glycogenolysis", "gluconeogenesis", "ketogenesis", "protein-sparing"], "high_yield": true}, {"id": "2-4", "q": "What is the order of fuel use in fasting?", "a": "Glycogenolysis → gluconeogenesis → ketogenesis.", "module": "Starvation & metabolic fuel timeline", "moduleIndex": 2, "tags": ["starvation", "fasting", "glycogenolysis", "gluconeogenesis", "ketogenesis", "protein-sparing"], "high_yield": true}], "tags": ["copper", "edema", "fasting", "fatty-liver", "gluconeogenesis", "glycogenolysis", "goiter", "hypoalbuminemia", "iodine", "keshan", "ketogenesis", "kwashiorkor", "lysyl-oxidase", "marasmus", "protein-energy-malnutrition", "protein-sparing", "selenium", "starvation", "wound-healing", "zinc"], "counts": {"modules": 3, "cards": 16}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* header */
+$('#sectionTitle').textContent = DATA.sectionTitle;
+$('#intro').textContent = DATA.intro;
+$('#stats').innerHTML = `<b>${DATA.counts.modules}</b> modules · <b>${DATA.counts.cards}</b> flashcards`;
+
+/* theme */
+const themeBtn = $('#themeBtn'), root = document.documentElement;
+themeBtn.onclick = () => {
+  const dark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  themeBtn.textContent = dark ? '◐ Night' : '◑ Day';
+};
+
+/* tabs */
+const tabStudy=$('#tabStudy'), tabCards=$('#tabCards'), viewStudy=$('#viewStudy'), viewCards=$('#viewCards');
+function setTab(study){
+  tabStudy.setAttribute('aria-selected', study); tabCards.setAttribute('aria-selected', !study);
+  viewStudy.classList.toggle('hidden', !study); viewCards.classList.toggle('hidden', study);
+}
+tabStudy.onclick=()=>setTab(true); tabCards.onclick=()=>setTab(false);
+
+/* ---------- STUDY ---------- */
+const modList=$('#modList'), article=$('#article');
+DATA.modules.forEach((m,i)=>{
+  const b=document.createElement('button');
+  b.className='modlink'+(m.high_yield?' hy':'');
+  b.innerHTML=`<span class="dot"></span><span>${m.title}</span>`;
+  b.onclick=()=>showModule(i);
+  modList.appendChild(b);
+});
+function showModule(i){
+  const m=DATA.modules[i];
+  $$('.modlink').forEach((el,idx)=>el.setAttribute('aria-current', idx===i));
+  const facts=[];
+  if(m.enzyme) facts.push(`<span class="fact">Enzyme · <b>${m.enzyme}</b></span>`);
+  if(m.inheritance) facts.push(`<span class="fact">Inheritance · <b>${m.inheritance}</b></span>`);
+  if(m.high_yield) facts.push(`<span class="badge-hy">★ High yield</span>`);
+  const tags=m.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  article.innerHTML=`<h2 class="art-title">${m.title}</h2>
+    <div class="factstrip">${facts.join('')}</div>
+    ${tags?`<div class="tagrow">${tags}</div>`:''}
+    <div class="prose">${m.body}</div>`;
+  article.scrollIntoView({behavior:'smooth',block:'start'});
+}
+showModule(0);
+
+/* ---------- FLASHCARDS ---------- */
+let scope='all';
+const scopeSeg=$('#scopeSeg'), moduleField=$('#moduleField'), tagField=$('#tagField');
+const moduleSel=$('#moduleSel'), tagSel=$('#tagSel'), deckCount=$('#deckCount');
+
+DATA.modules.forEach((m,i)=>{
+  const o=document.createElement('option'); o.value=i; o.textContent=`${m.title} (${m.cards.length})`; moduleSel.appendChild(o);
+});
+DATA.tags.forEach(t=>{
+  const n=DATA.cards.filter(c=>c.tags.includes(t)).length;
+  const o=document.createElement('option'); o.value=t; o.textContent=`${t} (${n})`; tagSel.appendChild(o);
+});
+
+scopeSeg.querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>{
+    scope=b.dataset.scope;
+    scopeSeg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+    moduleField.classList.toggle('hidden', scope!=='module');
+    tagField.classList.toggle('hidden', scope!=='tag');
+    updateDeckCount();
+  };
+});
+moduleSel.onchange=updateDeckCount; tagSel.onchange=updateDeckCount;
+
+function currentSelection(){
+  if(scope==='module') return DATA.cards.filter(c=>c.moduleIndex===+moduleSel.value);
+  if(scope==='tag') return DATA.cards.filter(c=>c.tags.includes(tagSel.value));
+  return DATA.cards.slice();
+}
+function updateDeckCount(){
+  const n=currentSelection().length;
+  deckCount.textContent=`${n} card${n===1?'':'s'} in this deck`;
+}
+updateDeckCount();
+
+/* drill state */
+let deck=[], pos=0, revealed=false, got=0, missed=0, missedCards=[];
+const deckSetup=$('#deckSetup'), drill=$('#drill'), results=$('#results');
+const card=$('#card'), qtext=$('#qtext'), atext=$('#atext'), modRef=$('#modRef');
+const judge=$('#judge'), revealHint=$('#revealHint'), pbar=$('#pbar');
+const posLabel=$('#posLabel'), gotCount=$('#gotCount'), missCount=$('#missCount');
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function startDrill(cards){
+  deck=shuffle(cards.slice()); pos=0; got=0; missed=0; missedCards=[];
+  deckSetup.classList.add('hidden'); results.classList.add('hidden'); drill.classList.remove('hidden');
+  render();
+}
+function render(){
+  if(pos>=deck.length){ return finish(); }
+  const c=deck[pos]; revealed=false;
+  qtext.textContent=c.q; atext.textContent=c.a; atext.classList.add('hidden');
+  judge.classList.add('hidden'); revealHint.classList.remove('hidden');
+  modRef.textContent=''; 
+  posLabel.textContent=`Card ${pos+1} of ${deck.length}`;
+  gotCount.textContent=got; missCount.textContent=missed;
+  pbar.style.width=`${(pos/deck.length)*100}%`;
+}
+function reveal(){
+  if(revealed) return;
+  revealed=true;
+  atext.classList.remove('hidden'); judge.classList.remove('hidden');
+  revealHint.classList.add('hidden');
+  modRef.textContent='From: '+deck[pos].module;
+}
+function judgeCard(ok){
+  if(!revealed) return;
+  if(ok) got++; else { missed++; missedCards.push(deck[pos]); }
+  pos++; render();
+}
+function finish(){
+  drill.classList.add('hidden'); results.classList.remove('hidden');
+  const total=got+missed, pct=total?Math.round(got/total*100):0;
+  $('#scoreNum').innerHTML=`${pct}<small>%</small>`;
+  $('#resLine').textContent=`${got} got · ${missed} missed · ${total} cards`;
+  $('#drillMissed').classList.toggle('hidden', missedCards.length===0);
+}
+
+card.onclick=reveal;
+$('#gotBtn').onclick=e=>{e.stopPropagation();judgeCard(true);};
+$('#missBtn').onclick=e=>{e.stopPropagation();judgeCard(false);};
+$('#startBtn').onclick=()=>{const s=currentSelection(); if(s.length) startDrill(s);};
+$('#restartDrill').onclick=()=>startDrill(deck);
+$('#exitDrill').onclick=()=>{drill.classList.add('hidden');deckSetup.classList.remove('hidden');};
+$('#resRestart').onclick=()=>startDrill(deck);
+$('#drillMissed').onclick=()=>startDrill(missedCards);
+$('#resNew').onclick=()=>{results.classList.add('hidden');deckSetup.classList.remove('hidden');};
+
+document.addEventListener('keydown',e=>{
+  if(viewCards.classList.contains('hidden')||drill.classList.contains('hidden'))return;
+  if(e.code==='Space'||e.code==='Enter'){e.preventDefault(); revealed?null:reveal();}
+  else if(revealed&&(e.code==='ArrowRight'||e.key.toLowerCase()==='g')) judgeCard(true);
+  else if(revealed&&(e.code==='ArrowLeft'||e.key.toLowerCase()==='m')) judgeCard(false);
+});
+</script>
+</body>
+</html>

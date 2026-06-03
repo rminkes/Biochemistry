@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Structural — Heme &amp; Hemoglobin — Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ea; --surface:#fbfaf6; --surface-2:#efebe1;
+  --ink:#211f1b; --muted:#6f685b; --faint:#938b7c;
+  --accent:#0b6b63; --accent-ink:#063f3a; --accent-soft:rgba(11,107,99,.10);
+  --hy:#b06a16; --hy-soft:rgba(176,106,22,.12);
+  --line:#e2ddd1; --line-strong:#d3ccbd;
+  --shadow:0 1px 2px rgba(40,34,20,.05),0 8px 28px -14px rgba(40,34,20,.22);
+  --display:"Fraunces",Georgia,serif;
+  --prose:"Newsreader",Georgia,serif;
+  --ui:"Spline Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#14161a; --surface:#1b1e24; --surface-2:#222730;
+  --ink:#e9e5db; --muted:#9d978a; --faint:#76716a;
+  --accent:#54b7ab; --accent-ink:#bfe7e1; --accent-soft:rgba(84,183,171,.12);
+  --hy:#d99f55; --hy-soft:rgba(217,159,85,.14);
+  --line:#2a2f38; --line-strong:#39404b;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--prose);
+  font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 100% 0,var(--accent-soft),transparent 38%);
+  min-height:100vh;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* header */
+header.top{padding:30px 0 14px;border-bottom:1px solid var(--line)}
+.brandrow{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.kicker{font-family:var(--ui);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 6px}
+h1.section{font-family:var(--display);font-weight:600;font-size:clamp(28px,4.4vw,44px);line-height:1.02;margin:0;letter-spacing:-.01em}
+.intro{color:var(--muted);max-width:62ch;margin:14px 0 0;font-size:16.5px}
+.meta-stats{font-family:var(--ui);font-size:12.5px;color:var(--faint);margin-top:12px;letter-spacing:.02em}
+.meta-stats b{color:var(--muted);font-weight:600}
+.theme-btn{font-family:var(--ui);font-size:12.5px;font-weight:500;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:999px;padding:8px 14px;cursor:pointer;white-space:nowrap;transition:.18s}
+.theme-btn:hover{color:var(--ink);border-color:var(--accent)}
+
+/* tabs */
+nav.tabs{display:flex;gap:4px;margin:18px 0 0}
+.tab{font-family:var(--ui);font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--muted);
+  background:none;border:none;border-bottom:2px solid transparent;padding:10px 16px;cursor:pointer;transition:.18s}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+
+main{padding:26px 0 80px}
+
+/* STUDY view */
+.study{display:grid;grid-template-columns:248px 1fr;gap:34px;align-items:start}
+.modlist{position:sticky;top:18px;display:flex;flex-direction:column;gap:2px;font-family:var(--ui)}
+.modlist .lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:0 0 8px 10px;font-weight:600}
+.modlink{text-align:left;background:none;border:none;border-radius:8px;padding:8px 10px;cursor:pointer;
+  color:var(--muted);font-size:13.5px;line-height:1.3;font-weight:500;display:flex;gap:8px;align-items:baseline;transition:.14s}
+.modlink:hover{background:var(--surface);color:var(--ink)}
+.modlink[aria-current="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.modlink .dot{flex:none;width:5px;height:5px;border-radius:50%;background:var(--hy);margin-top:7px;opacity:.0}
+.modlink.hy .dot{opacity:1}
+
+.article{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:34px 38px 40px;box-shadow:var(--shadow);min-height:60vh}
+.art-title{font-family:var(--display);font-weight:600;font-size:30px;line-height:1.08;margin:0 0 4px;letter-spacing:-.01em}
+.factstrip{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px;font-family:var(--ui);font-size:12px}
+.fact{background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:5px 10px;color:var(--muted)}
+.fact b{color:var(--ink);font-weight:600}
+.badge-hy{background:var(--hy-soft);border:1px solid transparent;color:var(--hy);font-weight:600;
+  border-radius:7px;padding:5px 10px;letter-spacing:.04em}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 24px}
+.tag{font-family:var(--ui);font-size:11px;color:var(--faint);background:none;border:1px solid var(--line-strong);
+  border-radius:999px;padding:3px 9px;letter-spacing:.02em}
+
+/* prose */
+.prose{font-family:var(--prose);font-size:18px;color:var(--ink)}
+.prose p{margin:0 0 15px}
+.prose strong{font-weight:600}
+.prose p strong:first-child{color:var(--accent-ink);font-family:var(--ui);font-size:12.5px;letter-spacing:.06em;
+  text-transform:uppercase;font-weight:700;display:inline-block;margin-right:.4em}
+[data-theme="dark"] .prose p strong:first-child{color:var(--accent)}
+.prose ul{margin:0 0 16px;padding-left:0;list-style:none}
+.prose li{position:relative;padding-left:20px;margin:0 0 7px;font-size:16.5px}
+.prose li::before{content:"";position:absolute;left:3px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.55}
+.prose table{width:100%;border-collapse:collapse;margin:10px 0 20px;font-family:var(--ui);font-size:13.5px}
+.prose th{background:var(--surface-2);text-align:left;padding:9px 11px;border:1px solid var(--line);font-weight:600;color:var(--ink)}
+.prose td{padding:9px 11px;border:1px solid var(--line);color:var(--muted);vertical-align:top}
+.prose em{color:var(--muted)}
+
+/* FLASHCARDS view */
+.deck-setup{max-width:560px;margin:6px auto 0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow)}
+.panel h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 18px}
+.field{margin:0 0 16px;font-family:var(--ui)}
+.field label{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 7px}
+select{width:100%;font-family:var(--ui);font-size:14.5px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line-strong);border-radius:9px;padding:11px 12px;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236f685b' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:90px;font-family:var(--ui);font-size:13.5px;font-weight:500;color:var(--muted);
+  background:var(--surface-2);border:1px solid var(--line-strong);border-radius:9px;padding:10px;cursor:pointer;transition:.16s}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+[data-theme="dark"] .seg button[aria-pressed="true"]{color:#0c1416}
+.start-btn,.ctl-primary{font-family:var(--ui);font-size:15px;font-weight:600;color:#fff;background:var(--accent);
+  border:none;border-radius:10px;padding:13px 18px;cursor:pointer;width:100%;transition:.16s;letter-spacing:.01em}
+[data-theme="dark"] .start-btn,[data-theme="dark"] .ctl-primary{color:#0c1416}
+.start-btn:hover,.ctl-primary:hover{filter:brightness(1.06)}
+.deck-count{font-family:var(--ui);font-size:13px;color:var(--faint);text-align:center;margin:14px 0 0}
+
+/* drill */
+.drill{max-width:680px;margin:0 auto}
+.progress{display:flex;align-items:center;justify-content:space-between;font-family:var(--ui);font-size:13px;color:var(--muted);margin:0 0 12px}
+.progress .counts b{font-weight:600}
+.got-c{color:var(--accent)} .miss-c{color:var(--hy)}
+.pbar{height:4px;background:var(--surface-2);border-radius:999px;overflow:hidden;margin:0 0 22px}
+.pbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s ease}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:40px 38px;min-height:280px;display:flex;flex-direction:column;cursor:pointer;
+  transition:transform .15s ease, border-color .2s}
+.card:hover{border-color:var(--line-strong)}
+.card .side-lbl{font-family:var(--ui);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--faint)}
+.card .qtext{font-family:var(--prose);font-size:23px;line-height:1.32;margin:18px 0 0;flex:1;display:flex;align-items:center}
+.card .atext{font-family:var(--prose);font-size:20px;line-height:1.4;margin:16px 0 0;color:var(--accent-ink);
+  border-top:1px solid var(--line);padding-top:18px}
+[data-theme="dark"] .card .atext{color:var(--accent)}
+.card .mod-ref{font-family:var(--ui);font-size:11.5px;color:var(--faint);margin-top:auto;padding-top:18px}
+.reveal-hint{font-family:var(--ui);font-size:12.5px;color:var(--faint);text-align:center;margin:16px 0 0}
+.judge{display:flex;gap:12px;margin:18px 0 0}
+.judge button{flex:1;font-family:var(--ui);font-size:15px;font-weight:600;border-radius:11px;padding:15px;cursor:pointer;transition:.16s;border:1px solid}
+.miss-btn{background:var(--hy-soft);border-color:transparent;color:var(--hy)}
+.miss-btn:hover{background:var(--hy);color:#fff}
+.got-btn{background:var(--accent-soft);border-color:transparent;color:var(--accent-ink)}
+[data-theme="dark"] .got-btn{color:var(--accent)}
+.got-btn:hover{background:var(--accent);color:#fff}
+[data-theme="dark"] .got-btn:hover{color:#0c1416}
+.drill-foot{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 0;font-family:var(--ui);font-size:13px}
+.linkbtn{background:none;border:none;color:var(--muted);font-family:var(--ui);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:hover{color:var(--accent)}
+
+/* results */
+.results{max-width:560px;margin:0 auto;text-align:center}
+.results .panel{padding:40px 30px}
+.score{font-family:var(--display);font-size:54px;font-weight:600;color:var(--accent);line-height:1;margin:6px 0}
+.score small{font-family:var(--ui);font-size:15px;color:var(--faint);font-weight:500}
+.res-line{font-family:var(--ui);font-size:14px;color:var(--muted);margin:8px 0 24px}
+.res-actions{display:flex;flex-direction:column;gap:10px}
+.kbd{font-family:var(--ui);font-size:11px;background:var(--surface-2);border:1px solid var(--line-strong);
+  border-radius:5px;padding:1px 6px;color:var(--faint)}
+
+.hidden{display:none!important}
+@media(max-width:820px){
+  .study{grid-template-columns:1fr;gap:18px}
+  .modlist{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .modlist .lbl{width:100%}
+  .modlink{border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px}
+  .modlink .dot{display:none}
+  .article{padding:26px 22px 30px}
+  body{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brandrow">
+      <div>
+        <p class="kicker">Biochemistry · Study Guide</p>
+        <h1 class="section" id="sectionTitle"></h1>
+      </div>
+      <button class="theme-btn" id="themeBtn">◐ Night</button>
+    </div>
+    <p class="intro" id="intro"></p>
+    <p class="meta-stats" id="stats"></p>
+    <nav class="tabs" role="tablist">
+      <button class="tab" id="tabStudy" role="tab" aria-selected="true">Study</button>
+      <button class="tab" id="tabCards" role="tab" aria-selected="false">Flashcards</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- STUDY -->
+    <section id="viewStudy">
+      <div class="study">
+        <aside class="modlist" id="modList"><p class="lbl">Modules</p></aside>
+        <article class="article" id="article"></article>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section id="viewCards" class="hidden">
+      <div class="deck-setup" id="deckSetup">
+        <div class="panel">
+          <h2>Build a drill deck</h2>
+          <div class="field">
+            <label>Scope</label>
+            <div class="seg" id="scopeSeg">
+              <button data-scope="all" aria-pressed="true">All cards</button>
+              <button data-scope="module">By module</button>
+              <button data-scope="tag">By tag</button>
+            </div>
+          </div>
+          <div class="field hidden" id="moduleField">
+            <label>Module</label>
+            <select id="moduleSel"></select>
+          </div>
+          <div class="field hidden" id="tagField">
+            <label>Tag</label>
+            <select id="tagSel"></select>
+          </div>
+          <button class="start-btn" id="startBtn">Start drill</button>
+          <p class="deck-count" id="deckCount"></p>
+        </div>
+      </div>
+
+      <div class="drill hidden" id="drill">
+        <div class="progress">
+          <span id="posLabel">Card 1</span>
+          <span class="counts"><b class="got-c" id="gotCount">0</b> got · <b class="miss-c" id="missCount">0</b> missed</span>
+        </div>
+        <div class="pbar"><i id="pbar"></i></div>
+        <div class="card" id="card">
+          <span class="side-lbl">Question</span>
+          <div class="qtext" id="qtext"></div>
+          <div class="atext hidden" id="atext"></div>
+          <div class="mod-ref" id="modRef"></div>
+        </div>
+        <p class="reveal-hint" id="revealHint">Tap the card or press <span class="kbd">Space</span> to reveal</p>
+        <div class="judge hidden" id="judge">
+          <button class="miss-btn" id="missBtn">Missed <span class="kbd">←</span></button>
+          <button class="got-btn" id="gotBtn">Got it <span class="kbd">→</span></button>
+        </div>
+        <div class="drill-foot">
+          <button class="linkbtn" id="restartDrill">Restart deck</button>
+          <button class="linkbtn" id="exitDrill">Change deck</button>
+        </div>
+      </div>
+
+      <div class="results hidden" id="results">
+        <div class="panel">
+          <p class="side-lbl" style="font-family:var(--ui);letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--faint)">Deck complete</p>
+          <div class="score" id="scoreNum">0<small>%</small></div>
+          <p class="res-line" id="resLine"></p>
+          <div class="res-actions">
+            <button class="ctl-primary" id="drillMissed">Drill missed only</button>
+            <button class="linkbtn" id="resRestart">Restart full deck</button>
+            <button class="linkbtn" id="resNew">Build a new deck</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script id="data" type="application/json">{"sectionTitle": "Structural — Heme & Hemoglobin", "intro": "Section M of the biochem coverage checklist: heme synthesis and its disorders (the porphyrias and lead poisoning), heme degradation/bilirubin, and hemoglobin structure, oxygen binding, and the hemoglobinopathies. ---", "modules": [{"title": "Heme synthesis", "enzyme": "", "inheritance": "", "system": "structural", "category": "heme metabolism", "high_yield": true, "tags": ["heme-synthesis", "ALA-synthase", "ferrochelatase", "ALA-dehydratase", "lead", "vitamin-B6"], "body": "<p><strong>Concept.</strong> Heme is synthesized partly in mitochondria and partly in the cytosol, mainly in the\nliver and erythroid precursors. The committed, rate-limiting step is <strong>δ-aminolevulinic acid\nsynthase (ALA synthase)</strong> in the mitochondrion, which condenses glycine and succinyl-CoA into\n<strong>δ-aminolevulinic acid (ALA)</strong>; this enzyme <strong>requires vitamin B6 (pyridoxal phosphate)</strong> and is\nfeedback-inhibited by heme (and induced when heme is low — e.g., by CYP-inducing drugs). Downstream:\n<strong>ALA dehydratase</strong> (cytosol) makes porphobilinogen, <strong>porphobilinogen deaminase</strong> and others build\nthe porphyrin ring, and the final step, <strong>ferrochelatase</strong> (mitochondria), inserts Fe²⁺ into\nprotoporphyrin IX to make heme. Two enzymes are inhibited by <strong>lead</strong>: ALA dehydratase and\nferrochelatase. Defects along the pathway cause the porphyrias.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Heme synthesis spans mitochondria + cytosol; liver and erythroid precursors.</li>\n<li>Rate-limiting: ALA synthase (mitochondrial; glycine + succinyl-CoA → ALA; needs vitamin B6;\n  heme feedback-inhibits).</li>\n<li>ALA dehydratase (cytosol) and ferrochelatase (mitochondria) are inhibited by lead.</li>\n<li>Ferrochelatase inserts Fe²⁺ into protoporphyrin IX → heme (final step).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> ALA synthase needs vitamin B6 (B6 deficiency → sideroblastic anemia);\nlead inhibits ALA dehydratase and ferrochelatase; pathway defects cause the porphyrias.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>ALA synthase = rate-limiting first step (mitochondria, B6); ferrochelatase = last step.</li>\n<li>Lead hits ALA dehydratase <em>and</em> ferrochelatase.</li>\n<li>Heme feedback-inhibits ALA synthase.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Rate-limiting enzyme of heme synthesis\" → ALA synthase.</li>\n<li>\"Final enzyme inserting iron into protoporphyrin\" → ferrochelatase.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"ALA <strong>S</strong>ynthase <strong>S</strong>tarts heme; <strong>F</strong>errochelatase <strong>F</strong>inishes (adds <strong>Fe</strong>);\nlead blocks the first dehydratase and the last (ferrochelatase).\"</p>", "cards": [{"q": "Rate-limiting enzyme of heme synthesis — location, substrates, and cofactor?", "a": "ALA synthase (mitochondrial); condenses glycine and succinyl-CoA into ALA; requires vitamin B6; feedback-inhibited by heme."}, {"q": "Final enzyme of heme synthesis, and what it does?", "a": "Ferrochelatase (mitochondria) — inserts Fe²⁺ into protoporphyrin IX to make heme."}, {"q": "Which two heme-synthesis enzymes does lead inhibit?", "a": "ALA dehydratase and ferrochelatase."}, {"q": "What induces ALA synthase, and what suppresses it?", "a": "Induced when heme is low (CYP-inducing drugs, fasting); suppressed by heme (and by glucose/hemin)."}, {"q": "What does vitamin B6 deficiency cause via heme synthesis?", "a": "Sideroblastic anemia (ALA synthase needs B6)."}, {"q": "Trap: rate-limiting heme enzyme vs the final iron-inserting enzyme?", "a": "ALA synthase (rate-limiting first step) vs ferrochelatase (final step)."}]}, {"title": "Acute intermittent porphyria", "enzyme": "porphobilinogen deaminase", "inheritance": "autosomal dominant", "system": "structural", "category": "heme metabolism", "high_yield": true, "tags": ["acute-intermittent-porphyria", "porphobilinogen-deaminase", "5-Ps", "dark-urine", "no-photosensitivity", "hemin"], "body": "<p><strong>Concept.</strong> Acute intermittent porphyria (AIP) is an autosomal dominant deficiency of\n<strong>porphobilinogen deaminase</strong>, causing accumulation of the upstream precursors ALA and\nporphobilinogen. Attacks are episodic and precipitated by factors that induce ALA synthase\n(CYP-inducing drugs, fasting, alcohol, stress). The classic \"5 P's\": <strong>P</strong>ainful abdomen (severe,\nwithout peritoneal signs), <strong>P</strong>olyneuropathy, <strong>P</strong>sychological disturbances, <strong>P</strong>ort-wine/dark\nurine (darkens on standing/light), and <strong>P</strong>recipitated by drugs/fasting. Notably there is <strong>no\nphotosensitivity</strong> (the accumulated precursors are non-cutaneous). Treatment: remove triggers and\ngive <strong>glucose and hemin</strong>, which feedback-inhibit ALA synthase.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>AD; porphobilinogen deaminase deficiency; ↑ALA and porphobilinogen.</li>\n<li>Triggered by CYP inducers, fasting, alcohol, stress (which induce ALA synthase).</li>\n<li>5 P's: Painful abdomen, Polyneuropathy, Psych disturbances, Port-wine urine, Precipitants.</li>\n<li>No photosensitivity. Treat with glucose and hemin (suppress ALA synthase).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Recurrent severe abdominal pain with neurologic/psychiatric symptoms and\nurine that darkens, <em>without</em> skin findings; treat with glucose/hemin.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>AIP = porphobilinogen deaminase; <em>no</em> skin photosensitivity (vs porphyria cutanea tarda).</li>\n<li>Abdominal pain + neuro/psych + darkening urine.</li>\n<li>Treat with glucose and hemin.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Recurrent abdominal pain, neuropathy, psychiatric changes, urine darkening\non standing, no skin lesions\" → acute intermittent porphyria.</p>\n<p><strong>Mnemonic.</strong> \"AIP = the 5 <strong>P</strong>'s; no photosensitivity.\"</p>", "cards": [{"q": "Which enzyme is deficient in acute intermittent porphyria, and the inheritance?", "a": "Porphobilinogen deaminase; autosomal dominant."}, {"q": "What are the 5 P's of acute intermittent porphyria?", "a": "Painful abdomen, Polyneuropathy, Psychological disturbances, Port-wine/dark urine, and Precipitated by drugs/fasting."}, {"q": "Does acute intermittent porphyria cause photosensitivity?", "a": "No — there is no photosensitivity (the accumulated precursors are non-cutaneous)."}, {"q": "What triggers AIP attacks, and how are they treated?", "a": "Triggers: CYP inducers, fasting, alcohol, stress (they induce ALA synthase); treat with glucose and hemin (which feedback-inhibit ALA synthase)."}, {"q": "Vignette: recurrent abdominal pain, neuropathy, psychiatric changes, urine darkening, no skin lesions — diagnosis?", "a": "Acute intermittent porphyria."}]}, {"title": "Porphyria cutanea tarda", "enzyme": "uroporphyrinogen decarboxylase", "inheritance": "", "system": "structural", "category": "heme metabolism", "high_yield": true, "tags": ["porphyria-cutanea-tarda", "uroporphyrinogen-decarboxylase", "photosensitivity", "blistering", "hepatitis-C", "tea-colored-urine"], "body": "<p><strong>Concept.</strong> Porphyria cutanea tarda (PCT) is the <strong>most common porphyria</strong>, caused by deficiency of\n<strong>uroporphyrinogen decarboxylase</strong>, leading to accumulation of uroporphyrinogen, which is\nphotoactive. The hallmark is <strong>blistering cutaneous photosensitivity</strong> on sun-exposed skin\n(especially the dorsa of the hands), with vesicles/bullae, fragility, and hyperpigmentation, plus\n<strong>tea-colored urine</strong>. It is associated with hepatitis C, alcohol, estrogen, and iron overload.\nThere are no acute neurovisceral attacks (contrast AIP).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Most common porphyria; uroporphyrinogen decarboxylase deficiency; ↑uroporphyrin.</li>\n<li>Blistering photosensitivity (sun-exposed skin, dorsa of hands); tea-colored urine.</li>\n<li>Associations: hepatitis C, alcohol, estrogen, iron.</li>\n<li>No acute neurovisceral attacks.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Blistering, fragile skin on the backs of the hands with sun exposure —\ncheck for hepatitis C.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>PCT = uroporphyrinogen decarboxylase; <strong>photosensitivity/blisters</strong> (vs AIP, no skin findings).</li>\n<li>Most common porphyria; hepatitis C association.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Blistering, fragile skin on sun-exposed hands, tea-colored urine, hepatitis\nC\" → porphyria cutanea tarda.</p>\n<p><strong>Mnemonic.</strong> \"<strong>PCT</strong>: <strong>P</strong>hotosensitivity, <strong>C</strong>u<strong>T</strong>aneous; uroporphyrinogen decarboxylase.\"</p>", "cards": [{"q": "Which enzyme is deficient in porphyria cutanea tarda, and how common is it?", "a": "Uroporphyrinogen decarboxylase; the most common porphyria."}, {"q": "Hallmark feature of porphyria cutanea tarda?", "a": "Blistering cutaneous photosensitivity on sun-exposed skin (dorsa of hands), with tea-colored urine."}, {"q": "Key associations of porphyria cutanea tarda?", "a": "Hepatitis C, alcohol, estrogen, and iron overload."}, {"q": "Trap: AIP vs PCT photosensitivity?", "a": "AIP = no skin findings; PCT = blistering photosensitivity."}]}, {"title": "Lead poisoning", "enzyme": "", "inheritance": "", "system": "structural", "category": "heme metabolism", "high_yield": true, "tags": ["lead-poisoning", "ALA-dehydratase", "ferrochelatase", "basophilic-stippling", "succimer", "wrist-drop"], "body": "<p><strong>Concept.</strong> Lead inhibits two heme-synthesis enzymes — <strong>ALA dehydratase</strong> and <strong>ferrochelatase</strong> —\nproducing a microcytic, hypochromic (sideroblastic-pattern) anemia with <strong>basophilic stippling</strong> of\nred cells and elevated ALA and protoporphyrin (the ferrochelatase block raises free erythrocyte/zinc\nprotoporphyrin). Clinical features differ by age: <strong>children</strong> (lead paint, pica) —\nneurodevelopmental impairment, abdominal pain, and, when severe, encephalopathy, with basophilic\nstippling and possible lead lines on the gums and long-bone metaphyses; <strong>adults</strong> (occupational) —\nperipheral neuropathy (wrist/foot drop), GI symptoms, and nephropathy. Treatment is chelation:\nsuccimer in children; EDTA and dimercaprol for severe cases.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Lead inhibits ALA dehydratase and ferrochelatase.</li>\n<li>Microcytic anemia with basophilic stippling; ↑ALA, ↑protoporphyrin.</li>\n<li>Children: neurodevelopmental impairment/encephalopathy, abdominal pain, lead lines (gums/metaphyses).</li>\n<li>Adults: peripheral neuropathy (wrist/foot drop), GI symptoms, nephropathy.</li>\n<li>Treat: succimer (children), EDTA/dimercaprol (severe).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A child with developmental regression and microcytic anemia with\nbasophilic stippling, or a worker with wrist drop.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Lead → ALA dehydratase + ferrochelatase inhibition; basophilic stippling.</li>\n<li>Sideroblastic-pattern microcytic anemia (iron not low), distinct from iron-deficiency anemia.</li>\n<li>Succimer is the pediatric chelator.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Child with pica, developmental delay, microcytic anemia, and basophilic\nstippling\" → lead poisoning.</p>\n<p><strong>Mnemonic.</strong> \"<strong>LEAD</strong>: <strong>L</strong>ead lines, <strong>E</strong>ncephalopathy/<strong>E</strong>rythrocyte stippling, <strong>A</strong>bdominal\npain/<strong>A</strong>nemia, <strong>D</strong>rops (wrist/foot).\"</p>\n<p><strong>Heme-synthesis enzyme defects (porphyrias &amp; lead)</strong></p>\n<table>\n<thead>\n<tr>\n<th>Affected enzyme</th>\n<th>Disorder</th>\n<th>Key features</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>ALA dehydratase + ferrochelatase</td>\n<td>Lead poisoning</td>\n<td>Basophilic stippling, microcytic anemia, neuro symptoms</td>\n</tr>\n<tr>\n<td>Porphobilinogen deaminase</td>\n<td>Acute intermittent porphyria</td>\n<td>5 P's, dark urine, <em>no</em> photosensitivity</td>\n</tr>\n<tr>\n<td>Uroporphyrinogen decarboxylase</td>\n<td>Porphyria cutanea tarda</td>\n<td>Blistering photosensitivity, tea-colored urine</td>\n</tr>\n<tr>\n<td>ALA synthase (rate-limiting)</td>\n<td>(Regulatory step)</td>\n<td>Induced by drugs/fasting; needs vitamin B6</td>\n</tr>\n</tbody>\n</table>\n<hr />", "cards": [{"q": "Which two heme-synthesis enzymes does lead inhibit?", "a": "ALA dehydratase and ferrochelatase."}, {"q": "Characteristic smear finding in lead poisoning?", "a": "Basophilic stippling (with a microcytic anemia; ↑ALA and protoporphyrin)."}, {"q": "Lead poisoning features in children?", "a": "Neurodevelopmental impairment/encephalopathy, abdominal pain, and lead lines (gums/metaphyses)."}, {"q": "Lead poisoning features in adults?", "a": "Peripheral neuropathy (wrist/foot drop), GI symptoms, and nephropathy."}, {"q": "Treatment of lead poisoning?", "a": "Succimer (children); EDTA and dimercaprol for severe cases."}, {"q": "Vignette: child with pica, developmental delay, microcytic anemia, and basophilic stippling — diagnosis?", "a": "Lead poisoning."}]}, {"title": "Heme degradation & bilirubin", "enzyme": "", "inheritance": "", "system": "structural", "category": "heme metabolism", "high_yield": true, "tags": ["bilirubin", "unconjugated", "conjugated", "UDP-glucuronosyltransferase", "kernicterus", "jaundice"], "body": "<p><strong>Concept.</strong> Senescent red cells are broken down by splenic macrophages; heme is degraded by heme\noxygenase to biliverdin, then to <strong>unconjugated (indirect) bilirubin</strong>, which is lipophilic and\ntravels bound to albumin. In the liver, <strong>UDP-glucuronosyltransferase (UGT)</strong> conjugates bilirubin\nwith glucuronic acid to form <strong>conjugated (direct), water-soluble bilirubin</strong>, excreted in bile.\nGut bacteria convert it to urobilinogen → stercobilin (brown stool), with some urobilinogen\nreabsorbed and excreted in urine (urobilin, yellow). Jaundice is split by bilirubin type:\n<strong>unconjugated</strong> hyperbilirubinemia (hemolysis, Gilbert, Crigler-Najjar — reduced conjugation) vs\n<strong>conjugated</strong> (Dubin-Johnson, Rotor, biliary obstruction). Neonatal physiologic jaundice reflects\nimmature UGT; severe unconjugated bilirubin can cross the blood-brain barrier and cause kernicterus.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>RBC breakdown (splenic macrophages): heme → biliverdin → unconjugated (indirect) bilirubin\n  (albumin-bound, lipophilic).</li>\n<li>Liver UDP-glucuronosyltransferase conjugates → conjugated (direct), water-soluble → bile.</li>\n<li>Gut: urobilinogen → stercobilin (stool), urobilin (urine).</li>\n<li>Unconjugated (hemolysis, Gilbert, Crigler-Najjar) vs conjugated (Dubin-Johnson, Rotor, obstruction).</li>\n<li>Neonatal jaundice (immature UGT); kernicterus from unconjugated bilirubin in the brain.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Distinguish unconjugated from conjugated jaundice; neonatal\njaundice/kernicterus; Gilbert syndrome (mild, provoked by fasting/stress).</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Unconjugated = lipophilic, albumin-bound, can cause kernicterus; conjugated = water-soluble\n  (appears in urine).</li>\n<li>Conjugation is by UDP-glucuronosyltransferase (deficient in Crigler-Najjar and Gilbert).</li>\n<li>Dubin-Johnson = conjugated, with a grossly black liver.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Neonate with unconjugated hyperbilirubinemia at risk of kernicterus\" → immature conjugation.</li>\n<li>\"Conjugated hyperbilirubinemia with a black liver\" → Dubin-Johnson.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"<strong>Un</strong>conjugated = indirect, fat-soluble, brain (kernicterus); conjugated = direct,\nwater-soluble, urine.\"</p>", "cards": [{"q": "Which enzyme conjugates bilirubin, and where?", "a": "UDP-glucuronosyltransferase (UGT), in the liver."}, {"q": "Unconjugated vs conjugated bilirubin — properties?", "a": "Unconjugated = lipophilic, albumin-bound (can cause kernicterus); conjugated = water-soluble (appears in urine)."}, {"q": "Which bilirubin form causes kernicterus?", "a": "Unconjugated (indirect) bilirubin."}, {"q": "Causes of unconjugated vs conjugated hyperbilirubinemia?", "a": "Unconjugated: hemolysis, Gilbert, Crigler-Najjar; conjugated: Dubin-Johnson, Rotor, biliary obstruction."}, {"q": "What distinguishes Dubin-Johnson syndrome?", "a": "Conjugated hyperbilirubinemia with a grossly black liver."}, {"q": "Why does neonatal physiologic jaundice occur?", "a": "Immature UDP-glucuronosyltransferase (reduced conjugation)."}]}, {"title": "Hemoglobin structure & O₂ dissociation curve", "enzyme": "", "inheritance": "", "system": "structural", "category": "hemoglobin", "high_yield": true, "tags": ["hemoglobin", "cooperativity", "bohr-effect", "2-3-BPG", "right-shift", "oxygen-dissociation-curve"], "body": "<p><strong>Concept.</strong> Adult hemoglobin (HbA) is a tetramer of two α and two β globin chains (α₂β₂), each with\na heme binding one O₂. Oxygen binding is <strong>cooperative</strong> (sigmoidal curve): binding O₂ raises\naffinity for subsequent O₂ (the tense → relaxed state transition). The curve <strong>shifts right</strong> (lower\nO₂ affinity, more unloading to tissues) with increased CO₂, H⁺ (low pH), <strong>2,3-BPG\n(2,3-bisphosphoglycerate)</strong>, and temperature — the Bohr effect — and <strong>shifts left</strong> (higher\naffinity) with the opposite, and with fetal hemoglobin, CO, and methemoglobin. 2,3-BPG binds\ndeoxyhemoglobin and stabilizes the low-affinity (tense) state, promoting O₂ release; it rises at\nhigh altitude and in chronic hypoxia.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>HbA = α₂β₂ tetramer; cooperative (sigmoidal) O₂ binding (tense ↔ relaxed states).</li>\n<li>Right shift (↓affinity, more unloading): ↑CO₂, ↑H⁺/↓pH, ↑2,3-BPG, ↑temperature (Bohr effect,\n  exercise).</li>\n<li>Left shift (↑affinity): the opposite, plus fetal Hb, CO, methemoglobin.</li>\n<li>2,3-BPG stabilizes the deoxy (tense) state; rises at altitude/chronic hypoxia.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A right shift improves tissue O₂ delivery during exercise/acidosis; 2,3-BPG\nmediates altitude adaptation.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Right shift = lower affinity = more O₂ delivered to tissues.</li>\n<li>2,3-BPG binds and stabilizes deoxyhemoglobin.</li>\n<li>Fetal Hb shifts left (next module).</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Exercise/acidosis/high CO₂ shifting the curve\" → right shift (more unloading).</li>\n<li>\"2,3-BPG effect\" → right shift.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"Right shift = <strong>CADET</strong> face right: <strong>C</strong>O₂, <strong>A</strong>cid, <strong>2,3</strong>-DPG, <strong>E</strong>xercise,\n<strong>T</strong>emperature.\"</p>", "cards": [{"q": "Subunit composition of adult hemoglobin (HbA), and the binding behavior?", "a": "α₂β₂ tetramer; cooperative (sigmoidal) O₂ binding (tense ↔ relaxed states)."}, {"q": "Name four factors that shift the O₂ curve right (CADET).", "a": "↑CO₂, ↑H⁺ (low pH), ↑2,3-BPG, ↑temperature (also exercise) — the Bohr effect."}, {"q": "What does a right shift mean for oxygen?", "a": "Lower affinity → more O₂ unloading to tissues."}, {"q": "What does 2,3-BPG do to hemoglobin?", "a": "Binds and stabilizes deoxyhemoglobin (tense state), lowering affinity (right shift); it rises at altitude and in chronic hypoxia."}, {"q": "Which factors shift the curve left?", "a": "↓CO₂/↓H⁺/↓2,3-BPG/↓temperature, plus fetal Hb, CO, and methemoglobin."}, {"q": "Vignette: exercise/acidosis/high CO₂ — which way does the curve shift?", "a": "Right (more unloading)."}]}, {"title": "Fetal hemoglobin", "enzyme": "", "inheritance": "", "system": "structural", "category": "hemoglobin", "high_yield": true, "tags": ["fetal-hemoglobin", "HbF", "alpha2gamma2", "left-shift", "2-3-BPG", "hydroxyurea"], "body": "<p><strong>Concept.</strong> Fetal hemoglobin (HbF) is <strong>α₂γ₂</strong> (two α and two γ chains). It has <strong>higher oxygen\naffinity</strong> than adult HbA, chiefly because the γ chains bind 2,3-BPG poorly — so the HbF curve is\nleft-shifted, letting the fetus extract O₂ from maternal blood across the placenta. HbF predominates\nat birth and is largely replaced by HbA over the first ~6 months as γ→β switching occurs. This switch\nis why β-globin disorders (sickle cell, β-thalassemia) tend to present after the first few months.\nHbF — and agents that induce it, such as hydroxyurea — can ameliorate sickle cell disease.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>HbF = α₂γ₂; higher O₂ affinity (left-shifted) because γ binds 2,3-BPG poorly.</li>\n<li>Enables fetal O₂ extraction from maternal blood.</li>\n<li>γ→β switch over ~6 months → β-chain disorders manifest after infancy.</li>\n<li>Hydroxyurea raises HbF (helps sickle cell disease).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> β-globin diseases are delayed until HbF declines; hydroxyurea induces HbF\nin sickle cell disease.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>HbF = α₂γ₂, left-shifted, low 2,3-BPG binding.</li>\n<li>Explains the delayed presentation of sickle cell/β-thalassemia.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Higher-affinity hemoglobin enabling placental O₂ transfer that declines over\nthe first 6 months\" → fetal hemoglobin.</p>\n<p><strong>Mnemonic.</strong> \"Fetal Hb = α₂γ₂; <strong>γ</strong> doesn't <strong>g</strong>rip 2,3-BPG → higher affinity (left shift).\"</p>", "cards": [{"q": "Subunit composition of fetal hemoglobin?", "a": "α₂γ₂ (two α and two γ chains)."}, {"q": "Why does HbF have higher O₂ affinity than HbA?", "a": "The γ chains bind 2,3-BPG poorly, so the curve is left-shifted."}, {"q": "Why do β-globin disorders present after the first few months?", "a": "The γ→β switch (HbF → HbA) occurs over roughly the first 6 months."}, {"q": "Which drug raises HbF and helps sickle cell disease?", "a": "Hydroxyurea."}]}, {"title": "Sickle cell disease", "enzyme": "", "inheritance": "autosomal recessive", "system": "structural", "category": "hemoglobin", "high_yield": true, "tags": ["sickle-cell", "HbS", "glu-val-position-6", "vaso-occlusion", "autosplenectomy", "parvovirus-B19", "hydroxyurea"], "body": "<p><strong>Concept.</strong> Sickle cell disease is an autosomal recessive β-globin disorder from a point mutation\nin which <strong>glutamate is replaced by valine at position 6</strong> of the β chain (Glu→Val, position 6),\nproducing HbS. Deoxygenated HbS polymerizes, deforming red cells into rigid sickle shapes that cause\nhemolysis and vaso-occlusion. Sickling is promoted by deoxygenation, dehydration, acidosis, and\ninfection. Manifestations: chronic hemolytic anemia, painful vaso-occlusive crises, acute chest\nsyndrome, <strong>autosplenectomy</strong> (→ infection by encapsulated organisms such as <em>Streptococcus\npneumoniae</em>, and <em>Salmonella</em> osteomyelitis), stroke, dactylitis, and <strong>aplastic crisis with\nparvovirus B19</strong>. Heterozygotes (sickle trait) are relatively protected against falciparum malaria.\nDiagnosis is by hemoglobin electrophoresis; treatment includes hydroxyurea (which raises HbF).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>AR β-globin point mutation: Glu→Val at position 6 → HbS.</li>\n<li>Deoxy-HbS polymerizes → sickling, hemolysis, vaso-occlusion.</li>\n<li>Triggers: deoxygenation, dehydration, acidosis, infection.</li>\n<li>Vaso-occlusive crises, acute chest, autosplenectomy (encapsulated organisms, Salmonella\n  osteomyelitis), parvovirus B19 aplastic crisis.</li>\n<li>Trait protects against malaria; treat with hydroxyurea (↑HbF).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A child with hemolytic anemia, pain crises, splenic infarction, and\ninfections by encapsulated organisms.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Glu→Val at position 6 (HbS) — memorize precisely.</li>\n<li>Autosplenectomy → encapsulated organisms; <em>Salmonella</em> osteomyelitis specifically.</li>\n<li>Parvovirus B19 → aplastic crisis.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Child with hemolytic anemia, vaso-occlusive pain crises, dactylitis, and\nencapsulated-organism infections\" → sickle cell disease.</p>\n<p><strong>Mnemonic.</strong> \"Sickle: Glu→<strong>Val</strong> at position 6 (Val → sickle); autosplenectomy → encapsulated bugs.\"</p>", "cards": [{"q": "Specific amino acid substitution in sickle cell disease?", "a": "Glutamate → valine at position 6 of the β chain (Glu→Val, position 6) → HbS."}, {"q": "What triggers HbS polymerization?", "a": "Deoxygenation (also dehydration, acidosis, infection)."}, {"q": "Major complications of sickle cell disease?", "a": "Vaso-occlusive pain crises, acute chest syndrome, autosplenectomy, stroke, dactylitis, and aplastic crisis."}, {"q": "Why are encapsulated organisms (and Salmonella) a risk in sickle cell disease?", "a": "Autosplenectomy → infection by encapsulated organisms (e.g., S. pneumoniae) and Salmonella osteomyelitis."}, {"q": "Which virus causes aplastic crisis in sickle cell disease?", "a": "Parvovirus B19."}, {"q": "Vignette: child with hemolytic anemia, vaso-occlusive pain crises, dactylitis, and encapsulated-organism infections — diagnosis?", "a": "Sickle cell disease."}]}, {"title": "Hemoglobin C", "enzyme": "", "inheritance": "autosomal recessive", "system": "structural", "category": "hemoglobin", "high_yield": true, "tags": ["hemoglobin-C", "HbC", "glu-lys-position-6", "target-cells", "HbSC", "mild-hemolysis"], "body": "<p><strong>Concept.</strong> Hemoglobin C disease is a β-globin variant in which <strong>glutamate is replaced by lysine\nat position 6</strong> (Glu→Lys, position 6). HbC causes a <strong>milder</strong> hemolytic anemia than sickle cell;\nhomozygotes (HbCC) have mild chronic hemolysis with <strong>target cells</strong> and HbC crystals on the smear.\nCompound heterozygotes with HbS (HbSC disease) have a sickling disorder that is generally milder\nthan HbSS but still clinically significant. The high-yield point is the position-6 contrast: <strong>valine\n→ sickle (HbS); lysine → HbC</strong>.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>β-globin: Glu→Lys at position 6 → HbC.</li>\n<li>Milder hemolytic anemia; target cells and HbC crystals (homozygous HbCC).</li>\n<li>HbSC disease (compound heterozygote) → milder sickling than HbSS.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Mild hemolysis with target cells; HbSC for the combined sickling picture.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Position 6: Glu→<strong>Val</strong> = sickle (HbS); Glu→<strong>Lys</strong> = HbC.</li>\n<li>HbC is milder; target cells.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Mild hemolytic anemia with target cells and hemoglobin C crystals;\nposition-6 Glu→Lys\" → hemoglobin C.</p>\n<p><strong>Mnemonic.</strong> \"Position 6 — <strong>Val</strong>ine → sickle; <strong>Lys</strong>ine → HbC.\"</p>", "cards": [{"q": "Amino acid substitution defining hemoglobin C?", "a": "Glutamate → lysine at position 6 of the β chain (Glu→Lys, position 6)."}, {"q": "How does hemoglobin C severity compare with sickle cell disease?", "a": "Milder hemolytic anemia."}, {"q": "Smear findings in homozygous hemoglobin C (HbCC)?", "a": "Target cells and HbC crystals."}, {"q": "Trap: position 6 — valine vs lysine?", "a": "Valine → sickle (HbS); lysine → HbC."}]}, {"title": "Methemoglobinemia & CO poisoning", "enzyme": "", "inheritance": "", "system": "structural", "category": "hemoglobin", "high_yield": true, "tags": ["methemoglobinemia", "ferric-iron", "methylene-blue", "carbon-monoxide", "carboxyhemoglobin", "pulse-oximetry"], "body": "<p><strong>Concept.</strong> Both impair oxygen delivery without necessarily lowering the dissolved PaO₂.\n<strong>Methemoglobinemia</strong>: heme iron is oxidized from Fe²⁺ to <strong>Fe³⁺</strong>, which can't bind O₂ and shifts\nthe remaining curve left (worsening delivery); causes include oxidizing agents (dapsone, nitrites,\nlocal anesthetics such as benzocaine). The blood is <strong>chocolate-brown</strong>, with cyanosis unresponsive\nto oxygen; treat with <strong>methylene blue</strong> (and vitamin C). <strong>CO poisoning</strong>: carbon monoxide binds\nhemoglobin with roughly 200× the affinity of O₂, forming <strong>carboxyhemoglobin</strong>, reducing O₂ carrying\nand shifting the curve left; it presents with headache, confusion, and classically <strong>cherry-red\nskin</strong>, often from smoke or faulty heaters, and <strong>pulse oximetry reads falsely normal</strong>. Treat with\n100% oxygen (hyperbaric for severe cases). Both lower oxygen-carrying capacity with a normal\ndissolved PaO₂.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Methemoglobin: Fe³⁺ (oxidized) can't carry O₂; chocolate-brown blood; cyanosis unresponsive to O₂;\n  from dapsone/nitrites/benzocaine. Treat: methylene blue.</li>\n<li>CO: binds Hb ~200× O₂ affinity → carboxyhemoglobin; cherry-red skin, headache/confusion; pulse\n  oximetry falsely normal. Treat: 100% O₂ (hyperbaric if severe).</li>\n<li>Both: left shift, reduced O₂ delivery, normal PaO₂.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Methemoglobinemia after dapsone/benzocaine (brown blood, blue patient); CO\npoisoning from fire/heater (cherry-red skin, falsely normal pulse oximetry).</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Methemoglobin = Fe³⁺ (treat with methylene blue); CO = carboxyhemoglobin (treat with 100% O₂).</li>\n<li>Pulse oximetry is unreliable in both.</li>\n<li>Cherry-red skin (CO) vs chocolate-brown blood (methemoglobinemia).</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Chocolate-brown blood and cyanosis unresponsive to O₂ after benzocaine/dapsone\" → methemoglobinemia.</li>\n<li>\"Cherry-red skin, headache after smoke exposure, normal pulse oximetry\" → CO poisoning.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"MetHb = Fe³⁺, chocolate blood, <strong>M</strong>ethylene blue; CO = <strong>C</strong>herry-red, 100% O₂.\"</p>", "cards": [{"q": "In methemoglobinemia, what oxidation state is heme iron, and can it carry O₂?", "a": "Fe³⁺ (ferric), which cannot bind O₂."}, {"q": "Blood color and clinical clue in methemoglobinemia?", "a": "Chocolate-brown blood; cyanosis unresponsive to oxygen."}, {"q": "Common causes and treatment of methemoglobinemia?", "a": "Oxidizing agents (dapsone, nitrites, benzocaine); treat with methylene blue (and vitamin C)."}, {"q": "How does CO impair oxygen delivery, and the classic sign?", "a": "Binds Hb with ~200× the affinity of O₂ (carboxyhemoglobin), left-shifting the curve; classically cherry-red skin."}, {"q": "What is misleading about pulse oximetry in CO poisoning?", "a": "It reads falsely normal."}, {"q": "Treatment of CO poisoning?", "a": "100% oxygen (hyperbaric for severe cases)."}]}], "cards": [{"id": "0-0", "q": "Rate-limiting enzyme of heme synthesis — location, substrates, and cofactor?", "a": "ALA synthase (mitochondrial); condenses glycine and succinyl-CoA into ALA; requires vitamin B6; feedback-inhibited by heme.", "module": "Heme synthesis", "moduleIndex": 0, "tags": ["heme-synthesis", "ALA-synthase", "ferrochelatase", "ALA-dehydratase", "lead", "vitamin-B6"], "high_yield": true}, {"id": "0-1", "q": "Final enzyme of heme synthesis, and what it does?", "a": "Ferrochelatase (mitochondria) — inserts Fe²⁺ into protoporphyrin IX to make heme.", "module": "Heme synthesis", "moduleIndex": 0, "tags": ["heme-synthesis", "ALA-synthase", "ferrochelatase", "ALA-dehydratase", "lead", "vitamin-B6"], "high_yield": true}, {"id": "0-2", "q": "Which two heme-synthesis enzymes does lead inhibit?", "a": "ALA dehydratase and ferrochelatase.", "module": "Heme synthesis", "moduleIndex": 0, "tags": ["heme-synthesis", "ALA-synthase", "ferrochelatase", "ALA-dehydratase", "lead", "vitamin-B6"], "high_yield": true}, {"id": "0-3", "q": "What induces ALA synthase, and what suppresses it?", "a": "Induced when heme is low (CYP-inducing drugs, fasting); suppressed by heme (and by glucose/hemin).", "module": "Heme synthesis", "moduleIndex": 0, "tags": ["heme-synthesis", "ALA-synthase", "ferrochelatase", "ALA-dehydratase", "lead", "vitamin-B6"], "high_yield": true}, {"id": "0-4", "q": "What does vitamin B6 deficiency cause via heme synthesis?", "a": "Sideroblastic anemia (ALA synthase needs B6).", "module": "Heme synthesis", "moduleIndex": 0, "tags": ["heme-synthesis", "ALA-synthase", "ferrochelatase", "ALA-dehydratase", "lead", "vitamin-B6"], "high_yield": true}, {"id": "0-5", "q": "Trap: rate-limiting heme enzyme vs the final iron-inserting enzyme?", "a": "ALA synthase (rate-limiting first step) vs ferrochelatase (final step).", "module": "Heme synthesis", "moduleIndex": 0, "tags": ["heme-synthesis", "ALA-synthase", "ferrochelatase", "ALA-dehydratase", "lead", "vitamin-B6"], "high_yield": true}, {"id": "1-0", "q": "Which enzyme is deficient in acute intermittent porphyria, and the inheritance?", "a": "Porphobilinogen deaminase; autosomal dominant.", "module": "Acute intermittent porphyria", "moduleIndex": 1, "tags": ["acute-intermittent-porphyria", "porphobilinogen-deaminase", "5-Ps", "dark-urine", "no-photosensitivity", "hemin"], "high_yield": true}, {"id": "1-1", "q": "What are the 5 P's of acute intermittent porphyria?", "a": "Painful abdomen, Polyneuropathy, Psychological disturbances, Port-wine/dark urine, and Precipitated by drugs/fasting.", "module": "Acute intermittent porphyria", "moduleIndex": 1, "tags": ["acute-intermittent-porphyria", "porphobilinogen-deaminase", "5-Ps", "dark-urine", "no-photosensitivity", "hemin"], "high_yield": true}, {"id": "1-2", "q": "Does acute intermittent porphyria cause photosensitivity?", "a": "No — there is no photosensitivity (the accumulated precursors are non-cutaneous).", "module": "Acute intermittent porphyria", "moduleIndex": 1, "tags": ["acute-intermittent-porphyria", "porphobilinogen-deaminase", "5-Ps", "dark-urine", "no-photosensitivity", "hemin"], "high_yield": true}, {"id": "1-3", "q": "What triggers AIP attacks, and how are they treated?", "a": "Triggers: CYP inducers, fasting, alcohol, stress (they induce ALA synthase); treat with glucose and hemin (which feedback-inhibit ALA synthase).", "module": "Acute intermittent porphyria", "moduleIndex": 1, "tags": ["acute-intermittent-porphyria", "porphobilinogen-deaminase", "5-Ps", "dark-urine", "no-photosensitivity", "hemin"], "high_yield": true}, {"id": "1-4", "q": "Vignette: recurrent abdominal pain, neuropathy, psychiatric changes, urine darkening, no skin lesions — diagnosis?", "a": "Acute intermittent porphyria.", "module": "Acute intermittent porphyria", "moduleIndex": 1, "tags": ["acute-intermittent-porphyria", "porphobilinogen-deaminase", "5-Ps", "dark-urine", "no-photosensitivity", "hemin"], "high_yield": true}, {"id": "2-0", "q": "Which enzyme is deficient in porphyria cutanea tarda, and how common is it?", "a": "Uroporphyrinogen decarboxylase; the most common porphyria.", "module": "Porphyria cutanea tarda", "moduleIndex": 2, "tags": ["porphyria-cutanea-tarda", "uroporphyrinogen-decarboxylase", "photosensitivity", "blistering", "hepatitis-C", "tea-colored-urine"], "high_yield": true}, {"id": "2-1", "q": "Hallmark feature of porphyria cutanea tarda?", "a": "Blistering cutaneous photosensitivity on sun-exposed skin (dorsa of hands), with tea-colored urine.", "module": "Porphyria cutanea tarda", "moduleIndex": 2, "tags": ["porphyria-cutanea-tarda", "uroporphyrinogen-decarboxylase", "photosensitivity", "blistering", "hepatitis-C", "tea-colored-urine"], "high_yield": true}, {"id": "2-2", "q": "Key associations of porphyria cutanea tarda?", "a": "Hepatitis C, alcohol, estrogen, and iron overload.", "module": "Porphyria cutanea tarda", "moduleIndex": 2, "tags": ["porphyria-cutanea-tarda", "uroporphyrinogen-decarboxylase", "photosensitivity", "blistering", "hepatitis-C", "tea-colored-urine"], "high_yield": true}, {"id": "2-3", "q": "Trap: AIP vs PCT photosensitivity?", "a": "AIP = no skin findings; PCT = blistering photosensitivity.", "module": "Porphyria cutanea tarda", "moduleIndex": 2, "tags": ["porphyria-cutanea-tarda", "uroporphyrinogen-decarboxylase", "photosensitivity", "blistering", "hepatitis-C", "tea-colored-urine"], "high_yield": true}, {"id": "3-0", "q": "Which two heme-synthesis enzymes does lead inhibit?", "a": "ALA dehydratase and ferrochelatase.", "module": "Lead poisoning", "moduleIndex": 3, "tags": ["lead-poisoning", "ALA-dehydratase", "ferrochelatase", "basophilic-stippling", "succimer", "wrist-drop"], "high_yield": true}, {"id": "3-1", "q": "Characteristic smear finding in lead poisoning?", "a": "Basophilic stippling (with a microcytic anemia; ↑ALA and protoporphyrin).", "module": "Lead poisoning", "moduleIndex": 3, "tags": ["lead-poisoning", "ALA-dehydratase", "ferrochelatase", "basophilic-stippling", "succimer", "wrist-drop"], "high_yield": true}, {"id": "3-2", "q": "Lead poisoning features in children?", "a": "Neurodevelopmental impairment/encephalopathy, abdominal pain, and lead lines (gums/metaphyses).", "module": "Lead poisoning", "moduleIndex": 3, "tags": ["lead-poisoning", "ALA-dehydratase", "ferrochelatase", "basophilic-stippling", "succimer", "wrist-drop"], "high_yield": true}, {"id": "3-3", "q": "Lead poisoning features in adults?", "a": "Peripheral neuropathy (wrist/foot drop), GI symptoms, and nephropathy.", "module": "Lead poisoning", "moduleIndex": 3, "tags": ["lead-poisoning", "ALA-dehydratase", "ferrochelatase", "basophilic-stippling", "succimer", "wrist-drop"], "high_yield": true}, {"id": "3-4", "q": "Treatment of lead poisoning?", "a": "Succimer (children); EDTA and dimercaprol for severe cases.", "module": "Lead poisoning", "moduleIndex": 3, "tags": ["lead-poisoning", "ALA-dehydratase", "ferrochelatase", "basophilic-stippling", "succimer", "wrist-drop"], "high_yield": true}, {"id": "3-5", "q": "Vignette: child with pica, developmental delay, microcytic anemia, and basophilic stippling — diagnosis?", "a": "Lead poisoning.", "module": "Lead poisoning", "moduleIndex": 3, "tags": ["lead-poisoning", "ALA-dehydratase", "ferrochelatase", "basophilic-stippling", "succimer", "wrist-drop"], "high_yield": true}, {"id": "4-0", "q": "Which enzyme conjugates bilirubin, and where?", "a": "UDP-glucuronosyltransferase (UGT), in the liver.", "module": "Heme degradation & bilirubin", "moduleIndex": 4, "tags": ["bilirubin", "unconjugated", "conjugated", "UDP-glucuronosyltransferase", "kernicterus", "jaundice"], "high_yield": true}, {"id": "4-1", "q": "Unconjugated vs conjugated bilirubin — properties?", "a": "Unconjugated = lipophilic, albumin-bound (can cause kernicterus); conjugated = water-soluble (appears in urine).", "module": "Heme degradation & bilirubin", "moduleIndex": 4, "tags": ["bilirubin", "unconjugated", "conjugated", "UDP-glucuronosyltransferase", "kernicterus", "jaundice"], "high_yield": true}, {"id": "4-2", "q": "Which bilirubin form causes kernicterus?", "a": "Unconjugated (indirect) bilirubin.", "module": "Heme degradation & bilirubin", "moduleIndex": 4, "tags": ["bilirubin", "unconjugated", "conjugated", "UDP-glucuronosyltransferase", "kernicterus", "jaundice"], "high_yield": true}, {"id": "4-3", "q": "Causes of unconjugated vs conjugated hyperbilirubinemia?", "a": "Unconjugated: hemolysis, Gilbert, Crigler-Najjar; conjugated: Dubin-Johnson, Rotor, biliary obstruction.", "module": "Heme degradation & bilirubin", "moduleIndex": 4, "tags": ["bilirubin", "unconjugated", "conjugated", "UDP-glucuronosyltransferase", "kernicterus", "jaundice"], "high_yield": true}, {"id": "4-4", "q": "What distinguishes Dubin-Johnson syndrome?", "a": "Conjugated hyperbilirubinemia with a grossly black liver.", "module": "Heme degradation & bilirubin", "moduleIndex": 4, "tags": ["bilirubin", "unconjugated", "conjugated", "UDP-glucuronosyltransferase", "kernicterus", "jaundice"], "high_yield": true}, {"id": "4-5", "q": "Why does neonatal physiologic jaundice occur?", "a": "Immature UDP-glucuronosyltransferase (reduced conjugation).", "module": "Heme degradation & bilirubin", "moduleIndex": 4, "tags": ["bilirubin", "unconjugated", "conjugated", "UDP-glucuronosyltransferase", "kernicterus", "jaundice"], "high_yield": true}, {"id": "5-0", "q": "Subunit composition of adult hemoglobin (HbA), and the binding behavior?", "a": "α₂β₂ tetramer; cooperative (sigmoidal) O₂ binding (tense ↔ relaxed states).", "module": "Hemoglobin structure & O₂ dissociation curve", "moduleIndex": 5, "tags": ["hemoglobin", "cooperativity", "bohr-effect", "2-3-BPG", "right-shift", "oxygen-dissociation-curve"], "high_yield": true}, {"id": "5-1", "q": "Name four factors that shift the O₂ curve right (CADET).", "a": "↑CO₂, ↑H⁺ (low pH), ↑2,3-BPG, ↑temperature (also exercise) — the Bohr effect.", "module": "Hemoglobin structure & O₂ dissociation curve", "moduleIndex": 5, "tags": ["hemoglobin", "cooperativity", "bohr-effect", "2-3-BPG", "right-shift", "oxygen-dissociation-curve"], "high_yield": true}, {"id": "5-2", "q": "What does a right shift mean for oxygen?", "a": "Lower affinity → more O₂ unloading to tissues.", "module": "Hemoglobin structure & O₂ dissociation curve", "moduleIndex": 5, "tags": ["hemoglobin", "cooperativity", "bohr-effect", "2-3-BPG", "right-shift", "oxygen-dissociation-curve"], "high_yield": true}, {"id": "5-3", "q": "What does 2,3-BPG do to hemoglobin?", "a": "Binds and stabilizes deoxyhemoglobin (tense state), lowering affinity (right shift); it rises at altitude and in chronic hypoxia.", "module": "Hemoglobin structure & O₂ dissociation curve", "moduleIndex": 5, "tags": ["hemoglobin", "cooperativity", "bohr-effect", "2-3-BPG", "right-shift", "oxygen-dissociation-curve"], "high_yield": true}, {"id": "5-4", "q": "Which factors shift the curve left?", "a": "↓CO₂/↓H⁺/↓2,3-BPG/↓temperature, plus fetal Hb, CO, and methemoglobin.", "module": "Hemoglobin structure & O₂ dissociation curve", "moduleIndex": 5, "tags": ["hemoglobin", "cooperativity", "bohr-effect", "2-3-BPG", "right-shift", "oxygen-dissociation-curve"], "high_yield": true}, {"id": "5-5", "q": "Vignette: exercise/acidosis/high CO₂ — which way does the curve shift?", "a": "Right (more unloading).", "module": "Hemoglobin structure & O₂ dissociation curve", "moduleIndex": 5, "tags": ["hemoglobin", "cooperativity", "bohr-effect", "2-3-BPG", "right-shift", "oxygen-dissociation-curve"], "high_yield": true}, {"id": "6-0", "q": "Subunit composition of fetal hemoglobin?", "a": "α₂γ₂ (two α and two γ chains).", "module": "Fetal hemoglobin", "moduleIndex": 6, "tags": ["fetal-hemoglobin", "HbF", "alpha2gamma2", "left-shift", "2-3-BPG", "hydroxyurea"], "high_yield": true}, {"id": "6-1", "q": "Why does HbF have higher O₂ affinity than HbA?", "a": "The γ chains bind 2,3-BPG poorly, so the curve is left-shifted.", "module": "Fetal hemoglobin", "moduleIndex": 6, "tags": ["fetal-hemoglobin", "HbF", "alpha2gamma2", "left-shift", "2-3-BPG", "hydroxyurea"], "high_yield": true}, {"id": "6-2", "q": "Why do β-globin disorders present after the first few months?", "a": "The γ→β switch (HbF → HbA) occurs over roughly the first 6 months.", "module": "Fetal hemoglobin", "moduleIndex": 6, "tags": ["fetal-hemoglobin", "HbF", "alpha2gamma2", "left-shift", "2-3-BPG", "hydroxyurea"], "high_yield": true}, {"id": "6-3", "q": "Which drug raises HbF and helps sickle cell disease?", "a": "Hydroxyurea.", "module": "Fetal hemoglobin", "moduleIndex": 6, "tags": ["fetal-hemoglobin", "HbF", "alpha2gamma2", "left-shift", "2-3-BPG", "hydroxyurea"], "high_yield": true}, {"id": "7-0", "q": "Specific amino acid substitution in sickle cell disease?", "a": "Glutamate → valine at position 6 of the β chain (Glu→Val, position 6) → HbS.", "module": "Sickle cell disease", "moduleIndex": 7, "tags": ["sickle-cell", "HbS", "glu-val-position-6", "vaso-occlusion", "autosplenectomy", "parvovirus-B19", "hydroxyurea"], "high_yield": true}, {"id": "7-1", "q": "What triggers HbS polymerization?", "a": "Deoxygenation (also dehydration, acidosis, infection).", "module": "Sickle cell disease", "moduleIndex": 7, "tags": ["sickle-cell", "HbS", "glu-val-position-6", "vaso-occlusion", "autosplenectomy", "parvovirus-B19", "hydroxyurea"], "high_yield": true}, {"id": "7-2", "q": "Major complications of sickle cell disease?", "a": "Vaso-occlusive pain crises, acute chest syndrome, autosplenectomy, stroke, dactylitis, and aplastic crisis.", "module": "Sickle cell disease", "moduleIndex": 7, "tags": ["sickle-cell", "HbS", "glu-val-position-6", "vaso-occlusion", "autosplenectomy", "parvovirus-B19", "hydroxyurea"], "high_yield": true}, {"id": "7-3", "q": "Why are encapsulated organisms (and Salmonella) a risk in sickle cell disease?", "a": "Autosplenectomy → infection by encapsulated organisms (e.g., S. pneumoniae) and Salmonella osteomyelitis.", "module": "Sickle cell disease", "moduleIndex": 7, "tags": ["sickle-cell", "HbS", "glu-val-position-6", "vaso-occlusion", "autosplenectomy", "parvovirus-B19", "hydroxyurea"], "high_yield": true}, {"id": "7-4", "q": "Which virus causes aplastic crisis in sickle cell disease?", "a": "Parvovirus B19.", "module": "Sickle cell disease", "moduleIndex": 7, "tags": ["sickle-cell", "HbS", "glu-val-position-6", "vaso-occlusion", "autosplenectomy", "parvovirus-B19", "hydroxyurea"], "high_yield": true}, {"id": "7-5", "q": "Vignette: child with hemolytic anemia, vaso-occlusive pain crises, dactylitis, and encapsulated-organism infections — diagnosis?", "a": "Sickle cell disease.", "module": "Sickle cell disease", "moduleIndex": 7, "tags": ["sickle-cell", "HbS", "glu-val-position-6", "vaso-occlusion", "autosplenectomy", "parvovirus-B19", "hydroxyurea"], "high_yield": true}, {"id": "8-0", "q": "Amino acid substitution defining hemoglobin C?", "a": "Glutamate → lysine at position 6 of the β chain (Glu→Lys, position 6).", "module": "Hemoglobin C", "moduleIndex": 8, "tags": ["hemoglobin-C", "HbC", "glu-lys-position-6", "target-cells", "HbSC", "mild-hemolysis"], "high_yield": true}, {"id": "8-1", "q": "How does hemoglobin C severity compare with sickle cell disease?", "a": "Milder hemolytic anemia.", "module": "Hemoglobin C", "moduleIndex": 8, "tags": ["hemoglobin-C", "HbC", "glu-lys-position-6", "target-cells", "HbSC", "mild-hemolysis"], "high_yield": true}, {"id": "8-2", "q": "Smear findings in homozygous hemoglobin C (HbCC)?", "a": "Target cells and HbC crystals.", "module": "Hemoglobin C", "moduleIndex": 8, "tags": ["hemoglobin-C", "HbC", "glu-lys-position-6", "target-cells", "HbSC", "mild-hemolysis"], "high_yield": true}, {"id": "8-3", "q": "Trap: position 6 — valine vs lysine?", "a": "Valine → sickle (HbS); lysine → HbC.", "module": "Hemoglobin C", "moduleIndex": 8, "tags": ["hemoglobin-C", "HbC", "glu-lys-position-6", "target-cells", "HbSC", "mild-hemolysis"], "high_yield": true}, {"id": "9-0", "q": "In methemoglobinemia, what oxidation state is heme iron, and can it carry O₂?", "a": "Fe³⁺ (ferric), which cannot bind O₂.", "module": "Methemoglobinemia & CO poisoning", "moduleIndex": 9, "tags": ["methemoglobinemia", "ferric-iron", "methylene-blue", "carbon-monoxide", "carboxyhemoglobin", "pulse-oximetry"], "high_yield": true}, {"id": "9-1", "q": "Blood color and clinical clue in methemoglobinemia?", "a": "Chocolate-brown blood; cyanosis unresponsive to oxygen.", "module": "Methemoglobinemia & CO poisoning", "moduleIndex": 9, "tags": ["methemoglobinemia", "ferric-iron", "methylene-blue", "carbon-monoxide", "carboxyhemoglobin", "pulse-oximetry"], "high_yield": true}, {"id": "9-2", "q": "Common causes and treatment of methemoglobinemia?", "a": "Oxidizing agents (dapsone, nitrites, benzocaine); treat with methylene blue (and vitamin C).", "module": "Methemoglobinemia & CO poisoning", "moduleIndex": 9, "tags": ["methemoglobinemia", "ferric-iron", "methylene-blue", "carbon-monoxide", "carboxyhemoglobin", "pulse-oximetry"], "high_yield": true}, {"id": "9-3", "q": "How does CO impair oxygen delivery, and the classic sign?", "a": "Binds Hb with ~200× the affinity of O₂ (carboxyhemoglobin), left-shifting the curve; classically cherry-red skin.", "module": "Methemoglobinemia & CO poisoning", "moduleIndex": 9, "tags": ["methemoglobinemia", "ferric-iron", "methylene-blue", "carbon-monoxide", "carboxyhemoglobin", "pulse-oximetry"], "high_yield": true}, {"id": "9-4", "q": "What is misleading about pulse oximetry in CO poisoning?", "a": "It reads falsely normal.", "module": "Methemoglobinemia & CO poisoning", "moduleIndex": 9, "tags": ["methemoglobinemia", "ferric-iron", "methylene-blue", "carbon-monoxide", "carboxyhemoglobin", "pulse-oximetry"], "high_yield": true}, {"id": "9-5", "q": "Treatment of CO poisoning?", "a": "100% oxygen (hyperbaric for severe cases).", "module": "Methemoglobinemia & CO poisoning", "moduleIndex": 9, "tags": ["methemoglobinemia", "ferric-iron", "methylene-blue", "carbon-monoxide", "carboxyhemoglobin", "pulse-oximetry"], "high_yield": true}], "tags": ["2-3-BPG", "5-Ps", "ALA-dehydratase", "ALA-synthase", "HbC", "HbF", "HbS", "HbSC", "UDP-glucuronosyltransferase", "acute-intermittent-porphyria", "alpha2gamma2", "autosplenectomy", "basophilic-stippling", "bilirubin", "blistering", "bohr-effect", "carbon-monoxide", "carboxyhemoglobin", "conjugated", "cooperativity", "dark-urine", "ferric-iron", "ferrochelatase", "fetal-hemoglobin", "glu-lys-position-6", "glu-val-position-6", "heme-synthesis", "hemin", "hemoglobin", "hemoglobin-C", "hepatitis-C", "hydroxyurea", "jaundice", "kernicterus", "lead", "lead-poisoning", "left-shift", "methemoglobinemia", "methylene-blue", "mild-hemolysis", "no-photosensitivity", "oxygen-dissociation-curve", "parvovirus-B19", "photosensitivity", "porphobilinogen-deaminase", "porphyria-cutanea-tarda", "pulse-oximetry", "right-shift", "sickle-cell", "succimer", "target-cells", "tea-colored-urine", "unconjugated", "uroporphyrinogen-decarboxylase", "vaso-occlusion", "vitamin-B6", "wrist-drop"], "counts": {"modules": 10, "cards": 53}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* header */
+$('#sectionTitle').textContent = DATA.sectionTitle;
+$('#intro').textContent = DATA.intro;
+$('#stats').innerHTML = `<b>${DATA.counts.modules}</b> modules · <b>${DATA.counts.cards}</b> flashcards`;
+
+/* theme */
+const themeBtn = $('#themeBtn'), root = document.documentElement;
+themeBtn.onclick = () => {
+  const dark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  themeBtn.textContent = dark ? '◐ Night' : '◑ Day';
+};
+
+/* tabs */
+const tabStudy=$('#tabStudy'), tabCards=$('#tabCards'), viewStudy=$('#viewStudy'), viewCards=$('#viewCards');
+function setTab(study){
+  tabStudy.setAttribute('aria-selected', study); tabCards.setAttribute('aria-selected', !study);
+  viewStudy.classList.toggle('hidden', !study); viewCards.classList.toggle('hidden', study);
+}
+tabStudy.onclick=()=>setTab(true); tabCards.onclick=()=>setTab(false);
+
+/* ---------- STUDY ---------- */
+const modList=$('#modList'), article=$('#article');
+DATA.modules.forEach((m,i)=>{
+  const b=document.createElement('button');
+  b.className='modlink'+(m.high_yield?' hy':'');
+  b.innerHTML=`<span class="dot"></span><span>${m.title}</span>`;
+  b.onclick=()=>showModule(i);
+  modList.appendChild(b);
+});
+function showModule(i){
+  const m=DATA.modules[i];
+  $$('.modlink').forEach((el,idx)=>el.setAttribute('aria-current', idx===i));
+  const facts=[];
+  if(m.enzyme) facts.push(`<span class="fact">Enzyme · <b>${m.enzyme}</b></span>`);
+  if(m.inheritance) facts.push(`<span class="fact">Inheritance · <b>${m.inheritance}</b></span>`);
+  if(m.high_yield) facts.push(`<span class="badge-hy">★ High yield</span>`);
+  const tags=m.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  article.innerHTML=`<h2 class="art-title">${m.title}</h2>
+    <div class="factstrip">${facts.join('')}</div>
+    ${tags?`<div class="tagrow">${tags}</div>`:''}
+    <div class="prose">${m.body}</div>`;
+  article.scrollIntoView({behavior:'smooth',block:'start'});
+}
+showModule(0);
+
+/* ---------- FLASHCARDS ---------- */
+let scope='all';
+const scopeSeg=$('#scopeSeg'), moduleField=$('#moduleField'), tagField=$('#tagField');
+const moduleSel=$('#moduleSel'), tagSel=$('#tagSel'), deckCount=$('#deckCount');
+
+DATA.modules.forEach((m,i)=>{
+  const o=document.createElement('option'); o.value=i; o.textContent=`${m.title} (${m.cards.length})`; moduleSel.appendChild(o);
+});
+DATA.tags.forEach(t=>{
+  const n=DATA.cards.filter(c=>c.tags.includes(t)).length;
+  const o=document.createElement('option'); o.value=t; o.textContent=`${t} (${n})`; tagSel.appendChild(o);
+});
+
+scopeSeg.querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>{
+    scope=b.dataset.scope;
+    scopeSeg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+    moduleField.classList.toggle('hidden', scope!=='module');
+    tagField.classList.toggle('hidden', scope!=='tag');
+    updateDeckCount();
+  };
+});
+moduleSel.onchange=updateDeckCount; tagSel.onchange=updateDeckCount;
+
+function currentSelection(){
+  if(scope==='module') return DATA.cards.filter(c=>c.moduleIndex===+moduleSel.value);
+  if(scope==='tag') return DATA.cards.filter(c=>c.tags.includes(tagSel.value));
+  return DATA.cards.slice();
+}
+function updateDeckCount(){
+  const n=currentSelection().length;
+  deckCount.textContent=`${n} card${n===1?'':'s'} in this deck`;
+}
+updateDeckCount();
+
+/* drill state */
+let deck=[], pos=0, revealed=false, got=0, missed=0, missedCards=[];
+const deckSetup=$('#deckSetup'), drill=$('#drill'), results=$('#results');
+const card=$('#card'), qtext=$('#qtext'), atext=$('#atext'), modRef=$('#modRef');
+const judge=$('#judge'), revealHint=$('#revealHint'), pbar=$('#pbar');
+const posLabel=$('#posLabel'), gotCount=$('#gotCount'), missCount=$('#missCount');
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function startDrill(cards){
+  deck=shuffle(cards.slice()); pos=0; got=0; missed=0; missedCards=[];
+  deckSetup.classList.add('hidden'); results.classList.add('hidden'); drill.classList.remove('hidden');
+  render();
+}
+function render(){
+  if(pos>=deck.length){ return finish(); }
+  const c=deck[pos]; revealed=false;
+  qtext.textContent=c.q; atext.textContent=c.a; atext.classList.add('hidden');
+  judge.classList.add('hidden'); revealHint.classList.remove('hidden');
+  modRef.textContent=''; 
+  posLabel.textContent=`Card ${pos+1} of ${deck.length}`;
+  gotCount.textContent=got; missCount.textContent=missed;
+  pbar.style.width=`${(pos/deck.length)*100}%`;
+}
+function reveal(){
+  if(revealed) return;
+  revealed=true;
+  atext.classList.remove('hidden'); judge.classList.remove('hidden');
+  revealHint.classList.add('hidden');
+  modRef.textContent='From: '+deck[pos].module;
+}
+function judgeCard(ok){
+  if(!revealed) return;
+  if(ok) got++; else { missed++; missedCards.push(deck[pos]); }
+  pos++; render();
+}
+function finish(){
+  drill.classList.add('hidden'); results.classList.remove('hidden');
+  const total=got+missed, pct=total?Math.round(got/total*100):0;
+  $('#scoreNum').innerHTML=`${pct}<small>%</small>`;
+  $('#resLine').textContent=`${got} got · ${missed} missed · ${total} cards`;
+  $('#drillMissed').classList.toggle('hidden', missedCards.length===0);
+}
+
+card.onclick=reveal;
+$('#gotBtn').onclick=e=>{e.stopPropagation();judgeCard(true);};
+$('#missBtn').onclick=e=>{e.stopPropagation();judgeCard(false);};
+$('#startBtn').onclick=()=>{const s=currentSelection(); if(s.length) startDrill(s);};
+$('#restartDrill').onclick=()=>startDrill(deck);
+$('#exitDrill').onclick=()=>{drill.classList.add('hidden');deckSetup.classList.remove('hidden');};
+$('#resRestart').onclick=()=>startDrill(deck);
+$('#drillMissed').onclick=()=>startDrill(missedCards);
+$('#resNew').onclick=()=>{results.classList.add('hidden');deckSetup.classList.remove('hidden');};
+
+document.addEventListener('keydown',e=>{
+  if(viewCards.classList.contains('hidden')||drill.classList.contains('hidden'))return;
+  if(e.code==='Space'||e.code==='Enter'){e.preventDefault(); revealed?null:reveal();}
+  else if(revealed&&(e.code==='ArrowRight'||e.key.toLowerCase()==='g')) judgeCard(true);
+  else if(revealed&&(e.code==='ArrowLeft'||e.key.toLowerCase()==='m')) judgeCard(false);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Genetics — Principles &amp; Inheritance — Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ea; --surface:#fbfaf6; --surface-2:#efebe1;
+  --ink:#211f1b; --muted:#6f685b; --faint:#938b7c;
+  --accent:#0b6b63; --accent-ink:#063f3a; --accent-soft:rgba(11,107,99,.10);
+  --hy:#b06a16; --hy-soft:rgba(176,106,22,.12);
+  --line:#e2ddd1; --line-strong:#d3ccbd;
+  --shadow:0 1px 2px rgba(40,34,20,.05),0 8px 28px -14px rgba(40,34,20,.22);
+  --display:"Fraunces",Georgia,serif;
+  --prose:"Newsreader",Georgia,serif;
+  --ui:"Spline Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#14161a; --surface:#1b1e24; --surface-2:#222730;
+  --ink:#e9e5db; --muted:#9d978a; --faint:#76716a;
+  --accent:#54b7ab; --accent-ink:#bfe7e1; --accent-soft:rgba(84,183,171,.12);
+  --hy:#d99f55; --hy-soft:rgba(217,159,85,.14);
+  --line:#2a2f38; --line-strong:#39404b;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--prose);
+  font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 100% 0,var(--accent-soft),transparent 38%);
+  min-height:100vh;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* header */
+header.top{padding:30px 0 14px;border-bottom:1px solid var(--line)}
+.brandrow{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.kicker{font-family:var(--ui);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 6px}
+h1.section{font-family:var(--display);font-weight:600;font-size:clamp(28px,4.4vw,44px);line-height:1.02;margin:0;letter-spacing:-.01em}
+.intro{color:var(--muted);max-width:62ch;margin:14px 0 0;font-size:16.5px}
+.meta-stats{font-family:var(--ui);font-size:12.5px;color:var(--faint);margin-top:12px;letter-spacing:.02em}
+.meta-stats b{color:var(--muted);font-weight:600}
+.theme-btn{font-family:var(--ui);font-size:12.5px;font-weight:500;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:999px;padding:8px 14px;cursor:pointer;white-space:nowrap;transition:.18s}
+.theme-btn:hover{color:var(--ink);border-color:var(--accent)}
+
+/* tabs */
+nav.tabs{display:flex;gap:4px;margin:18px 0 0}
+.tab{font-family:var(--ui);font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--muted);
+  background:none;border:none;border-bottom:2px solid transparent;padding:10px 16px;cursor:pointer;transition:.18s}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+
+main{padding:26px 0 80px}
+
+/* STUDY view */
+.study{display:grid;grid-template-columns:248px 1fr;gap:34px;align-items:start}
+.modlist{position:sticky;top:18px;display:flex;flex-direction:column;gap:2px;font-family:var(--ui)}
+.modlist .lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:0 0 8px 10px;font-weight:600}
+.modlink{text-align:left;background:none;border:none;border-radius:8px;padding:8px 10px;cursor:pointer;
+  color:var(--muted);font-size:13.5px;line-height:1.3;font-weight:500;display:flex;gap:8px;align-items:baseline;transition:.14s}
+.modlink:hover{background:var(--surface);color:var(--ink)}
+.modlink[aria-current="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.modlink .dot{flex:none;width:5px;height:5px;border-radius:50%;background:var(--hy);margin-top:7px;opacity:.0}
+.modlink.hy .dot{opacity:1}
+
+.article{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:34px 38px 40px;box-shadow:var(--shadow);min-height:60vh}
+.art-title{font-family:var(--display);font-weight:600;font-size:30px;line-height:1.08;margin:0 0 4px;letter-spacing:-.01em}
+.factstrip{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px;font-family:var(--ui);font-size:12px}
+.fact{background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:5px 10px;color:var(--muted)}
+.fact b{color:var(--ink);font-weight:600}
+.badge-hy{background:var(--hy-soft);border:1px solid transparent;color:var(--hy);font-weight:600;
+  border-radius:7px;padding:5px 10px;letter-spacing:.04em}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 24px}
+.tag{font-family:var(--ui);font-size:11px;color:var(--faint);background:none;border:1px solid var(--line-strong);
+  border-radius:999px;padding:3px 9px;letter-spacing:.02em}
+
+/* prose */
+.prose{font-family:var(--prose);font-size:18px;color:var(--ink)}
+.prose p{margin:0 0 15px}
+.prose strong{font-weight:600}
+.prose p strong:first-child{color:var(--accent-ink);font-family:var(--ui);font-size:12.5px;letter-spacing:.06em;
+  text-transform:uppercase;font-weight:700;display:inline-block;margin-right:.4em}
+[data-theme="dark"] .prose p strong:first-child{color:var(--accent)}
+.prose ul{margin:0 0 16px;padding-left:0;list-style:none}
+.prose li{position:relative;padding-left:20px;margin:0 0 7px;font-size:16.5px}
+.prose li::before{content:"";position:absolute;left:3px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.55}
+.prose table{width:100%;border-collapse:collapse;margin:10px 0 20px;font-family:var(--ui);font-size:13.5px}
+.prose th{background:var(--surface-2);text-align:left;padding:9px 11px;border:1px solid var(--line);font-weight:600;color:var(--ink)}
+.prose td{padding:9px 11px;border:1px solid var(--line);color:var(--muted);vertical-align:top}
+.prose em{color:var(--muted)}
+
+/* FLASHCARDS view */
+.deck-setup{max-width:560px;margin:6px auto 0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow)}
+.panel h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 18px}
+.field{margin:0 0 16px;font-family:var(--ui)}
+.field label{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 7px}
+select{width:100%;font-family:var(--ui);font-size:14.5px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line-strong);border-radius:9px;padding:11px 12px;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236f685b' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:90px;font-family:var(--ui);font-size:13.5px;font-weight:500;color:var(--muted);
+  background:var(--surface-2);border:1px solid var(--line-strong);border-radius:9px;padding:10px;cursor:pointer;transition:.16s}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+[data-theme="dark"] .seg button[aria-pressed="true"]{color:#0c1416}
+.start-btn,.ctl-primary{font-family:var(--ui);font-size:15px;font-weight:600;color:#fff;background:var(--accent);
+  border:none;border-radius:10px;padding:13px 18px;cursor:pointer;width:100%;transition:.16s;letter-spacing:.01em}
+[data-theme="dark"] .start-btn,[data-theme="dark"] .ctl-primary{color:#0c1416}
+.start-btn:hover,.ctl-primary:hover{filter:brightness(1.06)}
+.deck-count{font-family:var(--ui);font-size:13px;color:var(--faint);text-align:center;margin:14px 0 0}
+
+/* drill */
+.drill{max-width:680px;margin:0 auto}
+.progress{display:flex;align-items:center;justify-content:space-between;font-family:var(--ui);font-size:13px;color:var(--muted);margin:0 0 12px}
+.progress .counts b{font-weight:600}
+.got-c{color:var(--accent)} .miss-c{color:var(--hy)}
+.pbar{height:4px;background:var(--surface-2);border-radius:999px;overflow:hidden;margin:0 0 22px}
+.pbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s ease}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:40px 38px;min-height:280px;display:flex;flex-direction:column;cursor:pointer;
+  transition:transform .15s ease, border-color .2s}
+.card:hover{border-color:var(--line-strong)}
+.card .side-lbl{font-family:var(--ui);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--faint)}
+.card .qtext{font-family:var(--prose);font-size:23px;line-height:1.32;margin:18px 0 0;flex:1;display:flex;align-items:center}
+.card .atext{font-family:var(--prose);font-size:20px;line-height:1.4;margin:16px 0 0;color:var(--accent-ink);
+  border-top:1px solid var(--line);padding-top:18px}
+[data-theme="dark"] .card .atext{color:var(--accent)}
+.card .mod-ref{font-family:var(--ui);font-size:11.5px;color:var(--faint);margin-top:auto;padding-top:18px}
+.reveal-hint{font-family:var(--ui);font-size:12.5px;color:var(--faint);text-align:center;margin:16px 0 0}
+.judge{display:flex;gap:12px;margin:18px 0 0}
+.judge button{flex:1;font-family:var(--ui);font-size:15px;font-weight:600;border-radius:11px;padding:15px;cursor:pointer;transition:.16s;border:1px solid}
+.miss-btn{background:var(--hy-soft);border-color:transparent;color:var(--hy)}
+.miss-btn:hover{background:var(--hy);color:#fff}
+.got-btn{background:var(--accent-soft);border-color:transparent;color:var(--accent-ink)}
+[data-theme="dark"] .got-btn{color:var(--accent)}
+.got-btn:hover{background:var(--accent);color:#fff}
+[data-theme="dark"] .got-btn:hover{color:#0c1416}
+.drill-foot{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 0;font-family:var(--ui);font-size:13px}
+.linkbtn{background:none;border:none;color:var(--muted);font-family:var(--ui);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:hover{color:var(--accent)}
+
+/* results */
+.results{max-width:560px;margin:0 auto;text-align:center}
+.results .panel{padding:40px 30px}
+.score{font-family:var(--display);font-size:54px;font-weight:600;color:var(--accent);line-height:1;margin:6px 0}
+.score small{font-family:var(--ui);font-size:15px;color:var(--faint);font-weight:500}
+.res-line{font-family:var(--ui);font-size:14px;color:var(--muted);margin:8px 0 24px}
+.res-actions{display:flex;flex-direction:column;gap:10px}
+.kbd{font-family:var(--ui);font-size:11px;background:var(--surface-2);border:1px solid var(--line-strong);
+  border-radius:5px;padding:1px 6px;color:var(--faint)}
+
+.hidden{display:none!important}
+@media(max-width:820px){
+  .study{grid-template-columns:1fr;gap:18px}
+  .modlist{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .modlist .lbl{width:100%}
+  .modlink{border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px}
+  .modlink .dot{display:none}
+  .article{padding:26px 22px 30px}
+  body{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brandrow">
+      <div>
+        <p class="kicker">Biochemistry · Study Guide</p>
+        <h1 class="section" id="sectionTitle"></h1>
+      </div>
+      <button class="theme-btn" id="themeBtn">◐ Night</button>
+    </div>
+    <p class="intro" id="intro"></p>
+    <p class="meta-stats" id="stats"></p>
+    <nav class="tabs" role="tablist">
+      <button class="tab" id="tabStudy" role="tab" aria-selected="true">Study</button>
+      <button class="tab" id="tabCards" role="tab" aria-selected="false">Flashcards</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- STUDY -->
+    <section id="viewStudy">
+      <div class="study">
+        <aside class="modlist" id="modList"><p class="lbl">Modules</p></aside>
+        <article class="article" id="article"></article>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section id="viewCards" class="hidden">
+      <div class="deck-setup" id="deckSetup">
+        <div class="panel">
+          <h2>Build a drill deck</h2>
+          <div class="field">
+            <label>Scope</label>
+            <div class="seg" id="scopeSeg">
+              <button data-scope="all" aria-pressed="true">All cards</button>
+              <button data-scope="module">By module</button>
+              <button data-scope="tag">By tag</button>
+            </div>
+          </div>
+          <div class="field hidden" id="moduleField">
+            <label>Module</label>
+            <select id="moduleSel"></select>
+          </div>
+          <div class="field hidden" id="tagField">
+            <label>Tag</label>
+            <select id="tagSel"></select>
+          </div>
+          <button class="start-btn" id="startBtn">Start drill</button>
+          <p class="deck-count" id="deckCount"></p>
+        </div>
+      </div>
+
+      <div class="drill hidden" id="drill">
+        <div class="progress">
+          <span id="posLabel">Card 1</span>
+          <span class="counts"><b class="got-c" id="gotCount">0</b> got · <b class="miss-c" id="missCount">0</b> missed</span>
+        </div>
+        <div class="pbar"><i id="pbar"></i></div>
+        <div class="card" id="card">
+          <span class="side-lbl">Question</span>
+          <div class="qtext" id="qtext"></div>
+          <div class="atext hidden" id="atext"></div>
+          <div class="mod-ref" id="modRef"></div>
+        </div>
+        <p class="reveal-hint" id="revealHint">Tap the card or press <span class="kbd">Space</span> to reveal</p>
+        <div class="judge hidden" id="judge">
+          <button class="miss-btn" id="missBtn">Missed <span class="kbd">←</span></button>
+          <button class="got-btn" id="gotBtn">Got it <span class="kbd">→</span></button>
+        </div>
+        <div class="drill-foot">
+          <button class="linkbtn" id="restartDrill">Restart deck</button>
+          <button class="linkbtn" id="exitDrill">Change deck</button>
+        </div>
+      </div>
+
+      <div class="results hidden" id="results">
+        <div class="panel">
+          <p class="side-lbl" style="font-family:var(--ui);letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--faint)">Deck complete</p>
+          <div class="score" id="scoreNum">0<small>%</small></div>
+          <p class="res-line" id="resLine"></p>
+          <div class="res-actions">
+            <button class="ctl-primary" id="drillMissed">Drill missed only</button>
+            <button class="linkbtn" id="resRestart">Restart full deck</button>
+            <button class="linkbtn" id="resNew">Build a new deck</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script id="data" type="application/json">{"sectionTitle": "Genetics — Principles & Inheritance", "intro": "Section B of the biochem coverage checklist: how single-gene and non-Mendelian traits are transmitted, the concepts that blur the genotype–phenotype link, population genetics, and reading pedigrees. ---", "modules": [{"title": "Mendelian inheritance patterns", "enzyme": "", "inheritance": "", "system": "genetics", "category": "inheritance", "high_yield": true, "tags": ["autosomal-dominant", "autosomal-recessive", "x-linked-recessive", "x-linked-dominant", "codominance"], "body": "<p><strong>Concept.</strong> Classic single-gene disorders transmit predictably based on where the gene sits\nand whether one or two defective copies cause disease. <strong>Autosomal dominant (AD):</strong> one mutant\nallele suffices; both sexes affected, the trait appears in every generation (vertical\ntransmission), and ~50% of an affected parent's children inherit it; often structural proteins\nor receptors, frequently with delayed onset and variable expression (Huntington, Marfan,\nneurofibromatosis, familial hypercholesterolemia). <strong>Autosomal recessive (AR):</strong> two mutant\nalleles needed; often skips generations (affected siblings with unaffected carrier parents),\n~25% recurrence among siblings; typically enzyme deficiencies (most inborn errors of\nmetabolism); increased by consanguinity. <strong>X-linked recessive (XLR):</strong> males affected\n(hemizygous), females usually carriers; crucially <strong>no male-to-male transmission</strong> (a father\ngives sons only his Y); affected males linked through carrier mothers (hemophilia A/B,\nDuchenne, G6PD). <strong>X-linked dominant (XLD):</strong> affects both sexes, but an affected father\npasses it to <em>all</em> daughters and <em>no</em> sons; some are male-lethal (hypophosphatemic rickets).\n<strong>Codominant:</strong> both alleles fully expressed (ABO blood groups, α1-antitrypsin).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>AD: every generation, both sexes, ~50% offspring; often structural/receptor; variable expression.</li>\n<li>AR: skips generations, ~25% sibling recurrence; usually enzymes; consanguinity raises risk.</li>\n<li>XLR: mostly males, carrier mothers; <strong>no male-to-male transmission</strong>.</li>\n<li>XLD: affected father → all daughters, no sons; can be male-lethal.</li>\n<li>Codominance: both alleles expressed (ABO, α1-antitrypsin).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> AD disorders often show incomplete penetrance and variable\nexpressivity (see Core genetic terms). On a pedigree, \"no male-to-male transmission\"\nseparates XLR from AD.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Male-to-male transmission → autosomal (a father can't pass an X to a son), excluding X-linkage.</li>\n<li>AR for most enzyme deficiencies; AD for most structural/receptor defects.</li>\n<li>XLD: affected father → ALL daughters (he gives each his only X), zero sons.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Trait in every generation, father-to-son transmission\" → AD.</li>\n<li>\"Unaffected parents, affected child, consanguinity\" → AR.</li>\n<li>\"Only males affected, through unaffected mothers\" → XLR.</li>\n<li>\"Affected father, all daughters affected, no sons\" → XLD.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"<strong>D</strong>ominant → <strong>D</strong>efects in structural proteins; <strong>R</strong>ecessive → <strong>R</strong>educed\nenzymes.\"</p>\n<p><strong>Inheritance pattern summary</strong></p>\n<table>\n<thead>\n<tr>\n<th>Pattern</th>\n<th>Who's affected</th>\n<th>Pedigree clue</th>\n<th>Examples</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Autosomal dominant</td>\n<td>Both sexes, every generation</td>\n<td>Vertical; male-to-male possible</td>\n<td>Huntington, Marfan, NF1, FH</td>\n</tr>\n<tr>\n<td>Autosomal recessive</td>\n<td>Both sexes, skips generations</td>\n<td>Horizontal; carrier parents</td>\n<td>Most enzyme/metabolic disorders, CF</td>\n</tr>\n<tr>\n<td>X-linked recessive</td>\n<td>Mostly males</td>\n<td>No male-to-male; carrier mothers</td>\n<td>Hemophilia A/B, Duchenne, G6PD</td>\n</tr>\n<tr>\n<td>X-linked dominant</td>\n<td>Both sexes</td>\n<td>Affected father → all daughters, no sons</td>\n<td>Hypophosphatemic rickets</td>\n</tr>\n<tr>\n<td>Mitochondrial</td>\n<td>Both sexes</td>\n<td>Maternal only (see next module)</td>\n<td>Leber, MELAS, MERRF</td>\n</tr>\n</tbody>\n</table>\n<hr />", "cards": [{"q": "Autosomal dominant — who is affected and what is the offspring risk?", "a": "Both sexes, trait in every generation (vertical), ~50% of an affected parent's children; often structural/receptor proteins."}, {"q": "Autosomal recessive — transmission pattern and sibling recurrence risk?", "a": "Two mutant alleles needed; often skips generations with carrier parents; ~25% sibling recurrence; usually enzyme deficiencies."}, {"q": "What is the hallmark of X-linked recessive transmission?", "a": "Mostly affected males through carrier mothers, with no male-to-male transmission."}, {"q": "X-linked dominant — how does an affected father transmit it?", "a": "To all of his daughters and none of his sons."}, {"q": "What does codominance mean (with examples)?", "a": "Both alleles are fully expressed (ABO blood groups, α1-antitrypsin)."}, {"q": "Are most enzyme-deficiency disorders dominant or recessive?", "a": "Recessive (AR); most structural/receptor defects are autosomal dominant."}, {"q": "Trap: what does male-to-male transmission tell you?", "a": "Autosomal inheritance — a father can't pass an X to a son, so it excludes X-linkage."}, {"q": "Vignette: unaffected (consanguineous) parents with an affected child — pattern?", "a": "Autosomal recessive."}, {"q": "Vignette: affected father, all daughters affected, no sons — pattern?", "a": "X-linked dominant."}]}, {"title": "Mitochondrial inheritance & heteroplasmy", "enzyme": "", "inheritance": "", "system": "genetics", "category": "inheritance", "high_yield": true, "tags": ["maternal-inheritance", "heteroplasmy", "leber", "MELAS", "MERRF", "ragged-red-fibers"], "body": "<p><strong>Concept.</strong> Mitochondria carry their own DNA and are inherited almost entirely from the\nmother — the egg supplies the cytoplasm and sperm mitochondria are eliminated — so a mother\nwith a mitochondrial mutation can pass it to <em>all</em> her children, while an affected father\npasses it to <em>none</em>. That maternal-only pattern is the hallmark. Because each cell has many\nmitochondria, a mutation may be present in only some of them (<strong>heteroplasmy</strong>); when cells\ndivide, mutant and wild-type mitochondria partition randomly, so the mutant load — and thus\ndisease severity — varies between tissues and family members. High-energy tissues (CNS,\nmuscle, retina, heart) are hit hardest. Classic disorders: Leber hereditary optic neuropathy\n(acute bilateral vision loss), MELAS, and myoclonic epilepsy with ragged red fibers (MERRF).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Maternal inheritance: affected mother → potentially all children; affected father → none.</li>\n<li>Heteroplasmy: variable mutant load → variable severity across cells and people.</li>\n<li>High-energy tissues affected: neurons, muscle, retina.</li>\n<li>Examples: Leber optic neuropathy, MELAS, MERRF (ragged red fibers on biopsy).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A pedigree in which only mothers transmit, all offspring may be\naffected, and severity varies points to mitochondrial inheritance. Muscle biopsy may show\nragged red fibers.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Maternal-only transmission distinguishes mitochondrial from AR and X-linked.</li>\n<li>Heteroplasmy explains intrafamilial variability in severity.</li>\n<li>Fathers never transmit mitochondrial disease.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Passed only through mothers to all children, variable severity, sudden bilateral vision loss\" → Leber / mitochondrial.</li>\n<li>\"Ragged red fibers\" → mitochondrial myopathy.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"Mitochondria come from <strong>M</strong>om.\"</p>", "cards": [{"q": "How are mitochondria inherited, and what is the transmission hallmark?", "a": "Maternally — an affected mother can pass it to all her children; an affected father passes it to none."}, {"q": "What is heteroplasmy?", "a": "Variable mutant mitochondrial load across cells (mutant and wild-type partition randomly at division), so severity varies between tissues and people."}, {"q": "Which tissues are hit hardest in mitochondrial disorders?", "a": "High-energy tissues — CNS/neurons, muscle, retina, heart."}, {"q": "Name classic mitochondrial disorders.", "a": "Leber hereditary optic neuropathy, MELAS, and MERRF (ragged red fibers on biopsy)."}, {"q": "What is the risk to the biological children of a father with a mitochondrial disorder?", "a": "Essentially zero — fathers do not transmit mitochondrial DNA."}, {"q": "Vignette: maternal-only transmission, variable severity, sudden bilateral vision loss — diagnosis?", "a": "Leber hereditary optic neuropathy (mitochondrial)."}]}, {"title": "Genomic imprinting", "enzyme": "", "inheritance": "", "system": "genetics", "category": "inheritance", "high_yield": true, "tags": ["imprinting", "prader-willi", "angelman", "uniparental-disomy", "methylation"], "body": "<p><strong>Concept.</strong> For most genes both parental copies are expressed, but <strong>imprinted</strong> genes are\nexpressed from only one parent's allele, the other silenced by methylation set during\ngametogenesis. Disease appears when the single active copy is lost or defective. The classic\nlocus is chromosome <strong>15q</strong>: lose the paternal contribution (paternal deletion, or maternal\nuniparental disomy) and you get <strong>Prader-Willi</strong> (hyperphagia and obesity, hypotonia,\nintellectual disability, hypogonadism); lose the maternal contribution (maternal deletion, or\npaternal uniparental disomy) and you get <strong>Angelman</strong> (\"happy puppet\": inappropriate laughter,\nataxic gait, seizures, severe intellectual disability). Same region, opposite parent-of-origin\n— a favorite board contrast. (The disease modules themselves live in Chromosomal Syndromes;\nthis module is the mechanism.)</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Imprinted gene = expressed from one parental allele only (other methylated/silenced).</li>\n<li>Chromosome 15q: Prader-Willi (paternal lost) vs Angelman (maternal lost).</li>\n<li>Mechanisms: deletion of the active-parent allele OR uniparental disomy of the silent parent.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Prader-Willi vs Angelman is the canonical imprinting pair.\nBeckwith-Wiedemann (11p15 imprinting; macroglossia, organomegaly, Wilms tumor risk) is another.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Prader-Willi = loss of <strong>paternal</strong>; Angelman = loss of <strong>maternal</strong> — same 15q region.</li>\n<li>Uniparental disomy can cause either, depending on which parent's pair is duplicated.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Hyperphagia, obesity, hypotonia, paternal 15q deletion\" → Prader-Willi.</li>\n<li>\"Inappropriate laughter, ataxia, seizures, maternal 15q deletion\" → Angelman.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"<strong>P</strong>rader = <strong>P</strong>aternal lost; <strong>A</strong>ngelman = m<strong>A</strong>ternal lost.\"</p>", "cards": [{"q": "What is an imprinted gene?", "a": "A gene expressed from only one parent's allele; the other is silenced by methylation set during gametogenesis."}, {"q": "Which chromosome region underlies Prader-Willi and Angelman syndromes?", "a": "Chromosome 15q."}, {"q": "Prader-Willi results from loss of which parent's contribution?", "a": "The paternal 15q contribution (paternal deletion or maternal uniparental disomy)."}, {"q": "Angelman results from loss of which parent's contribution?", "a": "The maternal 15q contribution (maternal deletion or paternal uniparental disomy)."}, {"q": "What two mechanisms can cause an imprinting disorder?", "a": "Deletion of the active-parent allele, or uniparental disomy of the silent parent."}, {"q": "Trap: Prader-Willi vs Angelman — which parent's loss causes each?", "a": "Prader-Willi = paternal lost; Angelman = maternal lost (same 15q region)."}]}, {"title": "Core genetic terms", "enzyme": "", "inheritance": "", "system": "genetics", "category": "principles", "high_yield": true, "tags": ["penetrance", "expressivity", "pleiotropy", "anticipation", "mosaicism", "heterogeneity", "dominant-negative"], "body": "<p><strong>Concept.</strong> Several recurring concepts explain why genotype doesn't map cleanly onto\nphenotype. <strong>Penetrance</strong> is the fraction of people with a genotype who show <em>any</em> phenotype\n(incomplete penetrance: some carriers look normal — e.g., BRCA). <strong>Expressivity</strong> is how\nstrongly the phenotype shows among those affected (variable expressivity: same genotype,\ndifferent severity — e.g., neurofibromatosis). <strong>Pleiotropy</strong> is one gene producing multiple\nunrelated effects (PKU: intellectual disability, eczema, musty odor). <strong>Anticipation</strong> is\nearlier onset/greater severity each generation (trinucleotide repeats; see Trinucleotide\nRepeat &amp; Cancer). <strong>Mosaicism</strong> is two genetically distinct cell lines in one person from a\npostzygotic mutation (somatic: McCune-Albright; germline mosaicism explains apparently\nunaffected parents with multiple affected children). <strong>Locus heterogeneity</strong> = different genes\ncausing the same phenotype (albinism, retinitis pigmentosa); <strong>allelic heterogeneity</strong> =\ndifferent mutations in the same gene (β-thalassemia). <strong>Dominant negative</strong> = a mutant product\nthat interferes with the normal allele's product (some collagen and transcription-factor\ndefects).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Penetrance: % with the genotype who show the phenotype.</li>\n<li>Expressivity: severity among the affected.</li>\n<li>Pleiotropy: one gene, many effects.</li>\n<li>Anticipation: earlier/worse each generation (repeat expansions).</li>\n<li>Mosaicism: two cell lines (somatic vs germline).</li>\n<li>Locus heterogeneity = different genes; allelic heterogeneity = different mutations in one gene.</li>\n<li>Dominant negative: mutant product sabotages the normal product.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Incomplete penetrance complicates counseling — an \"unaffected\"\ncarrier can still transmit. Germline mosaicism explains recurrence in seemingly unaffected\nfamilies (osteogenesis imperfecta, Duchenne).</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Penetrance (does it show at all?) vs expressivity (how much?).</li>\n<li>Locus heterogeneity (different genes) vs allelic heterogeneity (same gene, different mutations).</li>\n<li>Dominant negative ≠ simple loss of function — the mutant actively interferes.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Obligate carriers with no phenotype\" → incomplete penetrance.</li>\n<li>\"Same mutation, different severity between relatives\" → variable expressivity.</li>\n<li>\"Unaffected parents, several affected children\" → germline mosaicism.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"<strong>Pen</strong>etrance = <strong>Pre</strong>sence (yes/no); <strong>Ex</strong>pressivity = <strong>Ex</strong>tent (how much).\"</p>", "cards": [{"q": "What is penetrance?", "a": "The fraction of people with a genotype who show any phenotype (incomplete penetrance: some carriers look normal, e.g., BRCA)."}, {"q": "What is expressivity?", "a": "How strongly the phenotype shows among those affected (variable expressivity: same genotype, different severity)."}, {"q": "What is pleiotropy (with example)?", "a": "One gene producing multiple unrelated effects (PKU: intellectual disability, eczema, musty odor)."}, {"q": "What is anticipation?", "a": "Earlier onset and greater severity each generation (trinucleotide repeat expansions)."}, {"q": "What is mosaicism?", "a": "Two genetically distinct cell lines in one person from a postzygotic mutation (somatic, e.g., McCune-Albright; or germline)."}, {"q": "Locus heterogeneity vs allelic heterogeneity?", "a": "Locus = different genes causing the same phenotype; allelic = different mutations in the same gene."}, {"q": "What is a dominant-negative mutation?", "a": "A mutant product that interferes with the normal allele's product (some collagen and transcription-factor defects)."}, {"q": "Trap: penetrance vs expressivity?", "a": "Penetrance = whether it shows at all (yes/no); expressivity = how much."}, {"q": "Vignette: unaffected parents with several affected children — concept?", "a": "Germline mosaicism."}]}, {"title": "Loss of heterozygosity & the two-hit hypothesis", "enzyme": "", "inheritance": "", "system": "genetics", "category": "cancer genetics", "high_yield": true, "tags": ["tumor-suppressor", "two-hit", "knudson", "retinoblastoma", "loss-of-heterozygosity"], "body": "<p><strong>Concept.</strong> Tumor suppressor genes restrain cell division, and because <em>both</em> copies must\nusually be lost to release the brake, they follow Knudson's \"two-hit\" model. In <strong>sporadic</strong>\ncancer, both hits are acquired somatically in a single cell — a rare coincidence, so the\ntumor appears late and is usually unifocal. In <strong>hereditary</strong> cancer, the person inherits one\ndefective allele in every cell (the first hit is germline), so only a single somatic \"second\nhit\" — <strong>loss of heterozygosity</strong> at the remaining normal allele — is needed; tumors appear\nearlier and are often bilateral or multifocal. Retinoblastoma (RB1) is the prototype:\nhereditary cases are bilateral and early, sporadic cases unilateral and later. The same logic\ngoverns other tumor suppressors (APC, BRCA, NF1, VHL, TP53/Li-Fraumeni).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Tumor suppressors usually require BOTH alleles inactivated (two hits).</li>\n<li>Hereditary: first hit germline → one somatic hit (LOH) → early, bilateral.</li>\n<li>Sporadic: both hits somatic → late, unilateral.</li>\n<li>Retinoblastoma (RB1) is the prototype.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Bilateral retinoblastoma in an infant signals the hereditary\n(germline RB1) form, which also carries later osteosarcoma risk. Contrast with oncogenes,\nwhich need only ONE activated allele (gain of function).</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Tumor suppressors: two hits, loss of function (recessive at the cell level).</li>\n<li>Oncogenes: one hit, gain of function (dominant at the cell level).</li>\n<li>Loss of heterozygosity = the second hit removing the remaining normal allele.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Bilateral retinoblastoma in infancy, family history\" → hereditary RB1, two-hit.</li>\n<li>\"Unilateral retinoblastoma, older child, no family history\" → sporadic.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"Tumor suppressors need <strong>Two</strong>; oncogenes need <strong>One</strong>.\"</p>", "cards": [{"q": "Why do tumor suppressor genes follow a two-hit model?", "a": "Both copies must usually be inactivated to release the brake on cell division (Knudson's two-hit hypothesis)."}, {"q": "In hereditary cancer, where is the first hit and what is the second?", "a": "First hit is germline (present in every cell); the second is a somatic loss of heterozygosity at the remaining normal allele."}, {"q": "How do hereditary vs sporadic tumor-suppressor cancers present?", "a": "Hereditary = earlier, often bilateral/multifocal; sporadic = later, usually unilateral (both hits somatic)."}, {"q": "What is the prototype two-hit tumor suppressor disorder?", "a": "Retinoblastoma (RB1)."}, {"q": "Tumor suppressors vs oncogenes — how many hits, and what kind of change?", "a": "Tumor suppressors need two hits (loss of function); oncogenes need one (gain of function)."}, {"q": "What is loss of heterozygosity?", "a": "The second hit that removes the remaining normal allele of a tumor suppressor gene."}, {"q": "Vignette: bilateral retinoblastoma in infancy with family history — hereditary or sporadic?", "a": "Hereditary (germline RB1)."}]}, {"title": "Hardy-Weinberg equilibrium", "enzyme": "", "inheritance": "", "system": "genetics", "category": "population genetics", "high_yield": true, "tags": ["hardy-weinberg", "allele-frequency", "carrier-frequency", "equilibrium"], "body": "<p><strong>Concept.</strong> Hardy-Weinberg estimates allele and genotype frequencies in a population that\nisn't evolving. For a two-allele locus with frequencies p (wild-type) and q (disease),\n<strong>p + q = 1</strong> and <strong>p² + 2pq + q² = 1</strong>, where p² = homozygous wild-type, 2pq = heterozygous\ncarriers, and q² = homozygous affected. So for an autosomal recessive disease, q² is the\ndisease frequency, q is the disease-allele frequency (√q²), and 2pq estimates carrier\nfrequency. The equilibrium assumes no mutation, no selection, no migration, random mating,\nand a large population (no drift) — the board move is to confirm the stem <em>says</em> the\npopulation is in equilibrium before applying the formulas. For X-linked recessive traits,\nthe affected-male frequency equals q (males are hemizygous), which is why X-linked diseases\nare commoner in males.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>p + q = 1; p² + 2pq + q² = 1.</li>\n<li>q² = affected (AR) frequency; q = √(disease frequency); 2pq = carrier frequency.</li>\n<li>Assumptions: no mutation/selection/migration, random mating, large population.</li>\n<li>X-linked recessive: affected-male frequency = q.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Used in counseling to estimate carrier risk. If an AR disease\naffects 1/10,000, then q² = 1/10,000, q = 1/100, and carrier frequency 2pq ≈ 2(1)(1/100) ≈ 1/50.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>2pq = carriers; q² = affected — don't report q² as the carrier rate.</li>\n<li>Confirm equilibrium is stated before using the formulas.</li>\n<li>For X-linked recessive, affected-male frequency = q (not q²).</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"AR disease incidence given; asked for carrier frequency\" → q = √incidence, carriers ≈ 2pq.</li>\n<li>\"Population in equilibrium\" is the green light to apply it.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"q² = affected; 2pq = carriers.\"</p>", "cards": [{"q": "What are the two Hardy-Weinberg equations?", "a": "p + q = 1 and p² + 2pq + q² = 1."}, {"q": "In Hardy-Weinberg, what do q² and 2pq represent?", "a": "q² = homozygous affected (the AR disease frequency); 2pq = heterozygous carriers."}, {"q": "How do you get the disease-allele frequency q from an AR disease frequency?", "a": "q = √(disease frequency), since q² equals the disease frequency."}, {"q": "What are the Hardy-Weinberg assumptions?", "a": "No mutation, no selection, no migration, random mating, and a large population (no drift)."}, {"q": "For an X-linked recessive trait, the affected-male frequency equals what?", "a": "q (males are hemizygous) — which is why X-linked diseases are commoner in males."}, {"q": "An AR disease affects 1/10,000 in equilibrium — approximate carrier frequency?", "a": "~1/50 (q² = 1/10,000 → q = 1/100 → 2pq ≈ 1/50)."}, {"q": "Trap: which term is the carrier frequency, q² or 2pq?", "a": "2pq is carriers; q² is affected."}]}, {"title": "Founder effect, consanguinity & genetic drift", "enzyme": "", "inheritance": "", "system": "genetics", "category": "population genetics", "high_yield": true, "tags": ["founder-effect", "genetic-drift", "bottleneck", "consanguinity"], "body": "<p><strong>Concept.</strong> Several forces push real populations away from Hardy-Weinberg expectations. The\n<strong>founder effect</strong> occurs when a small group establishes a population while carrying a\nnon-representative slice of alleles, so a rare allele can become relatively common downstream\n(e.g., Tay-Sachs and related disorders in Ashkenazi Jewish populations; specific disorders in\ngenetically isolated communities). <strong>Genetic drift</strong> is random fluctuation of allele\nfrequencies, strongest in small populations, and includes the <strong>bottleneck effect</strong> after a\nsharp population reduction. <strong>Consanguinity</strong> (mating between relatives) raises the chance\nthat two copies of a rare recessive allele meet in one person, increasing autosomal recessive\ndisease risk in offspring. Together these explain why certain recessive diseases cluster in\nparticular or inbred populations.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Founder effect: small founding group → skewed allele frequencies (Ashkenazi Tay-Sachs).</li>\n<li>Genetic drift: random frequency change, strongest in small populations; bottleneck after a crash.</li>\n<li>Consanguinity: raises autosomal recessive disease risk in offspring.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Targeted carrier screening in founder populations (Tay-Sachs,\nCanavan, Gaucher in Ashkenazi Jewish individuals; sickle cell and β-thalassemia regionally).\nConsanguineous unions warrant expanded recessive-disease counseling.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Founder effect (a specific allele enriched in a derived population) vs drift (random) vs\n  bottleneck (after a population crash).</li>\n<li>Consanguinity raises <em>recessive</em>, not dominant, disease risk.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Rare recessive disease unusually common in an isolated/founder population\" → founder effect.</li>\n<li>\"First-cousin marriage, child with a rare recessive disease\" → consanguinity.</li>\n</ul>", "cards": [{"q": "What is the founder effect?", "a": "A small founding group carries a non-representative slice of alleles, so a rare allele can become relatively common downstream (e.g., Tay-Sachs in Ashkenazi populations)."}, {"q": "What is genetic drift, and where is it strongest?", "a": "Random fluctuation of allele frequencies, strongest in small populations; it includes the bottleneck effect after a population crash."}, {"q": "How does consanguinity affect disease risk?", "a": "It raises the chance two copies of a rare recessive allele meet in one person, increasing autosomal recessive disease risk in offspring."}, {"q": "What is the bottleneck effect?", "a": "A form of genetic drift following a sharp population reduction."}, {"q": "Trap: does consanguinity raise recessive or dominant disease risk?", "a": "Recessive."}, {"q": "Vignette: rare recessive disease unusually common in an isolated founder community — concept?", "a": "Founder effect."}]}, {"title": "Pedigree analysis", "enzyme": "", "inheritance": "", "system": "genetics", "category": "principles", "high_yield": true, "tags": ["pedigree", "inheritance-pattern", "male-to-male", "recurrence-risk"], "body": "<p><strong>Concept.</strong> A pedigree diagrams a family so an inheritance pattern can be read off directly:\nsquares = males, circles = females, filled symbols = affected, a horizontal line = mating,\nverticals = offspring. The reasoning is elimination. A trait in every generation <em>with</em>\nmale-to-male transmission → autosomal dominant. A trait skipping generations with unaffected\ncarrier parents → autosomal recessive. Mostly affected males transmitted through unaffected\nmothers with <strong>no</strong> male-to-male transmission → X-linked recessive. Affected fathers passing\nto all daughters and no sons → X-linked dominant. Transmission only through mothers to\npotentially all children → mitochondrial. The single most useful discriminator is\n<strong>male-to-male transmission</strong>, which is possible only with autosomal (or Y-linked) inheritance\nand rules out X-linkage.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Square = male, circle = female; filled = affected.</li>\n<li>Male-to-male transmission → autosomal (rules OUT X-linked).</li>\n<li>AD: vertical, every generation, both sexes.</li>\n<li>AR: horizontal, skips generations, carrier parents.</li>\n<li>XLR: affected males via carrier mothers, no male-to-male.</li>\n<li>XLD: affected father → all daughters, no sons.</li>\n<li>Mitochondrial: maternal only, all offspring at risk.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Reading pedigrees underlies recurrence-risk counseling. Incomplete\npenetrance can make an AD pedigree appear to skip a generation — a classic trap.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Male-to-male transmission is the killer clue for autosomal (excludes X-linked).</li>\n<li>Incomplete penetrance can mimic skipped generations in AD.</li>\n<li>Maternal-only transmission → mitochondrial, not X-linked.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Affected father and affected son\" → autosomal (not X-linked).</li>\n<li>\"Only males affected, through unaffected mothers\" → XLR.</li>\n<li>\"All daughters of an affected man affected, no sons\" → XLD.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"Father-to-son = not on the X.\"</p>", "cards": [{"q": "In a pedigree, what do squares, circles, and filled symbols mean?", "a": "Squares = males, circles = females, filled symbols = affected."}, {"q": "What is the single most useful pedigree discriminator?", "a": "Male-to-male transmission — possible only with autosomal (or Y-linked) inheritance, so it rules out X-linkage."}, {"q": "Pedigree: trait in every generation with male-to-male transmission — pattern?", "a": "Autosomal dominant."}, {"q": "Pedigree: affected males only, transmitted through unaffected mothers, no male-to-male — pattern?", "a": "X-linked recessive."}, {"q": "Pedigree: transmission only through mothers to potentially all children — pattern?", "a": "Mitochondrial."}, {"q": "Trap: how can incomplete penetrance mislead pedigree reading?", "a": "It can make an autosomal dominant pedigree appear to skip a generation."}]}], "cards": [{"id": "0-0", "q": "Autosomal dominant — who is affected and what is the offspring risk?", "a": "Both sexes, trait in every generation (vertical), ~50% of an affected parent's children; often structural/receptor proteins.", "module": "Mendelian inheritance patterns", "moduleIndex": 0, "tags": ["autosomal-dominant", "autosomal-recessive", "x-linked-recessive", "x-linked-dominant", "codominance"], "high_yield": true}, {"id": "0-1", "q": "Autosomal recessive — transmission pattern and sibling recurrence risk?", "a": "Two mutant alleles needed; often skips generations with carrier parents; ~25% sibling recurrence; usually enzyme deficiencies.", "module": "Mendelian inheritance patterns", "moduleIndex": 0, "tags": ["autosomal-dominant", "autosomal-recessive", "x-linked-recessive", "x-linked-dominant", "codominance"], "high_yield": true}, {"id": "0-2", "q": "What is the hallmark of X-linked recessive transmission?", "a": "Mostly affected males through carrier mothers, with no male-to-male transmission.", "module": "Mendelian inheritance patterns", "moduleIndex": 0, "tags": ["autosomal-dominant", "autosomal-recessive", "x-linked-recessive", "x-linked-dominant", "codominance"], "high_yield": true}, {"id": "0-3", "q": "X-linked dominant — how does an affected father transmit it?", "a": "To all of his daughters and none of his sons.", "module": "Mendelian inheritance patterns", "moduleIndex": 0, "tags": ["autosomal-dominant", "autosomal-recessive", "x-linked-recessive", "x-linked-dominant", "codominance"], "high_yield": true}, {"id": "0-4", "q": "What does codominance mean (with examples)?", "a": "Both alleles are fully expressed (ABO blood groups, α1-antitrypsin).", "module": "Mendelian inheritance patterns", "moduleIndex": 0, "tags": ["autosomal-dominant", "autosomal-recessive", "x-linked-recessive", "x-linked-dominant", "codominance"], "high_yield": true}, {"id": "0-5", "q": "Are most enzyme-deficiency disorders dominant or recessive?", "a": "Recessive (AR); most structural/receptor defects are autosomal dominant.", "module": "Mendelian inheritance patterns", "moduleIndex": 0, "tags": ["autosomal-dominant", "autosomal-recessive", "x-linked-recessive", "x-linked-dominant", "codominance"], "high_yield": true}, {"id": "0-6", "q": "Trap: what does male-to-male transmission tell you?", "a": "Autosomal inheritance — a father can't pass an X to a son, so it excludes X-linkage.", "module": "Mendelian inheritance patterns", "moduleIndex": 0, "tags": ["autosomal-dominant", "autosomal-recessive", "x-linked-recessive", "x-linked-dominant", "codominance"], "high_yield": true}, {"id": "0-7", "q": "Vignette: unaffected (consanguineous) parents with an affected child — pattern?", "a": "Autosomal recessive.", "module": "Mendelian inheritance patterns", "moduleIndex": 0, "tags": ["autosomal-dominant", "autosomal-recessive", "x-linked-recessive", "x-linked-dominant", "codominance"], "high_yield": true}, {"id": "0-8", "q": "Vignette: affected father, all daughters affected, no sons — pattern?", "a": "X-linked dominant.", "module": "Mendelian inheritance patterns", "moduleIndex": 0, "tags": ["autosomal-dominant", "autosomal-recessive", "x-linked-recessive", "x-linked-dominant", "codominance"], "high_yield": true}, {"id": "1-0", "q": "How are mitochondria inherited, and what is the transmission hallmark?", "a": "Maternally — an affected mother can pass it to all her children; an affected father passes it to none.", "module": "Mitochondrial inheritance & heteroplasmy", "moduleIndex": 1, "tags": ["maternal-inheritance", "heteroplasmy", "leber", "MELAS", "MERRF", "ragged-red-fibers"], "high_yield": true}, {"id": "1-1", "q": "What is heteroplasmy?", "a": "Variable mutant mitochondrial load across cells (mutant and wild-type partition randomly at division), so severity varies between tissues and people.", "module": "Mitochondrial inheritance & heteroplasmy", "moduleIndex": 1, "tags": ["maternal-inheritance", "heteroplasmy", "leber", "MELAS", "MERRF", "ragged-red-fibers"], "high_yield": true}, {"id": "1-2", "q": "Which tissues are hit hardest in mitochondrial disorders?", "a": "High-energy tissues — CNS/neurons, muscle, retina, heart.", "module": "Mitochondrial inheritance & heteroplasmy", "moduleIndex": 1, "tags": ["maternal-inheritance", "heteroplasmy", "leber", "MELAS", "MERRF", "ragged-red-fibers"], "high_yield": true}, {"id": "1-3", "q": "Name classic mitochondrial disorders.", "a": "Leber hereditary optic neuropathy, MELAS, and MERRF (ragged red fibers on biopsy).", "module": "Mitochondrial inheritance & heteroplasmy", "moduleIndex": 1, "tags": ["maternal-inheritance", "heteroplasmy", "leber", "MELAS", "MERRF", "ragged-red-fibers"], "high_yield": true}, {"id": "1-4", "q": "What is the risk to the biological children of a father with a mitochondrial disorder?", "a": "Essentially zero — fathers do not transmit mitochondrial DNA.", "module": "Mitochondrial inheritance & heteroplasmy", "moduleIndex": 1, "tags": ["maternal-inheritance", "heteroplasmy", "leber", "MELAS", "MERRF", "ragged-red-fibers"], "high_yield": true}, {"id": "1-5", "q": "Vignette: maternal-only transmission, variable severity, sudden bilateral vision loss — diagnosis?", "a": "Leber hereditary optic neuropathy (mitochondrial).", "module": "Mitochondrial inheritance & heteroplasmy", "moduleIndex": 1, "tags": ["maternal-inheritance", "heteroplasmy", "leber", "MELAS", "MERRF", "ragged-red-fibers"], "high_yield": true}, {"id": "2-0", "q": "What is an imprinted gene?", "a": "A gene expressed from only one parent's allele; the other is silenced by methylation set during gametogenesis.", "module": "Genomic imprinting", "moduleIndex": 2, "tags": ["imprinting", "prader-willi", "angelman", "uniparental-disomy", "methylation"], "high_yield": true}, {"id": "2-1", "q": "Which chromosome region underlies Prader-Willi and Angelman syndromes?", "a": "Chromosome 15q.", "module": "Genomic imprinting", "moduleIndex": 2, "tags": ["imprinting", "prader-willi", "angelman", "uniparental-disomy", "methylation"], "high_yield": true}, {"id": "2-2", "q": "Prader-Willi results from loss of which parent's contribution?", "a": "The paternal 15q contribution (paternal deletion or maternal uniparental disomy).", "module": "Genomic imprinting", "moduleIndex": 2, "tags": ["imprinting", "prader-willi", "angelman", "uniparental-disomy", "methylation"], "high_yield": true}, {"id": "2-3", "q": "Angelman results from loss of which parent's contribution?", "a": "The maternal 15q contribution (maternal deletion or paternal uniparental disomy).", "module": "Genomic imprinting", "moduleIndex": 2, "tags": ["imprinting", "prader-willi", "angelman", "uniparental-disomy", "methylation"], "high_yield": true}, {"id": "2-4", "q": "What two mechanisms can cause an imprinting disorder?", "a": "Deletion of the active-parent allele, or uniparental disomy of the silent parent.", "module": "Genomic imprinting", "moduleIndex": 2, "tags": ["imprinting", "prader-willi", "angelman", "uniparental-disomy", "methylation"], "high_yield": true}, {"id": "2-5", "q": "Trap: Prader-Willi vs Angelman — which parent's loss causes each?", "a": "Prader-Willi = paternal lost; Angelman = maternal lost (same 15q region).", "module": "Genomic imprinting", "moduleIndex": 2, "tags": ["imprinting", "prader-willi", "angelman", "uniparental-disomy", "methylation"], "high_yield": true}, {"id": "3-0", "q": "What is penetrance?", "a": "The fraction of people with a genotype who show any phenotype (incomplete penetrance: some carriers look normal, e.g., BRCA).", "module": "Core genetic terms", "moduleIndex": 3, "tags": ["penetrance", "expressivity", "pleiotropy", "anticipation", "mosaicism", "heterogeneity", "dominant-negative"], "high_yield": true}, {"id": "3-1", "q": "What is expressivity?", "a": "How strongly the phenotype shows among those affected (variable expressivity: same genotype, different severity).", "module": "Core genetic terms", "moduleIndex": 3, "tags": ["penetrance", "expressivity", "pleiotropy", "anticipation", "mosaicism", "heterogeneity", "dominant-negative"], "high_yield": true}, {"id": "3-2", "q": "What is pleiotropy (with example)?", "a": "One gene producing multiple unrelated effects (PKU: intellectual disability, eczema, musty odor).", "module": "Core genetic terms", "moduleIndex": 3, "tags": ["penetrance", "expressivity", "pleiotropy", "anticipation", "mosaicism", "heterogeneity", "dominant-negative"], "high_yield": true}, {"id": "3-3", "q": "What is anticipation?", "a": "Earlier onset and greater severity each generation (trinucleotide repeat expansions).", "module": "Core genetic terms", "moduleIndex": 3, "tags": ["penetrance", "expressivity", "pleiotropy", "anticipation", "mosaicism", "heterogeneity", "dominant-negative"], "high_yield": true}, {"id": "3-4", "q": "What is mosaicism?", "a": "Two genetically distinct cell lines in one person from a postzygotic mutation (somatic, e.g., McCune-Albright; or germline).", "module": "Core genetic terms", "moduleIndex": 3, "tags": ["penetrance", "expressivity", "pleiotropy", "anticipation", "mosaicism", "heterogeneity", "dominant-negative"], "high_yield": true}, {"id": "3-5", "q": "Locus heterogeneity vs allelic heterogeneity?", "a": "Locus = different genes causing the same phenotype; allelic = different mutations in the same gene.", "module": "Core genetic terms", "moduleIndex": 3, "tags": ["penetrance", "expressivity", "pleiotropy", "anticipation", "mosaicism", "heterogeneity", "dominant-negative"], "high_yield": true}, {"id": "3-6", "q": "What is a dominant-negative mutation?", "a": "A mutant product that interferes with the normal allele's product (some collagen and transcription-factor defects).", "module": "Core genetic terms", "moduleIndex": 3, "tags": ["penetrance", "expressivity", "pleiotropy", "anticipation", "mosaicism", "heterogeneity", "dominant-negative"], "high_yield": true}, {"id": "3-7", "q": "Trap: penetrance vs expressivity?", "a": "Penetrance = whether it shows at all (yes/no); expressivity = how much.", "module": "Core genetic terms", "moduleIndex": 3, "tags": ["penetrance", "expressivity", "pleiotropy", "anticipation", "mosaicism", "heterogeneity", "dominant-negative"], "high_yield": true}, {"id": "3-8", "q": "Vignette: unaffected parents with several affected children — concept?", "a": "Germline mosaicism.", "module": "Core genetic terms", "moduleIndex": 3, "tags": ["penetrance", "expressivity", "pleiotropy", "anticipation", "mosaicism", "heterogeneity", "dominant-negative"], "high_yield": true}, {"id": "4-0", "q": "Why do tumor suppressor genes follow a two-hit model?", "a": "Both copies must usually be inactivated to release the brake on cell division (Knudson's two-hit hypothesis).", "module": "Loss of heterozygosity & the two-hit hypothesis", "moduleIndex": 4, "tags": ["tumor-suppressor", "two-hit", "knudson", "retinoblastoma", "loss-of-heterozygosity"], "high_yield": true}, {"id": "4-1", "q": "In hereditary cancer, where is the first hit and what is the second?", "a": "First hit is germline (present in every cell); the second is a somatic loss of heterozygosity at the remaining normal allele.", "module": "Loss of heterozygosity & the two-hit hypothesis", "moduleIndex": 4, "tags": ["tumor-suppressor", "two-hit", "knudson", "retinoblastoma", "loss-of-heterozygosity"], "high_yield": true}, {"id": "4-2", "q": "How do hereditary vs sporadic tumor-suppressor cancers present?", "a": "Hereditary = earlier, often bilateral/multifocal; sporadic = later, usually unilateral (both hits somatic).", "module": "Loss of heterozygosity & the two-hit hypothesis", "moduleIndex": 4, "tags": ["tumor-suppressor", "two-hit", "knudson", "retinoblastoma", "loss-of-heterozygosity"], "high_yield": true}, {"id": "4-3", "q": "What is the prototype two-hit tumor suppressor disorder?", "a": "Retinoblastoma (RB1).", "module": "Loss of heterozygosity & the two-hit hypothesis", "moduleIndex": 4, "tags": ["tumor-suppressor", "two-hit", "knudson", "retinoblastoma", "loss-of-heterozygosity"], "high_yield": true}, {"id": "4-4", "q": "Tumor suppressors vs oncogenes — how many hits, and what kind of change?", "a": "Tumor suppressors need two hits (loss of function); oncogenes need one (gain of function).", "module": "Loss of heterozygosity & the two-hit hypothesis", "moduleIndex": 4, "tags": ["tumor-suppressor", "two-hit", "knudson", "retinoblastoma", "loss-of-heterozygosity"], "high_yield": true}, {"id": "4-5", "q": "What is loss of heterozygosity?", "a": "The second hit that removes the remaining normal allele of a tumor suppressor gene.", "module": "Loss of heterozygosity & the two-hit hypothesis", "moduleIndex": 4, "tags": ["tumor-suppressor", "two-hit", "knudson", "retinoblastoma", "loss-of-heterozygosity"], "high_yield": true}, {"id": "4-6", "q": "Vignette: bilateral retinoblastoma in infancy with family history — hereditary or sporadic?", "a": "Hereditary (germline RB1).", "module": "Loss of heterozygosity & the two-hit hypothesis", "moduleIndex": 4, "tags": ["tumor-suppressor", "two-hit", "knudson", "retinoblastoma", "loss-of-heterozygosity"], "high_yield": true}, {"id": "5-0", "q": "What are the two Hardy-Weinberg equations?", "a": "p + q = 1 and p² + 2pq + q² = 1.", "module": "Hardy-Weinberg equilibrium", "moduleIndex": 5, "tags": ["hardy-weinberg", "allele-frequency", "carrier-frequency", "equilibrium"], "high_yield": true}, {"id": "5-1", "q": "In Hardy-Weinberg, what do q² and 2pq represent?", "a": "q² = homozygous affected (the AR disease frequency); 2pq = heterozygous carriers.", "module": "Hardy-Weinberg equilibrium", "moduleIndex": 5, "tags": ["hardy-weinberg", "allele-frequency", "carrier-frequency", "equilibrium"], "high_yield": true}, {"id": "5-2", "q": "How do you get the disease-allele frequency q from an AR disease frequency?", "a": "q = √(disease frequency), since q² equals the disease frequency.", "module": "Hardy-Weinberg equilibrium", "moduleIndex": 5, "tags": ["hardy-weinberg", "allele-frequency", "carrier-frequency", "equilibrium"], "high_yield": true}, {"id": "5-3", "q": "What are the Hardy-Weinberg assumptions?", "a": "No mutation, no selection, no migration, random mating, and a large population (no drift).", "module": "Hardy-Weinberg equilibrium", "moduleIndex": 5, "tags": ["hardy-weinberg", "allele-frequency", "carrier-frequency", "equilibrium"], "high_yield": true}, {"id": "5-4", "q": "For an X-linked recessive trait, the affected-male frequency equals what?", "a": "q (males are hemizygous) — which is why X-linked diseases are commoner in males.", "module": "Hardy-Weinberg equilibrium", "moduleIndex": 5, "tags": ["hardy-weinberg", "allele-frequency", "carrier-frequency", "equilibrium"], "high_yield": true}, {"id": "5-5", "q": "An AR disease affects 1/10,000 in equilibrium — approximate carrier frequency?", "a": "~1/50 (q² = 1/10,000 → q = 1/100 → 2pq ≈ 1/50).", "module": "Hardy-Weinberg equilibrium", "moduleIndex": 5, "tags": ["hardy-weinberg", "allele-frequency", "carrier-frequency", "equilibrium"], "high_yield": true}, {"id": "5-6", "q": "Trap: which term is the carrier frequency, q² or 2pq?", "a": "2pq is carriers; q² is affected.", "module": "Hardy-Weinberg equilibrium", "moduleIndex": 5, "tags": ["hardy-weinberg", "allele-frequency", "carrier-frequency", "equilibrium"], "high_yield": true}, {"id": "6-0", "q": "What is the founder effect?", "a": "A small founding group carries a non-representative slice of alleles, so a rare allele can become relatively common downstream (e.g., Tay-Sachs in Ashkenazi populations).", "module": "Founder effect, consanguinity & genetic drift", "moduleIndex": 6, "tags": ["founder-effect", "genetic-drift", "bottleneck", "consanguinity"], "high_yield": true}, {"id": "6-1", "q": "What is genetic drift, and where is it strongest?", "a": "Random fluctuation of allele frequencies, strongest in small populations; it includes the bottleneck effect after a population crash.", "module": "Founder effect, consanguinity & genetic drift", "moduleIndex": 6, "tags": ["founder-effect", "genetic-drift", "bottleneck", "consanguinity"], "high_yield": true}, {"id": "6-2", "q": "How does consanguinity affect disease risk?", "a": "It raises the chance two copies of a rare recessive allele meet in one person, increasing autosomal recessive disease risk in offspring.", "module": "Founder effect, consanguinity & genetic drift", "moduleIndex": 6, "tags": ["founder-effect", "genetic-drift", "bottleneck", "consanguinity"], "high_yield": true}, {"id": "6-3", "q": "What is the bottleneck effect?", "a": "A form of genetic drift following a sharp population reduction.", "module": "Founder effect, consanguinity & genetic drift", "moduleIndex": 6, "tags": ["founder-effect", "genetic-drift", "bottleneck", "consanguinity"], "high_yield": true}, {"id": "6-4", "q": "Trap: does consanguinity raise recessive or dominant disease risk?", "a": "Recessive.", "module": "Founder effect, consanguinity & genetic drift", "moduleIndex": 6, "tags": ["founder-effect", "genetic-drift", "bottleneck", "consanguinity"], "high_yield": true}, {"id": "6-5", "q": "Vignette: rare recessive disease unusually common in an isolated founder community — concept?", "a": "Founder effect.", "module": "Founder effect, consanguinity & genetic drift", "moduleIndex": 6, "tags": ["founder-effect", "genetic-drift", "bottleneck", "consanguinity"], "high_yield": true}, {"id": "7-0", "q": "In a pedigree, what do squares, circles, and filled symbols mean?", "a": "Squares = males, circles = females, filled symbols = affected.", "module": "Pedigree analysis", "moduleIndex": 7, "tags": ["pedigree", "inheritance-pattern", "male-to-male", "recurrence-risk"], "high_yield": true}, {"id": "7-1", "q": "What is the single most useful pedigree discriminator?", "a": "Male-to-male transmission — possible only with autosomal (or Y-linked) inheritance, so it rules out X-linkage.", "module": "Pedigree analysis", "moduleIndex": 7, "tags": ["pedigree", "inheritance-pattern", "male-to-male", "recurrence-risk"], "high_yield": true}, {"id": "7-2", "q": "Pedigree: trait in every generation with male-to-male transmission — pattern?", "a": "Autosomal dominant.", "module": "Pedigree analysis", "moduleIndex": 7, "tags": ["pedigree", "inheritance-pattern", "male-to-male", "recurrence-risk"], "high_yield": true}, {"id": "7-3", "q": "Pedigree: affected males only, transmitted through unaffected mothers, no male-to-male — pattern?", "a": "X-linked recessive.", "module": "Pedigree analysis", "moduleIndex": 7, "tags": ["pedigree", "inheritance-pattern", "male-to-male", "recurrence-risk"], "high_yield": true}, {"id": "7-4", "q": "Pedigree: transmission only through mothers to potentially all children — pattern?", "a": "Mitochondrial.", "module": "Pedigree analysis", "moduleIndex": 7, "tags": ["pedigree", "inheritance-pattern", "male-to-male", "recurrence-risk"], "high_yield": true}, {"id": "7-5", "q": "Trap: how can incomplete penetrance mislead pedigree reading?", "a": "It can make an autosomal dominant pedigree appear to skip a generation.", "module": "Pedigree analysis", "moduleIndex": 7, "tags": ["pedigree", "inheritance-pattern", "male-to-male", "recurrence-risk"], "high_yield": true}], "tags": ["MELAS", "MERRF", "allele-frequency", "angelman", "anticipation", "autosomal-dominant", "autosomal-recessive", "bottleneck", "carrier-frequency", "codominance", "consanguinity", "dominant-negative", "equilibrium", "expressivity", "founder-effect", "genetic-drift", "hardy-weinberg", "heterogeneity", "heteroplasmy", "imprinting", "inheritance-pattern", "knudson", "leber", "loss-of-heterozygosity", "male-to-male", "maternal-inheritance", "methylation", "mosaicism", "pedigree", "penetrance", "pleiotropy", "prader-willi", "ragged-red-fibers", "recurrence-risk", "retinoblastoma", "tumor-suppressor", "two-hit", "uniparental-disomy", "x-linked-dominant", "x-linked-recessive"], "counts": {"modules": 8, "cards": 56}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* header */
+$('#sectionTitle').textContent = DATA.sectionTitle;
+$('#intro').textContent = DATA.intro;
+$('#stats').innerHTML = `<b>${DATA.counts.modules}</b> modules · <b>${DATA.counts.cards}</b> flashcards`;
+
+/* theme */
+const themeBtn = $('#themeBtn'), root = document.documentElement;
+themeBtn.onclick = () => {
+  const dark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  themeBtn.textContent = dark ? '◐ Night' : '◑ Day';
+};
+
+/* tabs */
+const tabStudy=$('#tabStudy'), tabCards=$('#tabCards'), viewStudy=$('#viewStudy'), viewCards=$('#viewCards');
+function setTab(study){
+  tabStudy.setAttribute('aria-selected', study); tabCards.setAttribute('aria-selected', !study);
+  viewStudy.classList.toggle('hidden', !study); viewCards.classList.toggle('hidden', study);
+}
+tabStudy.onclick=()=>setTab(true); tabCards.onclick=()=>setTab(false);
+
+/* ---------- STUDY ---------- */
+const modList=$('#modList'), article=$('#article');
+DATA.modules.forEach((m,i)=>{
+  const b=document.createElement('button');
+  b.className='modlink'+(m.high_yield?' hy':'');
+  b.innerHTML=`<span class="dot"></span><span>${m.title}</span>`;
+  b.onclick=()=>showModule(i);
+  modList.appendChild(b);
+});
+function showModule(i){
+  const m=DATA.modules[i];
+  $$('.modlink').forEach((el,idx)=>el.setAttribute('aria-current', idx===i));
+  const facts=[];
+  if(m.enzyme) facts.push(`<span class="fact">Enzyme · <b>${m.enzyme}</b></span>`);
+  if(m.inheritance) facts.push(`<span class="fact">Inheritance · <b>${m.inheritance}</b></span>`);
+  if(m.high_yield) facts.push(`<span class="badge-hy">★ High yield</span>`);
+  const tags=m.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  article.innerHTML=`<h2 class="art-title">${m.title}</h2>
+    <div class="factstrip">${facts.join('')}</div>
+    ${tags?`<div class="tagrow">${tags}</div>`:''}
+    <div class="prose">${m.body}</div>`;
+  article.scrollIntoView({behavior:'smooth',block:'start'});
+}
+showModule(0);
+
+/* ---------- FLASHCARDS ---------- */
+let scope='all';
+const scopeSeg=$('#scopeSeg'), moduleField=$('#moduleField'), tagField=$('#tagField');
+const moduleSel=$('#moduleSel'), tagSel=$('#tagSel'), deckCount=$('#deckCount');
+
+DATA.modules.forEach((m,i)=>{
+  const o=document.createElement('option'); o.value=i; o.textContent=`${m.title} (${m.cards.length})`; moduleSel.appendChild(o);
+});
+DATA.tags.forEach(t=>{
+  const n=DATA.cards.filter(c=>c.tags.includes(t)).length;
+  const o=document.createElement('option'); o.value=t; o.textContent=`${t} (${n})`; tagSel.appendChild(o);
+});
+
+scopeSeg.querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>{
+    scope=b.dataset.scope;
+    scopeSeg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+    moduleField.classList.toggle('hidden', scope!=='module');
+    tagField.classList.toggle('hidden', scope!=='tag');
+    updateDeckCount();
+  };
+});
+moduleSel.onchange=updateDeckCount; tagSel.onchange=updateDeckCount;
+
+function currentSelection(){
+  if(scope==='module') return DATA.cards.filter(c=>c.moduleIndex===+moduleSel.value);
+  if(scope==='tag') return DATA.cards.filter(c=>c.tags.includes(tagSel.value));
+  return DATA.cards.slice();
+}
+function updateDeckCount(){
+  const n=currentSelection().length;
+  deckCount.textContent=`${n} card${n===1?'':'s'} in this deck`;
+}
+updateDeckCount();
+
+/* drill state */
+let deck=[], pos=0, revealed=false, got=0, missed=0, missedCards=[];
+const deckSetup=$('#deckSetup'), drill=$('#drill'), results=$('#results');
+const card=$('#card'), qtext=$('#qtext'), atext=$('#atext'), modRef=$('#modRef');
+const judge=$('#judge'), revealHint=$('#revealHint'), pbar=$('#pbar');
+const posLabel=$('#posLabel'), gotCount=$('#gotCount'), missCount=$('#missCount');
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function startDrill(cards){
+  deck=shuffle(cards.slice()); pos=0; got=0; missed=0; missedCards=[];
+  deckSetup.classList.add('hidden'); results.classList.add('hidden'); drill.classList.remove('hidden');
+  render();
+}
+function render(){
+  if(pos>=deck.length){ return finish(); }
+  const c=deck[pos]; revealed=false;
+  qtext.textContent=c.q; atext.textContent=c.a; atext.classList.add('hidden');
+  judge.classList.add('hidden'); revealHint.classList.remove('hidden');
+  modRef.textContent=''; 
+  posLabel.textContent=`Card ${pos+1} of ${deck.length}`;
+  gotCount.textContent=got; missCount.textContent=missed;
+  pbar.style.width=`${(pos/deck.length)*100}%`;
+}
+function reveal(){
+  if(revealed) return;
+  revealed=true;
+  atext.classList.remove('hidden'); judge.classList.remove('hidden');
+  revealHint.classList.add('hidden');
+  modRef.textContent='From: '+deck[pos].module;
+}
+function judgeCard(ok){
+  if(!revealed) return;
+  if(ok) got++; else { missed++; missedCards.push(deck[pos]); }
+  pos++; render();
+}
+function finish(){
+  drill.classList.add('hidden'); results.classList.remove('hidden');
+  const total=got+missed, pct=total?Math.round(got/total*100):0;
+  $('#scoreNum').innerHTML=`${pct}<small>%</small>`;
+  $('#resLine').textContent=`${got} got · ${missed} missed · ${total} cards`;
+  $('#drillMissed').classList.toggle('hidden', missedCards.length===0);
+}
+
+card.onclick=reveal;
+$('#gotBtn').onclick=e=>{e.stopPropagation();judgeCard(true);};
+$('#missBtn').onclick=e=>{e.stopPropagation();judgeCard(false);};
+$('#startBtn').onclick=()=>{const s=currentSelection(); if(s.length) startDrill(s);};
+$('#restartDrill').onclick=()=>startDrill(deck);
+$('#exitDrill').onclick=()=>{drill.classList.add('hidden');deckSetup.classList.remove('hidden');};
+$('#resRestart').onclick=()=>startDrill(deck);
+$('#drillMissed').onclick=()=>startDrill(missedCards);
+$('#resNew').onclick=()=>{results.classList.add('hidden');deckSetup.classList.remove('hidden');};
+
+document.addEventListener('keydown',e=>{
+  if(viewCards.classList.contains('hidden')||drill.classList.contains('hidden'))return;
+  if(e.code==='Space'||e.code==='Enter'){e.preventDefault(); revealed?null:reveal();}
+  else if(revealed&&(e.code==='ArrowRight'||e.key.toLowerCase()==='g')) judgeCard(true);
+  else if(revealed&&(e.code==='ArrowLeft'||e.key.toLowerCase()==='m')) judgeCard(false);
+});
+</script>
+</body>
+</html>

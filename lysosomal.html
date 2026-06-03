@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Structural — Lysosomal Storage Diseases — Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ea; --surface:#fbfaf6; --surface-2:#efebe1;
+  --ink:#211f1b; --muted:#6f685b; --faint:#938b7c;
+  --accent:#0b6b63; --accent-ink:#063f3a; --accent-soft:rgba(11,107,99,.10);
+  --hy:#b06a16; --hy-soft:rgba(176,106,22,.12);
+  --line:#e2ddd1; --line-strong:#d3ccbd;
+  --shadow:0 1px 2px rgba(40,34,20,.05),0 8px 28px -14px rgba(40,34,20,.22);
+  --display:"Fraunces",Georgia,serif;
+  --prose:"Newsreader",Georgia,serif;
+  --ui:"Spline Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#14161a; --surface:#1b1e24; --surface-2:#222730;
+  --ink:#e9e5db; --muted:#9d978a; --faint:#76716a;
+  --accent:#54b7ab; --accent-ink:#bfe7e1; --accent-soft:rgba(84,183,171,.12);
+  --hy:#d99f55; --hy-soft:rgba(217,159,85,.14);
+  --line:#2a2f38; --line-strong:#39404b;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--prose);
+  font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 100% 0,var(--accent-soft),transparent 38%);
+  min-height:100vh;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* header */
+header.top{padding:30px 0 14px;border-bottom:1px solid var(--line)}
+.brandrow{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.kicker{font-family:var(--ui);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 6px}
+h1.section{font-family:var(--display);font-weight:600;font-size:clamp(28px,4.4vw,44px);line-height:1.02;margin:0;letter-spacing:-.01em}
+.intro{color:var(--muted);max-width:62ch;margin:14px 0 0;font-size:16.5px}
+.meta-stats{font-family:var(--ui);font-size:12.5px;color:var(--faint);margin-top:12px;letter-spacing:.02em}
+.meta-stats b{color:var(--muted);font-weight:600}
+.theme-btn{font-family:var(--ui);font-size:12.5px;font-weight:500;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:999px;padding:8px 14px;cursor:pointer;white-space:nowrap;transition:.18s}
+.theme-btn:hover{color:var(--ink);border-color:var(--accent)}
+
+/* tabs */
+nav.tabs{display:flex;gap:4px;margin:18px 0 0}
+.tab{font-family:var(--ui);font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--muted);
+  background:none;border:none;border-bottom:2px solid transparent;padding:10px 16px;cursor:pointer;transition:.18s}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+
+main{padding:26px 0 80px}
+
+/* STUDY view */
+.study{display:grid;grid-template-columns:248px 1fr;gap:34px;align-items:start}
+.modlist{position:sticky;top:18px;display:flex;flex-direction:column;gap:2px;font-family:var(--ui)}
+.modlist .lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:0 0 8px 10px;font-weight:600}
+.modlink{text-align:left;background:none;border:none;border-radius:8px;padding:8px 10px;cursor:pointer;
+  color:var(--muted);font-size:13.5px;line-height:1.3;font-weight:500;display:flex;gap:8px;align-items:baseline;transition:.14s}
+.modlink:hover{background:var(--surface);color:var(--ink)}
+.modlink[aria-current="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.modlink .dot{flex:none;width:5px;height:5px;border-radius:50%;background:var(--hy);margin-top:7px;opacity:.0}
+.modlink.hy .dot{opacity:1}
+
+.article{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:34px 38px 40px;box-shadow:var(--shadow);min-height:60vh}
+.art-title{font-family:var(--display);font-weight:600;font-size:30px;line-height:1.08;margin:0 0 4px;letter-spacing:-.01em}
+.factstrip{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px;font-family:var(--ui);font-size:12px}
+.fact{background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:5px 10px;color:var(--muted)}
+.fact b{color:var(--ink);font-weight:600}
+.badge-hy{background:var(--hy-soft);border:1px solid transparent;color:var(--hy);font-weight:600;
+  border-radius:7px;padding:5px 10px;letter-spacing:.04em}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 24px}
+.tag{font-family:var(--ui);font-size:11px;color:var(--faint);background:none;border:1px solid var(--line-strong);
+  border-radius:999px;padding:3px 9px;letter-spacing:.02em}
+
+/* prose */
+.prose{font-family:var(--prose);font-size:18px;color:var(--ink)}
+.prose p{margin:0 0 15px}
+.prose strong{font-weight:600}
+.prose p strong:first-child{color:var(--accent-ink);font-family:var(--ui);font-size:12.5px;letter-spacing:.06em;
+  text-transform:uppercase;font-weight:700;display:inline-block;margin-right:.4em}
+[data-theme="dark"] .prose p strong:first-child{color:var(--accent)}
+.prose ul{margin:0 0 16px;padding-left:0;list-style:none}
+.prose li{position:relative;padding-left:20px;margin:0 0 7px;font-size:16.5px}
+.prose li::before{content:"";position:absolute;left:3px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.55}
+.prose table{width:100%;border-collapse:collapse;margin:10px 0 20px;font-family:var(--ui);font-size:13.5px}
+.prose th{background:var(--surface-2);text-align:left;padding:9px 11px;border:1px solid var(--line);font-weight:600;color:var(--ink)}
+.prose td{padding:9px 11px;border:1px solid var(--line);color:var(--muted);vertical-align:top}
+.prose em{color:var(--muted)}
+
+/* FLASHCARDS view */
+.deck-setup{max-width:560px;margin:6px auto 0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow)}
+.panel h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 18px}
+.field{margin:0 0 16px;font-family:var(--ui)}
+.field label{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 7px}
+select{width:100%;font-family:var(--ui);font-size:14.5px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line-strong);border-radius:9px;padding:11px 12px;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236f685b' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:90px;font-family:var(--ui);font-size:13.5px;font-weight:500;color:var(--muted);
+  background:var(--surface-2);border:1px solid var(--line-strong);border-radius:9px;padding:10px;cursor:pointer;transition:.16s}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+[data-theme="dark"] .seg button[aria-pressed="true"]{color:#0c1416}
+.start-btn,.ctl-primary{font-family:var(--ui);font-size:15px;font-weight:600;color:#fff;background:var(--accent);
+  border:none;border-radius:10px;padding:13px 18px;cursor:pointer;width:100%;transition:.16s;letter-spacing:.01em}
+[data-theme="dark"] .start-btn,[data-theme="dark"] .ctl-primary{color:#0c1416}
+.start-btn:hover,.ctl-primary:hover{filter:brightness(1.06)}
+.deck-count{font-family:var(--ui);font-size:13px;color:var(--faint);text-align:center;margin:14px 0 0}
+
+/* drill */
+.drill{max-width:680px;margin:0 auto}
+.progress{display:flex;align-items:center;justify-content:space-between;font-family:var(--ui);font-size:13px;color:var(--muted);margin:0 0 12px}
+.progress .counts b{font-weight:600}
+.got-c{color:var(--accent)} .miss-c{color:var(--hy)}
+.pbar{height:4px;background:var(--surface-2);border-radius:999px;overflow:hidden;margin:0 0 22px}
+.pbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s ease}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:40px 38px;min-height:280px;display:flex;flex-direction:column;cursor:pointer;
+  transition:transform .15s ease, border-color .2s}
+.card:hover{border-color:var(--line-strong)}
+.card .side-lbl{font-family:var(--ui);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--faint)}
+.card .qtext{font-family:var(--prose);font-size:23px;line-height:1.32;margin:18px 0 0;flex:1;display:flex;align-items:center}
+.card .atext{font-family:var(--prose);font-size:20px;line-height:1.4;margin:16px 0 0;color:var(--accent-ink);
+  border-top:1px solid var(--line);padding-top:18px}
+[data-theme="dark"] .card .atext{color:var(--accent)}
+.card .mod-ref{font-family:var(--ui);font-size:11.5px;color:var(--faint);margin-top:auto;padding-top:18px}
+.reveal-hint{font-family:var(--ui);font-size:12.5px;color:var(--faint);text-align:center;margin:16px 0 0}
+.judge{display:flex;gap:12px;margin:18px 0 0}
+.judge button{flex:1;font-family:var(--ui);font-size:15px;font-weight:600;border-radius:11px;padding:15px;cursor:pointer;transition:.16s;border:1px solid}
+.miss-btn{background:var(--hy-soft);border-color:transparent;color:var(--hy)}
+.miss-btn:hover{background:var(--hy);color:#fff}
+.got-btn{background:var(--accent-soft);border-color:transparent;color:var(--accent-ink)}
+[data-theme="dark"] .got-btn{color:var(--accent)}
+.got-btn:hover{background:var(--accent);color:#fff}
+[data-theme="dark"] .got-btn:hover{color:#0c1416}
+.drill-foot{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 0;font-family:var(--ui);font-size:13px}
+.linkbtn{background:none;border:none;color:var(--muted);font-family:var(--ui);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:hover{color:var(--accent)}
+
+/* results */
+.results{max-width:560px;margin:0 auto;text-align:center}
+.results .panel{padding:40px 30px}
+.score{font-family:var(--display);font-size:54px;font-weight:600;color:var(--accent);line-height:1;margin:6px 0}
+.score small{font-family:var(--ui);font-size:15px;color:var(--faint);font-weight:500}
+.res-line{font-family:var(--ui);font-size:14px;color:var(--muted);margin:8px 0 24px}
+.res-actions{display:flex;flex-direction:column;gap:10px}
+.kbd{font-family:var(--ui);font-size:11px;background:var(--surface-2);border:1px solid var(--line-strong);
+  border-radius:5px;padding:1px 6px;color:var(--faint)}
+
+.hidden{display:none!important}
+@media(max-width:820px){
+  .study{grid-template-columns:1fr;gap:18px}
+  .modlist{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .modlist .lbl{width:100%}
+  .modlink{border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px}
+  .modlink .dot{display:none}
+  .article{padding:26px 22px 30px}
+  body{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brandrow">
+      <div>
+        <p class="kicker">Biochemistry · Study Guide</p>
+        <h1 class="section" id="sectionTitle"></h1>
+      </div>
+      <button class="theme-btn" id="themeBtn">◐ Night</button>
+    </div>
+    <p class="intro" id="intro"></p>
+    <p class="meta-stats" id="stats"></p>
+    <nav class="tabs" role="tablist">
+      <button class="tab" id="tabStudy" role="tab" aria-selected="true">Study</button>
+      <button class="tab" id="tabCards" role="tab" aria-selected="false">Flashcards</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- STUDY -->
+    <section id="viewStudy">
+      <div class="study">
+        <aside class="modlist" id="modList"><p class="lbl">Modules</p></aside>
+        <article class="article" id="article"></article>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section id="viewCards" class="hidden">
+      <div class="deck-setup" id="deckSetup">
+        <div class="panel">
+          <h2>Build a drill deck</h2>
+          <div class="field">
+            <label>Scope</label>
+            <div class="seg" id="scopeSeg">
+              <button data-scope="all" aria-pressed="true">All cards</button>
+              <button data-scope="module">By module</button>
+              <button data-scope="tag">By tag</button>
+            </div>
+          </div>
+          <div class="field hidden" id="moduleField">
+            <label>Module</label>
+            <select id="moduleSel"></select>
+          </div>
+          <div class="field hidden" id="tagField">
+            <label>Tag</label>
+            <select id="tagSel"></select>
+          </div>
+          <button class="start-btn" id="startBtn">Start drill</button>
+          <p class="deck-count" id="deckCount"></p>
+        </div>
+      </div>
+
+      <div class="drill hidden" id="drill">
+        <div class="progress">
+          <span id="posLabel">Card 1</span>
+          <span class="counts"><b class="got-c" id="gotCount">0</b> got · <b class="miss-c" id="missCount">0</b> missed</span>
+        </div>
+        <div class="pbar"><i id="pbar"></i></div>
+        <div class="card" id="card">
+          <span class="side-lbl">Question</span>
+          <div class="qtext" id="qtext"></div>
+          <div class="atext hidden" id="atext"></div>
+          <div class="mod-ref" id="modRef"></div>
+        </div>
+        <p class="reveal-hint" id="revealHint">Tap the card or press <span class="kbd">Space</span> to reveal</p>
+        <div class="judge hidden" id="judge">
+          <button class="miss-btn" id="missBtn">Missed <span class="kbd">←</span></button>
+          <button class="got-btn" id="gotBtn">Got it <span class="kbd">→</span></button>
+        </div>
+        <div class="drill-foot">
+          <button class="linkbtn" id="restartDrill">Restart deck</button>
+          <button class="linkbtn" id="exitDrill">Change deck</button>
+        </div>
+      </div>
+
+      <div class="results hidden" id="results">
+        <div class="panel">
+          <p class="side-lbl" style="font-family:var(--ui);letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--faint)">Deck complete</p>
+          <div class="score" id="scoreNum">0<small>%</small></div>
+          <p class="res-line" id="resLine"></p>
+          <div class="res-actions">
+            <button class="ctl-primary" id="drillMissed">Drill missed only</button>
+            <button class="linkbtn" id="resRestart">Restart full deck</button>
+            <button class="linkbtn" id="resNew">Build a new deck</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script id="data" type="application/json">{"sectionTitle": "Structural — Lysosomal Storage Diseases", "intro": "Section N of the biochem coverage checklist: the sphingolipidoses and mucopolysaccharidoses, plus I-cell disease (a defect in lysosomal enzyme targeting rather than a single degradative enzyme). ---", "modules": [{"title": "Lysosomal storage overview", "enzyme": "", "inheritance": "", "system": "structural", "category": "lysosomal storage", "high_yield": true, "tags": ["lysosomal-storage", "sphingolipidoses", "mucopolysaccharidoses", "X-linked", "enzyme-deficiency"], "body": "<p><strong>Concept.</strong> Lysosomal storage diseases result from deficiency of a specific lysosomal enzyme, so\nits substrate accumulates inside lysosomes and causes progressive cellular and organ dysfunction.\nTwo groups are relevant here: <strong>sphingolipidoses</strong> (sphingolipid accumulation — Tay-Sachs,\nNiemann-Pick, Gaucher, Krabbe, Fabry, metachromatic leukodystrophy) and <strong>mucopolysaccharidoses</strong>\n(glycosaminoglycan accumulation — Hurler, Hunter). Most are autosomal recessive; the <strong>X-linked</strong>\nexceptions are <strong>Fabry and Hunter</strong>. Many present in infancy or childhood with neurodegeneration,\nhepatosplenomegaly, and/or skeletal and facial changes. Recognition turns on three things: the\ndeficient enzyme, the accumulated substrate, and the discriminating clinical clue (cherry-red\nmacula, hepatosplenomegaly, corneal clouding, coarse facies).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>A lysosomal enzyme deficiency → substrate accumulates in lysosomes → cellular dysfunction.</li>\n<li>Sphingolipidoses (sphingolipids) vs mucopolysaccharidoses (glycosaminoglycans).</li>\n<li>Most are autosomal recessive; X-linked exceptions: Fabry and Hunter.</li>\n<li>Discriminating clues: cherry-red macula, hepatosplenomegaly, corneal clouding, coarse facies.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Pattern recognition by enzyme/substrate/clue; enzyme replacement therapy\nexists for some (Gaucher, Fabry).</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>X-linked = Fabry and Hunter; the rest are autosomal recessive.</li>\n<li>Cherry-red macula = Tay-Sachs and Niemann-Pick (Niemann-Pick adds hepatosplenomegaly; Tay-Sachs\n  has none).</li>\n<li>Hurler (corneal clouding) vs Hunter (no corneal clouding, aggressive behavior).</li>\n</ul>\n<p><strong>Vignette signature.</strong> Enzyme/substrate/clinical clue → specific disease (see summary table).</p>\n<p><strong>Mnemonic.</strong> \"X-linked lysosomal storage = Fabry and Hunter; everything else autosomal recessive.\"</p>", "cards": [{"q": "What is the general underlying cause of lysosomal storage diseases?", "a": "Deficiency of a specific lysosomal enzyme, so its substrate accumulates inside lysosomes."}, {"q": "The two categories by accumulated substrate are ___ and ___.", "a": "Sphingolipidoses (sphingolipids) and mucopolysaccharidoses (glycosaminoglycans)."}, {"q": "Which two lysosomal storage diseases are X-linked (the exceptions to autosomal recessive)?", "a": "Fabry and Hunter."}, {"q": "Which two diseases share a cherry-red macula, and what single finding splits them?", "a": "Tay-Sachs and Niemann-Pick; hepatosplenomegaly (present in Niemann-Pick, absent in Tay-Sachs)."}, {"q": "Which mucopolysaccharidosis has corneal clouding, and which lacks it?", "a": "Hurler has corneal clouding; Hunter lacks it."}]}, {"title": "Tay-Sachs disease", "enzyme": "hexosaminidase A", "inheritance": "autosomal recessive", "system": "structural", "category": "lysosomal storage", "high_yield": true, "tags": ["tay-sachs", "hexosaminidase-A", "GM2-ganglioside", "cherry-red-macula", "no-hepatosplenomegaly", "onion-skin"], "body": "<p><strong>Concept.</strong> Tay-Sachs disease is autosomal recessive deficiency of <strong>hexosaminidase A</strong>, causing\naccumulation of <strong>GM2 ganglioside</strong>, especially in neurons. It presents in infancy with progressive\nneurodegeneration (developmental regression, loss of milestones), an exaggerated startle reflex\n(hyperacusis), and a <strong>cherry-red spot on the macula</strong>, but <strong>no hepatosplenomegaly</strong> — which\ndistinguishes it from Niemann-Pick. Lysosomes show \"onion-skin\" whorled membranes. It is more common\nin the Ashkenazi Jewish population and is fatal in early childhood.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Hexosaminidase A deficiency; AR; ↑GM2 ganglioside.</li>\n<li>Progressive neurodegeneration, exaggerated startle (hyperacusis), cherry-red macula.</li>\n<li>No hepatosplenomegaly (vs Niemann-Pick).</li>\n<li>\"Onion-skin\" lysosomes; Ashkenazi Jewish predominance; fatal early.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> An infant with regression, exaggerated startle, a cherry-red spot, and\n<em>no</em> organomegaly.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Tay-Sachs: cherry-red macula + <em>no</em> hepatosplenomegaly (vs Niemann-Pick, which has it).</li>\n<li>Hexosaminidase A; GM2 ganglioside.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Infant with developmental regression, exaggerated startle, cherry-red\nmacula, and no hepatosplenomegaly\" → Tay-Sachs.</p>\n<p><strong>Mnemonic.</strong> \"Tay-Sa<strong>X</strong> = hexosaminidase <strong>A</strong>; cherry-red, no spleen.\"</p>", "cards": [{"q": "Which enzyme is deficient in Tay-Sachs disease?", "a": "Hexosaminidase A."}, {"q": "What substrate accumulates in the neurons in Tay-Sachs disease?", "a": "GM2 ganglioside."}, {"q": "How is Tay-Sachs distinguished from Niemann-Pick on abdominal exam?", "a": "Tay-Sachs has NO hepatosplenomegaly; Niemann-Pick does."}, {"q": "Which startle finding is characteristic of Tay-Sachs?", "a": "An exaggerated startle reflex (hyperacusis)."}, {"q": "What is the histologic appearance of lysosomes in Tay-Sachs?", "a": "\"Onion-skin\" whorled membranes."}, {"q": "Tay-Sachs is more common in which population?", "a": "Ashkenazi Jewish."}, {"q": "Concept → diagnosis: infant with developmental regression, exaggerated startle, cherry-red macula, and no hepatosplenomegaly.", "a": "Tay-Sachs disease."}]}, {"title": "Niemann-Pick disease", "enzyme": "sphingomyelinase", "inheritance": "autosomal recessive", "system": "structural", "category": "lysosomal storage", "high_yield": true, "tags": ["niemann-pick", "sphingomyelinase", "sphingomyelin", "cherry-red-macula", "hepatosplenomegaly", "foam-cells"], "body": "<p><strong>Concept.</strong> Niemann-Pick disease (types A/B) is autosomal recessive deficiency of\n<strong>sphingomyelinase</strong>, causing accumulation of <strong>sphingomyelin</strong>. It presents in infancy with\nprogressive neurodegeneration, <strong>hepatosplenomegaly</strong>, and a <strong>cherry-red spot on the macula</strong>, with\n<strong>foam cells</strong> (lipid-laden macrophages) on histology. The presence of hepatosplenomegaly is what\ndistinguishes it from Tay-Sachs (both share the cherry-red macula).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Sphingomyelinase deficiency; AR; ↑sphingomyelin.</li>\n<li>Neurodegeneration, hepatosplenomegaly, cherry-red macula.</li>\n<li>Foam cells (lipid-laden macrophages).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> An infant with neurodegeneration <em>plus</em> hepatosplenomegaly <em>plus</em> a\ncherry-red spot.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Niemann-Pick: cherry-red macula <em>with</em> hepatosplenomegaly (Tay-Sachs lacks organomegaly).</li>\n<li>Sphingomyelinase; foam cells.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Infant with neurodegeneration, hepatosplenomegaly, and cherry-red macula\" →\nNiemann-Pick.</p>\n<p><strong>Mnemonic.</strong> \"Niemann-Pick: <strong>N</strong>o sphingomyelinase; cherry-red <strong>+</strong> hepatosplenomegaly.\"</p>", "cards": [{"q": "Which enzyme is deficient in Niemann-Pick disease?", "a": "Sphingomyelinase."}, {"q": "What substrate accumulates in Niemann-Pick disease?", "a": "Sphingomyelin."}, {"q": "Which finding distinguishes Niemann-Pick from Tay-Sachs?", "a": "Hepatosplenomegaly (present in Niemann-Pick; both share the cherry-red macula)."}, {"q": "What characteristic cell is seen in Niemann-Pick disease?", "a": "Foam cells (lipid-laden macrophages)."}, {"q": "Concept → diagnosis: infant with neurodegeneration, hepatosplenomegaly, and a cherry-red macula.", "a": "Niemann-Pick disease."}]}, {"title": "Gaucher disease", "enzyme": "glucocerebrosidase (β-glucosidase)", "inheritance": "autosomal recessive", "system": "structural", "category": "lysosomal storage", "high_yield": true, "tags": ["gaucher", "glucocerebrosidase", "glucocerebroside", "crumpled-tissue-paper", "hepatosplenomegaly", "enzyme-replacement"], "body": "<p><strong>Concept.</strong> Gaucher disease is the <strong>most common lysosomal storage disease</strong>, an autosomal\nrecessive deficiency of <strong>glucocerebrosidase (β-glucosidase)</strong>, causing accumulation of\n<strong>glucocerebroside</strong>. Features: hepatosplenomegaly, pancytopenia (marrow involvement), and bone\npain with avascular necrosis and pathologic fractures (Erlenmeyer-flask deformity of the femur). The\npathognomonic cell is the <strong>Gaucher cell</strong> — a lipid-laden macrophage with a \"crumpled tissue paper\"\ncytoplasm. Type 1 (most common, adult-onset, non-neuronopathic) is treatable with enzyme replacement\ntherapy.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Glucocerebrosidase (β-glucosidase) deficiency; AR; ↑glucocerebroside; most common lysosomal\n  storage disease.</li>\n<li>Hepatosplenomegaly, pancytopenia, bone pain/avascular necrosis (Erlenmeyer-flask femur).</li>\n<li>Gaucher cells: macrophages with \"crumpled tissue paper\" cytoplasm.</li>\n<li>Type 1 treated with enzyme replacement.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Hepatosplenomegaly, cytopenias, and bone crises, with Gaucher cells on\nmarrow biopsy.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Gaucher cell = \"crumpled tissue paper\" macrophage.</li>\n<li>Most common lysosomal storage disease; enzyme replacement available.</li>\n<li>Bone involvement (avascular necrosis, Erlenmeyer flask).</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Hepatosplenomegaly, pancytopenia, bone pain, and macrophages with\ncrumpled-tissue-paper cytoplasm\" → Gaucher.</p>\n<p><strong>Mnemonic.</strong> \"Gaucher: <strong>G</strong>lucocerebrosidase; crumpled tissue paper cells.\"</p>", "cards": [{"q": "Which enzyme is deficient in Gaucher disease?", "a": "Glucocerebrosidase (β-glucosidase)."}, {"q": "What substrate accumulates in Gaucher disease?", "a": "Glucocerebroside."}, {"q": "What is the most common lysosomal storage disease?", "a": "Gaucher disease."}, {"q": "Describe the pathognomonic Gaucher cell.", "a": "A lipid-laden macrophage with \"crumpled tissue paper\" cytoplasm."}, {"q": "Which femoral deformity is associated with Gaucher disease?", "a": "Erlenmeyer-flask deformity."}, {"q": "Why does Gaucher disease cause pancytopenia?", "a": "Bone marrow involvement by lipid-laden (Gaucher) macrophages."}, {"q": "Which Gaucher subtype is most common and treatable with enzyme replacement?", "a": "Type 1 (adult-onset, non-neuronopathic)."}, {"q": "Concept → diagnosis: hepatosplenomegaly, pancytopenia, bone pain, and crumpled-tissue-paper macrophages.", "a": "Gaucher disease."}]}, {"title": "Krabbe disease", "enzyme": "galactocerebrosidase", "inheritance": "autosomal recessive", "system": "structural", "category": "lysosomal storage", "high_yield": true, "tags": ["krabbe", "galactocerebrosidase", "psychosine", "globoid-cells", "leukodystrophy", "optic-atrophy"], "body": "<p><strong>Concept.</strong> Krabbe disease is autosomal recessive deficiency of <strong>galactocerebrosidase\n(galactosylceramidase)</strong>, causing accumulation of <strong>galactocerebroside and psychosine</strong>, which\ndestroy myelin (a leukodystrophy). It presents in infancy with progressive neurodegeneration,\n<strong>peripheral neuropathy</strong>, <strong>optic atrophy</strong>, and developmental regression; <strong>globoid cells</strong>\n(multinucleated macrophages) appear in the white matter.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Galactocerebrosidase deficiency; AR; ↑galactocerebroside/psychosine; demyelinating (leukodystrophy).</li>\n<li>Neurodegeneration, peripheral neuropathy, optic atrophy, developmental regression.</li>\n<li>Globoid cells (multinucleated macrophages) in white matter.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> An infant with neurodegeneration, peripheral neuropathy, and optic atrophy.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Krabbe = galactocerebrosidase; globoid cells; peripheral neuropathy + optic atrophy.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Infant with neurodegeneration, peripheral neuropathy, and optic atrophy;\ngloboid cells in white matter\" → Krabbe.</p>\n<p><strong>Mnemonic.</strong> \"<strong>K</strong>rabbe: galacto<strong>c</strong>erebrosidase; glo<strong>b</strong>oid cells.\"</p>", "cards": [{"q": "Which enzyme is deficient in Krabbe disease?", "a": "Galactocerebrosidase (galactosylceramidase)."}, {"q": "Which two substances accumulate in Krabbe disease and destroy myelin?", "a": "Galactocerebroside and psychosine."}, {"q": "What characteristic cell appears in the white matter in Krabbe disease?", "a": "Globoid cells (multinucleated macrophages)."}, {"q": "Krabbe disease is classified as a ___ (a myelin-destroying disease).", "a": "Leukodystrophy."}, {"q": "Besides developmental regression, name two neurologic features of Krabbe disease.", "a": "Peripheral neuropathy and optic atrophy."}, {"q": "Concept → diagnosis: infant with neurodegeneration, peripheral neuropathy, optic atrophy, and globoid cells.", "a": "Krabbe disease."}]}, {"title": "Fabry disease", "enzyme": "α-galactosidase A", "inheritance": "X-linked recessive", "system": "structural", "category": "lysosomal storage", "high_yield": true, "tags": ["fabry", "alpha-galactosidase-A", "ceramide-trihexoside", "angiokeratomas", "acroparesthesias", "X-linked", "renal-cardiac"], "body": "<p><strong>Concept.</strong> Fabry disease is <strong>X-linked recessive</strong> deficiency of <strong>α-galactosidase A</strong>, causing\naccumulation of <strong>ceramide trihexoside (globotriaosylceramide)</strong>. Early features: episodic\nneuropathic pain (<strong>acroparesthesias</strong> — burning hands and feet), <strong>angiokeratomas</strong> (reddish skin\nlesions), and hypohidrosis. Late features: progressive <strong>renal failure</strong> and <strong>cardiovascular\ndisease</strong> (cardiomyopathy, strokes). It is one of the two X-linked lysosomal storage diseases, and\nenzyme replacement therapy is available.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>α-galactosidase A deficiency; X-linked recessive; ↑ceramide trihexoside (globotriaosylceramide).</li>\n<li>Early: neuropathic pain (acroparesthesias), angiokeratomas, hypohidrosis.</li>\n<li>Late: renal failure, cardiovascular disease (cardiomyopathy, stroke).</li>\n<li>X-linked; enzyme replacement available.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A young male with burning extremity pain and angiokeratomas, later\ndeveloping renal and cardiac disease.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Fabry = X-linked (with Hunter); α-galactosidase A.</li>\n<li>Acroparesthesias + angiokeratomas early; renal/cardiac disease late.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Male with burning hand/foot pain and angiokeratomas, progressing to renal\nand cardiac disease\" → Fabry.</p>\n<p><strong>Mnemonic.</strong> \"Fabry: α-galactosidase <strong>A</strong>; <strong>a</strong>ngiokeratomas + <strong>a</strong>croparesthesias; X-linked.\"</p>", "cards": [{"q": "Which enzyme is deficient in Fabry disease?", "a": "α-galactosidase A."}, {"q": "What substrate accumulates in Fabry disease?", "a": "Ceramide trihexoside (globotriaosylceramide)."}, {"q": "What is the inheritance pattern of Fabry disease?", "a": "X-linked recessive."}, {"q": "What is the term for the early episodic burning pain in the hands and feet in Fabry disease?", "a": "Acroparesthesias."}, {"q": "What are the reddish skin lesions of Fabry disease called?", "a": "Angiokeratomas."}, {"q": "What are the two late, life-threatening complications of Fabry disease?", "a": "Renal failure and cardiovascular disease (cardiomyopathy, stroke)."}, {"q": "Concept → diagnosis: male with burning hand/foot pain and angiokeratomas, later developing renal and cardiac disease.", "a": "Fabry disease."}]}, {"title": "Metachromatic leukodystrophy", "enzyme": "arylsulfatase A", "inheritance": "autosomal recessive", "system": "structural", "category": "lysosomal storage", "high_yield": true, "tags": ["metachromatic-leukodystrophy", "arylsulfatase-A", "sulfatides", "demyelination", "ataxia", "neuropathy"], "body": "<p><strong>Concept.</strong> Metachromatic leukodystrophy is autosomal recessive deficiency of <strong>arylsulfatase A</strong>,\ncausing accumulation of <strong>cerebroside sulfate (sulfatides)</strong>, which impairs myelin in both the\ncentral and peripheral nervous systems (a leukodystrophy). It presents with progressive\nneurodegeneration, ataxia, peripheral neuropathy, and dementia/developmental regression, with the\npattern depending on age of onset.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Arylsulfatase A deficiency; AR; ↑sulfatides (cerebroside sulfate); demyelinating.</li>\n<li>Central and peripheral demyelination → ataxia, peripheral neuropathy, dementia/regression.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Progressive neurologic decline with central and peripheral demyelination.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Metachromatic leukodystrophy = arylsulfatase A; sulfatides; demyelination (CNS + PNS).</li>\n<li>Distinguish from Krabbe (galactocerebrosidase, globoid cells).</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Progressive demyelination with ataxia and peripheral neuropathy;\narylsulfatase A deficiency\" → metachromatic leukodystrophy.</p>\n<p><strong>Mnemonic.</strong> \"Metachromatic: aryl<strong>S</strong>ulfatase A → <strong>S</strong>ulfatides; demyelination.\"</p>", "cards": [{"q": "Which enzyme is deficient in metachromatic leukodystrophy?", "a": "Arylsulfatase A."}, {"q": "What substrate accumulates in metachromatic leukodystrophy?", "a": "Sulfatides (cerebroside sulfate)."}, {"q": "Where does metachromatic leukodystrophy cause demyelination?", "a": "In both the central and peripheral nervous systems."}, {"q": "What is the inheritance pattern of metachromatic leukodystrophy?", "a": "Autosomal recessive."}, {"q": "Concept → diagnosis: progressive demyelination with ataxia and peripheral neuropathy; arylsulfatase A deficiency.", "a": "Metachromatic leukodystrophy."}]}, {"title": "Hurler syndrome", "enzyme": "α-L-iduronidase", "inheritance": "autosomal recessive", "system": "structural", "category": "lysosomal storage", "high_yield": true, "tags": ["hurler", "alpha-L-iduronidase", "mucopolysaccharidosis", "corneal-clouding", "coarse-facies", "dermatan-heparan"], "body": "<p><strong>Concept.</strong> Hurler syndrome is a mucopolysaccharidosis — autosomal recessive deficiency of\n<strong>α-L-iduronidase</strong>, causing accumulation of glycosaminoglycans (<strong>dermatan and heparan sulfate</strong>).\nFeatures: developmental delay/intellectual disability, <strong>coarse facial features</strong> (\"gargoylism\"),\n<strong>corneal clouding</strong>, hepatosplenomegaly, and skeletal abnormalities (dysostosis multiplex), with a\nprogressive course and early death.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>α-L-iduronidase deficiency; AR; mucopolysaccharidosis (↑dermatan/heparan sulfate).</li>\n<li>Developmental delay, coarse facies, corneal clouding, hepatosplenomegaly, skeletal abnormalities.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A child with coarse facies, corneal clouding, organomegaly, and\ndevelopmental delay.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Hurler = α-L-iduronidase; AR; corneal clouding <em>present</em>.</li>\n<li>Versus Hunter (X-linked, <em>no</em> corneal clouding, aggressive behavior, milder).</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Coarse facies, corneal clouding, hepatosplenomegaly, and developmental\ndelay\" → Hurler.</p>\n<p><strong>Mnemonic.</strong> \"Hurler: α-L-iduronidase; corneal clouding (Hurler can't see clearly).\"</p>", "cards": [{"q": "Which enzyme is deficient in Hurler syndrome?", "a": "α-L-iduronidase."}, {"q": "Which two glycosaminoglycans accumulate in Hurler (and Hunter) syndrome?", "a": "Dermatan sulfate and heparan sulfate."}, {"q": "What is the inheritance pattern of Hurler syndrome?", "a": "Autosomal recessive."}, {"q": "Which ocular finding is present in Hurler syndrome?", "a": "Corneal clouding."}, {"q": "What term describes the coarse facial features of the mucopolysaccharidoses?", "a": "\"Gargoylism.\""}, {"q": "Concept → diagnosis: coarse facies, corneal clouding, hepatosplenomegaly, and developmental delay.", "a": "Hurler syndrome."}]}, {"title": "Hunter syndrome", "enzyme": "iduronate-2-sulfatase", "inheritance": "X-linked recessive", "system": "structural", "category": "lysosomal storage", "high_yield": true, "tags": ["hunter", "iduronate-2-sulfatase", "mucopolysaccharidosis", "no-corneal-clouding", "aggressive-behavior", "X-linked"], "body": "<p><strong>Concept.</strong> Hunter syndrome is a mucopolysaccharidosis — <strong>X-linked recessive</strong> deficiency of\n<strong>iduronate-2-sulfatase</strong>, causing accumulation of glycosaminoglycans (dermatan and heparan\nsulfate). It is <strong>milder than Hurler</strong> and notably has <strong>no corneal clouding</strong>, with <strong>aggressive\nbehavior</strong> as a distinctive feature, alongside coarse facies, organomegaly, and developmental delay.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Iduronate-2-sulfatase deficiency; X-linked recessive; mucopolysaccharidosis.</li>\n<li>Milder than Hurler; no corneal clouding; aggressive behavior.</li>\n<li>Coarse facies, hepatosplenomegaly, developmental delay.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A boy with coarse facies, organomegaly, aggressive behavior, and clear\ncorneas.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Hunter = X-linked (with Fabry); <em>no</em> corneal clouding; aggressive.</li>\n<li>Versus Hurler (AR, corneal clouding present).</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Boy with coarse facies, organomegaly, aggressive behavior, and no corneal\nclouding\" → Hunter.</p>\n<p><strong>Mnemonic.</strong> \"<strong>Hunter</strong>s see clearly (no corneal clouding) and are aggressive; X-linked.\"</p>", "cards": [{"q": "Which enzyme is deficient in Hunter syndrome?", "a": "Iduronate-2-sulfatase."}, {"q": "What is the inheritance pattern of Hunter syndrome?", "a": "X-linked recessive."}, {"q": "Does Hunter syndrome involve corneal clouding?", "a": "No — corneas are clear (unlike Hurler)."}, {"q": "Which behavioral feature is distinctive of Hunter syndrome?", "a": "Aggressive behavior."}, {"q": "How does Hunter compare with Hurler in severity?", "a": "Hunter is milder."}, {"q": "Concept → diagnosis: boy with coarse facies, organomegaly, aggressive behavior, and clear corneas.", "a": "Hunter syndrome."}]}, {"title": "I-cell disease", "enzyme": "N-acetylglucosaminyl-1-phosphotransferase", "inheritance": "autosomal recessive", "system": "structural", "category": "lysosomal storage", "high_yield": true, "tags": ["i-cell", "mucolipidosis-II", "mannose-6-phosphate", "enzyme-targeting", "high-plasma-enzymes", "gingival-hyperplasia"], "body": "<p><strong>Concept.</strong> I-cell disease (mucolipidosis II) is autosomal recessive deficiency of\n<strong>N-acetylglucosaminyl-1-phosphotransferase</strong>, the enzyme that adds the <strong>mannose-6-phosphate (M6P)</strong>\ntag to lysosomal enzymes. Without the M6P targeting signal, lysosomal enzymes are not delivered to\nlysosomes but are instead <strong>secreted into the blood</strong> — so lysosomes lack their enzymes and\naccumulate substrate (forming inclusion bodies, the \"I-cells\"), while <strong>plasma lysosomal enzyme\nlevels are high</strong>. It presents with coarse facial features, <strong>gingival hyperplasia</strong>, clouded\ncorneas, restricted joint movement, and skeletal abnormalities, and is fatal in childhood. The key\nmechanism point: this is a defect in enzyme <em>trafficking</em> (M6P), not in a single degradative enzyme.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>N-acetylglucosaminyl-1-phosphotransferase deficiency; AR.</li>\n<li>Fails to add the mannose-6-phosphate (M6P) tag → lysosomal enzymes are secreted, not delivered.</li>\n<li>Lysosomes lack enzymes (inclusion bodies, \"I-cells\"); plasma enzyme levels are <em>high</em>.</li>\n<li>Coarse facies, gingival hyperplasia, corneal clouding, joint restriction; fatal in childhood.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A severe coarse-facies/skeletal phenotype, with elevated plasma lysosomal\nenzymes as the diagnostic clue.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>I-cell = M6P targeting defect (trafficking), not a single degradative enzyme.</li>\n<li>High <em>plasma</em> lysosomal enzymes (enzymes are mis-secreted).</li>\n<li>Links to the mannose-6-phosphate protein-targeting concept.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Coarse facies, gingival hyperplasia, and corneal clouding, with high plasma\nlysosomal enzyme levels\" → I-cell disease.</p>\n<p><strong>Mnemonic.</strong> \"I-cell: no mannose-6-phosphate address → enzymes ship <strong>out</strong> (high in blood) instead\nof to lysosomes.\"</p>", "cards": [{"q": "Which enzyme is deficient in I-cell disease (mucolipidosis II)?", "a": "N-acetylglucosaminyl-1-phosphotransferase."}, {"q": "Which targeting tag fails to be added to lysosomal enzymes in I-cell disease?", "a": "Mannose-6-phosphate (M6P)."}, {"q": "In I-cell disease, where do the lysosomal enzymes end up instead of the lysosome?", "a": "Secreted into the plasma (blood) — plasma lysosomal enzyme levels are high."}, {"q": "Conceptually, what kind of defect is I-cell disease?", "a": "A defect in lysosomal enzyme trafficking/targeting — not a single degradative-enzyme deficiency."}, {"q": "Which oral finding is characteristic of I-cell disease?", "a": "Gingival hyperplasia."}, {"q": "Concept → diagnosis: coarse facies, gingival hyperplasia, corneal clouding, with HIGH plasma lysosomal enzyme levels.", "a": "I-cell disease (mucolipidosis II)."}]}, {"title": "Lysosomal storage disease summary", "enzyme": "", "inheritance": "", "system": "structural", "category": "lysosomal storage", "high_yield": true, "tags": ["lysosomal-storage", "summary", "reference-table", "cherry-red-macula"], "body": "<p><strong>Concept.</strong> This module consolidates the lysosomal storage diseases by enzyme, accumulated\nsubstrate, inheritance, and discriminating clue; each is detailed above. The two recurring\nhigh-yield discriminators: the <strong>cherry-red macula pair</strong> (Tay-Sachs without organomegaly vs\nNiemann-Pick with hepatosplenomegaly) and the <strong>mucopolysaccharidosis pair</strong> (Hurler with corneal\nclouding, AR; Hunter without, X-linked, aggressive).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Cherry-red macula: Tay-Sachs (no organomegaly) and Niemann-Pick (hepatosplenomegaly).</li>\n<li>X-linked: Fabry and Hunter; all others autosomal recessive.</li>\n<li>Characteristic cells: Gaucher (crumpled tissue paper), Niemann-Pick (foam), Krabbe (globoid).</li>\n<li>I-cell = mannose-6-phosphate targeting defect; high plasma lysosomal enzymes.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Match the discriminating clue (cherry-red macula, characteristic cell,\ncorneal clouding, angiokeratomas) to the enzyme.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Cherry-red pair distinguished by organomegaly; mucopolysaccharidosis pair by corneal clouding +\n  inheritance.</li>\n<li>I-cell is a trafficking defect, not a degradative-enzyme defect.</li>\n</ul>\n<p><strong>Vignette signature.</strong> Clue → disease (see table).</p>\n<p><strong>Lysosomal storage disease summary table</strong></p>\n<table>\n<thead>\n<tr>\n<th>Disease</th>\n<th>Deficient enzyme</th>\n<th>Accumulated substrate</th>\n<th>Inheritance</th>\n<th>Key clue</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Tay-Sachs</td>\n<td>Hexosaminidase A</td>\n<td>GM2 ganglioside</td>\n<td>AR</td>\n<td>Cherry-red macula, <em>no</em> hepatosplenomegaly, startle</td>\n</tr>\n<tr>\n<td>Niemann-Pick</td>\n<td>Sphingomyelinase</td>\n<td>Sphingomyelin</td>\n<td>AR</td>\n<td>Cherry-red macula <em>with</em> hepatosplenomegaly, foam cells</td>\n</tr>\n<tr>\n<td>Gaucher</td>\n<td>Glucocerebrosidase</td>\n<td>Glucocerebroside</td>\n<td>AR</td>\n<td>Crumpled-tissue-paper macrophages, bone crises</td>\n</tr>\n<tr>\n<td>Krabbe</td>\n<td>Galactocerebrosidase</td>\n<td>Galactocerebroside/psychosine</td>\n<td>AR</td>\n<td>Globoid cells, peripheral neuropathy, optic atrophy</td>\n</tr>\n<tr>\n<td>Fabry</td>\n<td>α-galactosidase A</td>\n<td>Ceramide trihexoside</td>\n<td>XR</td>\n<td>Angiokeratomas, acroparesthesias, renal/cardiac</td>\n</tr>\n<tr>\n<td>Metachromatic leukodystrophy</td>\n<td>Arylsulfatase A</td>\n<td>Sulfatides</td>\n<td>AR</td>\n<td>Demyelination, ataxia, neuropathy</td>\n</tr>\n<tr>\n<td>Hurler</td>\n<td>α-L-iduronidase</td>\n<td>Dermatan/heparan sulfate</td>\n<td>AR</td>\n<td>Coarse facies, corneal clouding</td>\n</tr>\n<tr>\n<td>Hunter</td>\n<td>Iduronate-2-sulfatase</td>\n<td>Dermatan/heparan sulfate</td>\n<td>XR</td>\n<td>Coarse facies, <em>no</em> corneal clouding, aggressive</td>\n</tr>\n<tr>\n<td>I-cell disease</td>\n<td>N-acetylglucosaminyl-1-phosphotransferase</td>\n<td>(mis-targeted enzymes)</td>\n<td>AR</td>\n<td>High plasma lysosomal enzymes, gingival hyperplasia</td>\n</tr>\n</tbody>\n</table>\n<hr />", "cards": [{"q": "Match the characteristic cell: Gaucher, Niemann-Pick, and Krabbe.", "a": "Gaucher → crumpled tissue paper; Niemann-Pick → foam cells; Krabbe → globoid cells."}, {"q": "Which lysosomal storage disease is a mannose-6-phosphate targeting defect rather than a single degradative-enzyme deficiency?", "a": "I-cell disease (mucolipidosis II)."}, {"q": "Which lysosomal storage diseases are X-linked?", "a": "Fabry and Hunter (all others are autosomal recessive)."}]}], "cards": [{"id": "0-0", "q": "What is the general underlying cause of lysosomal storage diseases?", "a": "Deficiency of a specific lysosomal enzyme, so its substrate accumulates inside lysosomes.", "module": "Lysosomal storage overview", "moduleIndex": 0, "tags": ["lysosomal-storage", "sphingolipidoses", "mucopolysaccharidoses", "X-linked", "enzyme-deficiency"], "high_yield": true}, {"id": "0-1", "q": "The two categories by accumulated substrate are ___ and ___.", "a": "Sphingolipidoses (sphingolipids) and mucopolysaccharidoses (glycosaminoglycans).", "module": "Lysosomal storage overview", "moduleIndex": 0, "tags": ["lysosomal-storage", "sphingolipidoses", "mucopolysaccharidoses", "X-linked", "enzyme-deficiency"], "high_yield": true}, {"id": "0-2", "q": "Which two lysosomal storage diseases are X-linked (the exceptions to autosomal recessive)?", "a": "Fabry and Hunter.", "module": "Lysosomal storage overview", "moduleIndex": 0, "tags": ["lysosomal-storage", "sphingolipidoses", "mucopolysaccharidoses", "X-linked", "enzyme-deficiency"], "high_yield": true}, {"id": "0-3", "q": "Which two diseases share a cherry-red macula, and what single finding splits them?", "a": "Tay-Sachs and Niemann-Pick; hepatosplenomegaly (present in Niemann-Pick, absent in Tay-Sachs).", "module": "Lysosomal storage overview", "moduleIndex": 0, "tags": ["lysosomal-storage", "sphingolipidoses", "mucopolysaccharidoses", "X-linked", "enzyme-deficiency"], "high_yield": true}, {"id": "0-4", "q": "Which mucopolysaccharidosis has corneal clouding, and which lacks it?", "a": "Hurler has corneal clouding; Hunter lacks it.", "module": "Lysosomal storage overview", "moduleIndex": 0, "tags": ["lysosomal-storage", "sphingolipidoses", "mucopolysaccharidoses", "X-linked", "enzyme-deficiency"], "high_yield": true}, {"id": "1-0", "q": "Which enzyme is deficient in Tay-Sachs disease?", "a": "Hexosaminidase A.", "module": "Tay-Sachs disease", "moduleIndex": 1, "tags": ["tay-sachs", "hexosaminidase-A", "GM2-ganglioside", "cherry-red-macula", "no-hepatosplenomegaly", "onion-skin"], "high_yield": true}, {"id": "1-1", "q": "What substrate accumulates in the neurons in Tay-Sachs disease?", "a": "GM2 ganglioside.", "module": "Tay-Sachs disease", "moduleIndex": 1, "tags": ["tay-sachs", "hexosaminidase-A", "GM2-ganglioside", "cherry-red-macula", "no-hepatosplenomegaly", "onion-skin"], "high_yield": true}, {"id": "1-2", "q": "How is Tay-Sachs distinguished from Niemann-Pick on abdominal exam?", "a": "Tay-Sachs has NO hepatosplenomegaly; Niemann-Pick does.", "module": "Tay-Sachs disease", "moduleIndex": 1, "tags": ["tay-sachs", "hexosaminidase-A", "GM2-ganglioside", "cherry-red-macula", "no-hepatosplenomegaly", "onion-skin"], "high_yield": true}, {"id": "1-3", "q": "Which startle finding is characteristic of Tay-Sachs?", "a": "An exaggerated startle reflex (hyperacusis).", "module": "Tay-Sachs disease", "moduleIndex": 1, "tags": ["tay-sachs", "hexosaminidase-A", "GM2-ganglioside", "cherry-red-macula", "no-hepatosplenomegaly", "onion-skin"], "high_yield": true}, {"id": "1-4", "q": "What is the histologic appearance of lysosomes in Tay-Sachs?", "a": "\"Onion-skin\" whorled membranes.", "module": "Tay-Sachs disease", "moduleIndex": 1, "tags": ["tay-sachs", "hexosaminidase-A", "GM2-ganglioside", "cherry-red-macula", "no-hepatosplenomegaly", "onion-skin"], "high_yield": true}, {"id": "1-5", "q": "Tay-Sachs is more common in which population?", "a": "Ashkenazi Jewish.", "module": "Tay-Sachs disease", "moduleIndex": 1, "tags": ["tay-sachs", "hexosaminidase-A", "GM2-ganglioside", "cherry-red-macula", "no-hepatosplenomegaly", "onion-skin"], "high_yield": true}, {"id": "1-6", "q": "Concept → diagnosis: infant with developmental regression, exaggerated startle, cherry-red macula, and no hepatosplenomegaly.", "a": "Tay-Sachs disease.", "module": "Tay-Sachs disease", "moduleIndex": 1, "tags": ["tay-sachs", "hexosaminidase-A", "GM2-ganglioside", "cherry-red-macula", "no-hepatosplenomegaly", "onion-skin"], "high_yield": true}, {"id": "2-0", "q": "Which enzyme is deficient in Niemann-Pick disease?", "a": "Sphingomyelinase.", "module": "Niemann-Pick disease", "moduleIndex": 2, "tags": ["niemann-pick", "sphingomyelinase", "sphingomyelin", "cherry-red-macula", "hepatosplenomegaly", "foam-cells"], "high_yield": true}, {"id": "2-1", "q": "What substrate accumulates in Niemann-Pick disease?", "a": "Sphingomyelin.", "module": "Niemann-Pick disease", "moduleIndex": 2, "tags": ["niemann-pick", "sphingomyelinase", "sphingomyelin", "cherry-red-macula", "hepatosplenomegaly", "foam-cells"], "high_yield": true}, {"id": "2-2", "q": "Which finding distinguishes Niemann-Pick from Tay-Sachs?", "a": "Hepatosplenomegaly (present in Niemann-Pick; both share the cherry-red macula).", "module": "Niemann-Pick disease", "moduleIndex": 2, "tags": ["niemann-pick", "sphingomyelinase", "sphingomyelin", "cherry-red-macula", "hepatosplenomegaly", "foam-cells"], "high_yield": true}, {"id": "2-3", "q": "What characteristic cell is seen in Niemann-Pick disease?", "a": "Foam cells (lipid-laden macrophages).", "module": "Niemann-Pick disease", "moduleIndex": 2, "tags": ["niemann-pick", "sphingomyelinase", "sphingomyelin", "cherry-red-macula", "hepatosplenomegaly", "foam-cells"], "high_yield": true}, {"id": "2-4", "q": "Concept → diagnosis: infant with neurodegeneration, hepatosplenomegaly, and a cherry-red macula.", "a": "Niemann-Pick disease.", "module": "Niemann-Pick disease", "moduleIndex": 2, "tags": ["niemann-pick", "sphingomyelinase", "sphingomyelin", "cherry-red-macula", "hepatosplenomegaly", "foam-cells"], "high_yield": true}, {"id": "3-0", "q": "Which enzyme is deficient in Gaucher disease?", "a": "Glucocerebrosidase (β-glucosidase).", "module": "Gaucher disease", "moduleIndex": 3, "tags": ["gaucher", "glucocerebrosidase", "glucocerebroside", "crumpled-tissue-paper", "hepatosplenomegaly", "enzyme-replacement"], "high_yield": true}, {"id": "3-1", "q": "What substrate accumulates in Gaucher disease?", "a": "Glucocerebroside.", "module": "Gaucher disease", "moduleIndex": 3, "tags": ["gaucher", "glucocerebrosidase", "glucocerebroside", "crumpled-tissue-paper", "hepatosplenomegaly", "enzyme-replacement"], "high_yield": true}, {"id": "3-2", "q": "What is the most common lysosomal storage disease?", "a": "Gaucher disease.", "module": "Gaucher disease", "moduleIndex": 3, "tags": ["gaucher", "glucocerebrosidase", "glucocerebroside", "crumpled-tissue-paper", "hepatosplenomegaly", "enzyme-replacement"], "high_yield": true}, {"id": "3-3", "q": "Describe the pathognomonic Gaucher cell.", "a": "A lipid-laden macrophage with \"crumpled tissue paper\" cytoplasm.", "module": "Gaucher disease", "moduleIndex": 3, "tags": ["gaucher", "glucocerebrosidase", "glucocerebroside", "crumpled-tissue-paper", "hepatosplenomegaly", "enzyme-replacement"], "high_yield": true}, {"id": "3-4", "q": "Which femoral deformity is associated with Gaucher disease?", "a": "Erlenmeyer-flask deformity.", "module": "Gaucher disease", "moduleIndex": 3, "tags": ["gaucher", "glucocerebrosidase", "glucocerebroside", "crumpled-tissue-paper", "hepatosplenomegaly", "enzyme-replacement"], "high_yield": true}, {"id": "3-5", "q": "Why does Gaucher disease cause pancytopenia?", "a": "Bone marrow involvement by lipid-laden (Gaucher) macrophages.", "module": "Gaucher disease", "moduleIndex": 3, "tags": ["gaucher", "glucocerebrosidase", "glucocerebroside", "crumpled-tissue-paper", "hepatosplenomegaly", "enzyme-replacement"], "high_yield": true}, {"id": "3-6", "q": "Which Gaucher subtype is most common and treatable with enzyme replacement?", "a": "Type 1 (adult-onset, non-neuronopathic).", "module": "Gaucher disease", "moduleIndex": 3, "tags": ["gaucher", "glucocerebrosidase", "glucocerebroside", "crumpled-tissue-paper", "hepatosplenomegaly", "enzyme-replacement"], "high_yield": true}, {"id": "3-7", "q": "Concept → diagnosis: hepatosplenomegaly, pancytopenia, bone pain, and crumpled-tissue-paper macrophages.", "a": "Gaucher disease.", "module": "Gaucher disease", "moduleIndex": 3, "tags": ["gaucher", "glucocerebrosidase", "glucocerebroside", "crumpled-tissue-paper", "hepatosplenomegaly", "enzyme-replacement"], "high_yield": true}, {"id": "4-0", "q": "Which enzyme is deficient in Krabbe disease?", "a": "Galactocerebrosidase (galactosylceramidase).", "module": "Krabbe disease", "moduleIndex": 4, "tags": ["krabbe", "galactocerebrosidase", "psychosine", "globoid-cells", "leukodystrophy", "optic-atrophy"], "high_yield": true}, {"id": "4-1", "q": "Which two substances accumulate in Krabbe disease and destroy myelin?", "a": "Galactocerebroside and psychosine.", "module": "Krabbe disease", "moduleIndex": 4, "tags": ["krabbe", "galactocerebrosidase", "psychosine", "globoid-cells", "leukodystrophy", "optic-atrophy"], "high_yield": true}, {"id": "4-2", "q": "What characteristic cell appears in the white matter in Krabbe disease?", "a": "Globoid cells (multinucleated macrophages).", "module": "Krabbe disease", "moduleIndex": 4, "tags": ["krabbe", "galactocerebrosidase", "psychosine", "globoid-cells", "leukodystrophy", "optic-atrophy"], "high_yield": true}, {"id": "4-3", "q": "Krabbe disease is classified as a ___ (a myelin-destroying disease).", "a": "Leukodystrophy.", "module": "Krabbe disease", "moduleIndex": 4, "tags": ["krabbe", "galactocerebrosidase", "psychosine", "globoid-cells", "leukodystrophy", "optic-atrophy"], "high_yield": true}, {"id": "4-4", "q": "Besides developmental regression, name two neurologic features of Krabbe disease.", "a": "Peripheral neuropathy and optic atrophy.", "module": "Krabbe disease", "moduleIndex": 4, "tags": ["krabbe", "galactocerebrosidase", "psychosine", "globoid-cells", "leukodystrophy", "optic-atrophy"], "high_yield": true}, {"id": "4-5", "q": "Concept → diagnosis: infant with neurodegeneration, peripheral neuropathy, optic atrophy, and globoid cells.", "a": "Krabbe disease.", "module": "Krabbe disease", "moduleIndex": 4, "tags": ["krabbe", "galactocerebrosidase", "psychosine", "globoid-cells", "leukodystrophy", "optic-atrophy"], "high_yield": true}, {"id": "5-0", "q": "Which enzyme is deficient in Fabry disease?", "a": "α-galactosidase A.", "module": "Fabry disease", "moduleIndex": 5, "tags": ["fabry", "alpha-galactosidase-A", "ceramide-trihexoside", "angiokeratomas", "acroparesthesias", "X-linked", "renal-cardiac"], "high_yield": true}, {"id": "5-1", "q": "What substrate accumulates in Fabry disease?", "a": "Ceramide trihexoside (globotriaosylceramide).", "module": "Fabry disease", "moduleIndex": 5, "tags": ["fabry", "alpha-galactosidase-A", "ceramide-trihexoside", "angiokeratomas", "acroparesthesias", "X-linked", "renal-cardiac"], "high_yield": true}, {"id": "5-2", "q": "What is the inheritance pattern of Fabry disease?", "a": "X-linked recessive.", "module": "Fabry disease", "moduleIndex": 5, "tags": ["fabry", "alpha-galactosidase-A", "ceramide-trihexoside", "angiokeratomas", "acroparesthesias", "X-linked", "renal-cardiac"], "high_yield": true}, {"id": "5-3", "q": "What is the term for the early episodic burning pain in the hands and feet in Fabry disease?", "a": "Acroparesthesias.", "module": "Fabry disease", "moduleIndex": 5, "tags": ["fabry", "alpha-galactosidase-A", "ceramide-trihexoside", "angiokeratomas", "acroparesthesias", "X-linked", "renal-cardiac"], "high_yield": true}, {"id": "5-4", "q": "What are the reddish skin lesions of Fabry disease called?", "a": "Angiokeratomas.", "module": "Fabry disease", "moduleIndex": 5, "tags": ["fabry", "alpha-galactosidase-A", "ceramide-trihexoside", "angiokeratomas", "acroparesthesias", "X-linked", "renal-cardiac"], "high_yield": true}, {"id": "5-5", "q": "What are the two late, life-threatening complications of Fabry disease?", "a": "Renal failure and cardiovascular disease (cardiomyopathy, stroke).", "module": "Fabry disease", "moduleIndex": 5, "tags": ["fabry", "alpha-galactosidase-A", "ceramide-trihexoside", "angiokeratomas", "acroparesthesias", "X-linked", "renal-cardiac"], "high_yield": true}, {"id": "5-6", "q": "Concept → diagnosis: male with burning hand/foot pain and angiokeratomas, later developing renal and cardiac disease.", "a": "Fabry disease.", "module": "Fabry disease", "moduleIndex": 5, "tags": ["fabry", "alpha-galactosidase-A", "ceramide-trihexoside", "angiokeratomas", "acroparesthesias", "X-linked", "renal-cardiac"], "high_yield": true}, {"id": "6-0", "q": "Which enzyme is deficient in metachromatic leukodystrophy?", "a": "Arylsulfatase A.", "module": "Metachromatic leukodystrophy", "moduleIndex": 6, "tags": ["metachromatic-leukodystrophy", "arylsulfatase-A", "sulfatides", "demyelination", "ataxia", "neuropathy"], "high_yield": true}, {"id": "6-1", "q": "What substrate accumulates in metachromatic leukodystrophy?", "a": "Sulfatides (cerebroside sulfate).", "module": "Metachromatic leukodystrophy", "moduleIndex": 6, "tags": ["metachromatic-leukodystrophy", "arylsulfatase-A", "sulfatides", "demyelination", "ataxia", "neuropathy"], "high_yield": true}, {"id": "6-2", "q": "Where does metachromatic leukodystrophy cause demyelination?", "a": "In both the central and peripheral nervous systems.", "module": "Metachromatic leukodystrophy", "moduleIndex": 6, "tags": ["metachromatic-leukodystrophy", "arylsulfatase-A", "sulfatides", "demyelination", "ataxia", "neuropathy"], "high_yield": true}, {"id": "6-3", "q": "What is the inheritance pattern of metachromatic leukodystrophy?", "a": "Autosomal recessive.", "module": "Metachromatic leukodystrophy", "moduleIndex": 6, "tags": ["metachromatic-leukodystrophy", "arylsulfatase-A", "sulfatides", "demyelination", "ataxia", "neuropathy"], "high_yield": true}, {"id": "6-4", "q": "Concept → diagnosis: progressive demyelination with ataxia and peripheral neuropathy; arylsulfatase A deficiency.", "a": "Metachromatic leukodystrophy.", "module": "Metachromatic leukodystrophy", "moduleIndex": 6, "tags": ["metachromatic-leukodystrophy", "arylsulfatase-A", "sulfatides", "demyelination", "ataxia", "neuropathy"], "high_yield": true}, {"id": "7-0", "q": "Which enzyme is deficient in Hurler syndrome?", "a": "α-L-iduronidase.", "module": "Hurler syndrome", "moduleIndex": 7, "tags": ["hurler", "alpha-L-iduronidase", "mucopolysaccharidosis", "corneal-clouding", "coarse-facies", "dermatan-heparan"], "high_yield": true}, {"id": "7-1", "q": "Which two glycosaminoglycans accumulate in Hurler (and Hunter) syndrome?", "a": "Dermatan sulfate and heparan sulfate.", "module": "Hurler syndrome", "moduleIndex": 7, "tags": ["hurler", "alpha-L-iduronidase", "mucopolysaccharidosis", "corneal-clouding", "coarse-facies", "dermatan-heparan"], "high_yield": true}, {"id": "7-2", "q": "What is the inheritance pattern of Hurler syndrome?", "a": "Autosomal recessive.", "module": "Hurler syndrome", "moduleIndex": 7, "tags": ["hurler", "alpha-L-iduronidase", "mucopolysaccharidosis", "corneal-clouding", "coarse-facies", "dermatan-heparan"], "high_yield": true}, {"id": "7-3", "q": "Which ocular finding is present in Hurler syndrome?", "a": "Corneal clouding.", "module": "Hurler syndrome", "moduleIndex": 7, "tags": ["hurler", "alpha-L-iduronidase", "mucopolysaccharidosis", "corneal-clouding", "coarse-facies", "dermatan-heparan"], "high_yield": true}, {"id": "7-4", "q": "What term describes the coarse facial features of the mucopolysaccharidoses?", "a": "\"Gargoylism.\"", "module": "Hurler syndrome", "moduleIndex": 7, "tags": ["hurler", "alpha-L-iduronidase", "mucopolysaccharidosis", "corneal-clouding", "coarse-facies", "dermatan-heparan"], "high_yield": true}, {"id": "7-5", "q": "Concept → diagnosis: coarse facies, corneal clouding, hepatosplenomegaly, and developmental delay.", "a": "Hurler syndrome.", "module": "Hurler syndrome", "moduleIndex": 7, "tags": ["hurler", "alpha-L-iduronidase", "mucopolysaccharidosis", "corneal-clouding", "coarse-facies", "dermatan-heparan"], "high_yield": true}, {"id": "8-0", "q": "Which enzyme is deficient in Hunter syndrome?", "a": "Iduronate-2-sulfatase.", "module": "Hunter syndrome", "moduleIndex": 8, "tags": ["hunter", "iduronate-2-sulfatase", "mucopolysaccharidosis", "no-corneal-clouding", "aggressive-behavior", "X-linked"], "high_yield": true}, {"id": "8-1", "q": "What is the inheritance pattern of Hunter syndrome?", "a": "X-linked recessive.", "module": "Hunter syndrome", "moduleIndex": 8, "tags": ["hunter", "iduronate-2-sulfatase", "mucopolysaccharidosis", "no-corneal-clouding", "aggressive-behavior", "X-linked"], "high_yield": true}, {"id": "8-2", "q": "Does Hunter syndrome involve corneal clouding?", "a": "No — corneas are clear (unlike Hurler).", "module": "Hunter syndrome", "moduleIndex": 8, "tags": ["hunter", "iduronate-2-sulfatase", "mucopolysaccharidosis", "no-corneal-clouding", "aggressive-behavior", "X-linked"], "high_yield": true}, {"id": "8-3", "q": "Which behavioral feature is distinctive of Hunter syndrome?", "a": "Aggressive behavior.", "module": "Hunter syndrome", "moduleIndex": 8, "tags": ["hunter", "iduronate-2-sulfatase", "mucopolysaccharidosis", "no-corneal-clouding", "aggressive-behavior", "X-linked"], "high_yield": true}, {"id": "8-4", "q": "How does Hunter compare with Hurler in severity?", "a": "Hunter is milder.", "module": "Hunter syndrome", "moduleIndex": 8, "tags": ["hunter", "iduronate-2-sulfatase", "mucopolysaccharidosis", "no-corneal-clouding", "aggressive-behavior", "X-linked"], "high_yield": true}, {"id": "8-5", "q": "Concept → diagnosis: boy with coarse facies, organomegaly, aggressive behavior, and clear corneas.", "a": "Hunter syndrome.", "module": "Hunter syndrome", "moduleIndex": 8, "tags": ["hunter", "iduronate-2-sulfatase", "mucopolysaccharidosis", "no-corneal-clouding", "aggressive-behavior", "X-linked"], "high_yield": true}, {"id": "9-0", "q": "Which enzyme is deficient in I-cell disease (mucolipidosis II)?", "a": "N-acetylglucosaminyl-1-phosphotransferase.", "module": "I-cell disease", "moduleIndex": 9, "tags": ["i-cell", "mucolipidosis-II", "mannose-6-phosphate", "enzyme-targeting", "high-plasma-enzymes", "gingival-hyperplasia"], "high_yield": true}, {"id": "9-1", "q": "Which targeting tag fails to be added to lysosomal enzymes in I-cell disease?", "a": "Mannose-6-phosphate (M6P).", "module": "I-cell disease", "moduleIndex": 9, "tags": ["i-cell", "mucolipidosis-II", "mannose-6-phosphate", "enzyme-targeting", "high-plasma-enzymes", "gingival-hyperplasia"], "high_yield": true}, {"id": "9-2", "q": "In I-cell disease, where do the lysosomal enzymes end up instead of the lysosome?", "a": "Secreted into the plasma (blood) — plasma lysosomal enzyme levels are high.", "module": "I-cell disease", "moduleIndex": 9, "tags": ["i-cell", "mucolipidosis-II", "mannose-6-phosphate", "enzyme-targeting", "high-plasma-enzymes", "gingival-hyperplasia"], "high_yield": true}, {"id": "9-3", "q": "Conceptually, what kind of defect is I-cell disease?", "a": "A defect in lysosomal enzyme trafficking/targeting — not a single degradative-enzyme deficiency.", "module": "I-cell disease", "moduleIndex": 9, "tags": ["i-cell", "mucolipidosis-II", "mannose-6-phosphate", "enzyme-targeting", "high-plasma-enzymes", "gingival-hyperplasia"], "high_yield": true}, {"id": "9-4", "q": "Which oral finding is characteristic of I-cell disease?", "a": "Gingival hyperplasia.", "module": "I-cell disease", "moduleIndex": 9, "tags": ["i-cell", "mucolipidosis-II", "mannose-6-phosphate", "enzyme-targeting", "high-plasma-enzymes", "gingival-hyperplasia"], "high_yield": true}, {"id": "9-5", "q": "Concept → diagnosis: coarse facies, gingival hyperplasia, corneal clouding, with HIGH plasma lysosomal enzyme levels.", "a": "I-cell disease (mucolipidosis II).", "module": "I-cell disease", "moduleIndex": 9, "tags": ["i-cell", "mucolipidosis-II", "mannose-6-phosphate", "enzyme-targeting", "high-plasma-enzymes", "gingival-hyperplasia"], "high_yield": true}, {"id": "10-0", "q": "Match the characteristic cell: Gaucher, Niemann-Pick, and Krabbe.", "a": "Gaucher → crumpled tissue paper; Niemann-Pick → foam cells; Krabbe → globoid cells.", "module": "Lysosomal storage disease summary", "moduleIndex": 10, "tags": ["lysosomal-storage", "summary", "reference-table", "cherry-red-macula"], "high_yield": true}, {"id": "10-1", "q": "Which lysosomal storage disease is a mannose-6-phosphate targeting defect rather than a single degradative-enzyme deficiency?", "a": "I-cell disease (mucolipidosis II).", "module": "Lysosomal storage disease summary", "moduleIndex": 10, "tags": ["lysosomal-storage", "summary", "reference-table", "cherry-red-macula"], "high_yield": true}, {"id": "10-2", "q": "Which lysosomal storage diseases are X-linked?", "a": "Fabry and Hunter (all others are autosomal recessive).", "module": "Lysosomal storage disease summary", "moduleIndex": 10, "tags": ["lysosomal-storage", "summary", "reference-table", "cherry-red-macula"], "high_yield": true}], "tags": ["GM2-ganglioside", "X-linked", "acroparesthesias", "aggressive-behavior", "alpha-L-iduronidase", "alpha-galactosidase-A", "angiokeratomas", "arylsulfatase-A", "ataxia", "ceramide-trihexoside", "cherry-red-macula", "coarse-facies", "corneal-clouding", "crumpled-tissue-paper", "demyelination", "dermatan-heparan", "enzyme-deficiency", "enzyme-replacement", "enzyme-targeting", "fabry", "foam-cells", "galactocerebrosidase", "gaucher", "gingival-hyperplasia", "globoid-cells", "glucocerebrosidase", "glucocerebroside", "hepatosplenomegaly", "hexosaminidase-A", "high-plasma-enzymes", "hunter", "hurler", "i-cell", "iduronate-2-sulfatase", "krabbe", "leukodystrophy", "lysosomal-storage", "mannose-6-phosphate", "metachromatic-leukodystrophy", "mucolipidosis-II", "mucopolysaccharidoses", "mucopolysaccharidosis", "neuropathy", "niemann-pick", "no-corneal-clouding", "no-hepatosplenomegaly", "onion-skin", "optic-atrophy", "psychosine", "reference-table", "renal-cardiac", "sphingolipidoses", "sphingomyelin", "sphingomyelinase", "sulfatides", "summary", "tay-sachs"], "counts": {"modules": 11, "cards": 64}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* header */
+$('#sectionTitle').textContent = DATA.sectionTitle;
+$('#intro').textContent = DATA.intro;
+$('#stats').innerHTML = `<b>${DATA.counts.modules}</b> modules · <b>${DATA.counts.cards}</b> flashcards`;
+
+/* theme */
+const themeBtn = $('#themeBtn'), root = document.documentElement;
+themeBtn.onclick = () => {
+  const dark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  themeBtn.textContent = dark ? '◐ Night' : '◑ Day';
+};
+
+/* tabs */
+const tabStudy=$('#tabStudy'), tabCards=$('#tabCards'), viewStudy=$('#viewStudy'), viewCards=$('#viewCards');
+function setTab(study){
+  tabStudy.setAttribute('aria-selected', study); tabCards.setAttribute('aria-selected', !study);
+  viewStudy.classList.toggle('hidden', !study); viewCards.classList.toggle('hidden', study);
+}
+tabStudy.onclick=()=>setTab(true); tabCards.onclick=()=>setTab(false);
+
+/* ---------- STUDY ---------- */
+const modList=$('#modList'), article=$('#article');
+DATA.modules.forEach((m,i)=>{
+  const b=document.createElement('button');
+  b.className='modlink'+(m.high_yield?' hy':'');
+  b.innerHTML=`<span class="dot"></span><span>${m.title}</span>`;
+  b.onclick=()=>showModule(i);
+  modList.appendChild(b);
+});
+function showModule(i){
+  const m=DATA.modules[i];
+  $$('.modlink').forEach((el,idx)=>el.setAttribute('aria-current', idx===i));
+  const facts=[];
+  if(m.enzyme) facts.push(`<span class="fact">Enzyme · <b>${m.enzyme}</b></span>`);
+  if(m.inheritance) facts.push(`<span class="fact">Inheritance · <b>${m.inheritance}</b></span>`);
+  if(m.high_yield) facts.push(`<span class="badge-hy">★ High yield</span>`);
+  const tags=m.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  article.innerHTML=`<h2 class="art-title">${m.title}</h2>
+    <div class="factstrip">${facts.join('')}</div>
+    ${tags?`<div class="tagrow">${tags}</div>`:''}
+    <div class="prose">${m.body}</div>`;
+  article.scrollIntoView({behavior:'smooth',block:'start'});
+}
+showModule(0);
+
+/* ---------- FLASHCARDS ---------- */
+let scope='all';
+const scopeSeg=$('#scopeSeg'), moduleField=$('#moduleField'), tagField=$('#tagField');
+const moduleSel=$('#moduleSel'), tagSel=$('#tagSel'), deckCount=$('#deckCount');
+
+DATA.modules.forEach((m,i)=>{
+  const o=document.createElement('option'); o.value=i; o.textContent=`${m.title} (${m.cards.length})`; moduleSel.appendChild(o);
+});
+DATA.tags.forEach(t=>{
+  const n=DATA.cards.filter(c=>c.tags.includes(t)).length;
+  const o=document.createElement('option'); o.value=t; o.textContent=`${t} (${n})`; tagSel.appendChild(o);
+});
+
+scopeSeg.querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>{
+    scope=b.dataset.scope;
+    scopeSeg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+    moduleField.classList.toggle('hidden', scope!=='module');
+    tagField.classList.toggle('hidden', scope!=='tag');
+    updateDeckCount();
+  };
+});
+moduleSel.onchange=updateDeckCount; tagSel.onchange=updateDeckCount;
+
+function currentSelection(){
+  if(scope==='module') return DATA.cards.filter(c=>c.moduleIndex===+moduleSel.value);
+  if(scope==='tag') return DATA.cards.filter(c=>c.tags.includes(tagSel.value));
+  return DATA.cards.slice();
+}
+function updateDeckCount(){
+  const n=currentSelection().length;
+  deckCount.textContent=`${n} card${n===1?'':'s'} in this deck`;
+}
+updateDeckCount();
+
+/* drill state */
+let deck=[], pos=0, revealed=false, got=0, missed=0, missedCards=[];
+const deckSetup=$('#deckSetup'), drill=$('#drill'), results=$('#results');
+const card=$('#card'), qtext=$('#qtext'), atext=$('#atext'), modRef=$('#modRef');
+const judge=$('#judge'), revealHint=$('#revealHint'), pbar=$('#pbar');
+const posLabel=$('#posLabel'), gotCount=$('#gotCount'), missCount=$('#missCount');
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function startDrill(cards){
+  deck=shuffle(cards.slice()); pos=0; got=0; missed=0; missedCards=[];
+  deckSetup.classList.add('hidden'); results.classList.add('hidden'); drill.classList.remove('hidden');
+  render();
+}
+function render(){
+  if(pos>=deck.length){ return finish(); }
+  const c=deck[pos]; revealed=false;
+  qtext.textContent=c.q; atext.textContent=c.a; atext.classList.add('hidden');
+  judge.classList.add('hidden'); revealHint.classList.remove('hidden');
+  modRef.textContent=''; 
+  posLabel.textContent=`Card ${pos+1} of ${deck.length}`;
+  gotCount.textContent=got; missCount.textContent=missed;
+  pbar.style.width=`${(pos/deck.length)*100}%`;
+}
+function reveal(){
+  if(revealed) return;
+  revealed=true;
+  atext.classList.remove('hidden'); judge.classList.remove('hidden');
+  revealHint.classList.add('hidden');
+  modRef.textContent='From: '+deck[pos].module;
+}
+function judgeCard(ok){
+  if(!revealed) return;
+  if(ok) got++; else { missed++; missedCards.push(deck[pos]); }
+  pos++; render();
+}
+function finish(){
+  drill.classList.add('hidden'); results.classList.remove('hidden');
+  const total=got+missed, pct=total?Math.round(got/total*100):0;
+  $('#scoreNum').innerHTML=`${pct}<small>%</small>`;
+  $('#resLine').textContent=`${got} got · ${missed} missed · ${total} cards`;
+  $('#drillMissed').classList.toggle('hidden', missedCards.length===0);
+}
+
+card.onclick=reveal;
+$('#gotBtn').onclick=e=>{e.stopPropagation();judgeCard(true);};
+$('#missBtn').onclick=e=>{e.stopPropagation();judgeCard(false);};
+$('#startBtn').onclick=()=>{const s=currentSelection(); if(s.length) startDrill(s);};
+$('#restartDrill').onclick=()=>startDrill(deck);
+$('#exitDrill').onclick=()=>{drill.classList.add('hidden');deckSetup.classList.remove('hidden');};
+$('#resRestart').onclick=()=>startDrill(deck);
+$('#drillMissed').onclick=()=>startDrill(missedCards);
+$('#resNew').onclick=()=>{results.classList.add('hidden');deckSetup.classList.remove('hidden');};
+
+document.addEventListener('keydown',e=>{
+  if(viewCards.classList.contains('hidden')||drill.classList.contains('hidden'))return;
+  if(e.code==='Space'||e.code==='Enter'){e.preventDefault(); revealed?null:reveal();}
+  else if(revealed&&(e.code==='ArrowRight'||e.key.toLowerCase()==='g')) judgeCard(true);
+  else if(revealed&&(e.code==='ArrowLeft'||e.key.toLowerCase()==='m')) judgeCard(false);
+});
+</script>
+</body>
+</html>

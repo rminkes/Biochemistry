@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metabolism — Foundations — Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ea; --surface:#fbfaf6; --surface-2:#efebe1;
+  --ink:#211f1b; --muted:#6f685b; --faint:#938b7c;
+  --accent:#0b6b63; --accent-ink:#063f3a; --accent-soft:rgba(11,107,99,.10);
+  --hy:#b06a16; --hy-soft:rgba(176,106,22,.12);
+  --line:#e2ddd1; --line-strong:#d3ccbd;
+  --shadow:0 1px 2px rgba(40,34,20,.05),0 8px 28px -14px rgba(40,34,20,.22);
+  --display:"Fraunces",Georgia,serif;
+  --prose:"Newsreader",Georgia,serif;
+  --ui:"Spline Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#14161a; --surface:#1b1e24; --surface-2:#222730;
+  --ink:#e9e5db; --muted:#9d978a; --faint:#76716a;
+  --accent:#54b7ab; --accent-ink:#bfe7e1; --accent-soft:rgba(84,183,171,.12);
+  --hy:#d99f55; --hy-soft:rgba(217,159,85,.14);
+  --line:#2a2f38; --line-strong:#39404b;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--prose);
+  font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 100% 0,var(--accent-soft),transparent 38%);
+  min-height:100vh;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* header */
+header.top{padding:30px 0 14px;border-bottom:1px solid var(--line)}
+.brandrow{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.kicker{font-family:var(--ui);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 6px}
+h1.section{font-family:var(--display);font-weight:600;font-size:clamp(28px,4.4vw,44px);line-height:1.02;margin:0;letter-spacing:-.01em}
+.intro{color:var(--muted);max-width:62ch;margin:14px 0 0;font-size:16.5px}
+.meta-stats{font-family:var(--ui);font-size:12.5px;color:var(--faint);margin-top:12px;letter-spacing:.02em}
+.meta-stats b{color:var(--muted);font-weight:600}
+.theme-btn{font-family:var(--ui);font-size:12.5px;font-weight:500;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:999px;padding:8px 14px;cursor:pointer;white-space:nowrap;transition:.18s}
+.theme-btn:hover{color:var(--ink);border-color:var(--accent)}
+
+/* tabs */
+nav.tabs{display:flex;gap:4px;margin:18px 0 0}
+.tab{font-family:var(--ui);font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--muted);
+  background:none;border:none;border-bottom:2px solid transparent;padding:10px 16px;cursor:pointer;transition:.18s}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+
+main{padding:26px 0 80px}
+
+/* STUDY view */
+.study{display:grid;grid-template-columns:248px 1fr;gap:34px;align-items:start}
+.modlist{position:sticky;top:18px;display:flex;flex-direction:column;gap:2px;font-family:var(--ui)}
+.modlist .lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:0 0 8px 10px;font-weight:600}
+.modlink{text-align:left;background:none;border:none;border-radius:8px;padding:8px 10px;cursor:pointer;
+  color:var(--muted);font-size:13.5px;line-height:1.3;font-weight:500;display:flex;gap:8px;align-items:baseline;transition:.14s}
+.modlink:hover{background:var(--surface);color:var(--ink)}
+.modlink[aria-current="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.modlink .dot{flex:none;width:5px;height:5px;border-radius:50%;background:var(--hy);margin-top:7px;opacity:.0}
+.modlink.hy .dot{opacity:1}
+
+.article{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:34px 38px 40px;box-shadow:var(--shadow);min-height:60vh}
+.art-title{font-family:var(--display);font-weight:600;font-size:30px;line-height:1.08;margin:0 0 4px;letter-spacing:-.01em}
+.factstrip{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px;font-family:var(--ui);font-size:12px}
+.fact{background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:5px 10px;color:var(--muted)}
+.fact b{color:var(--ink);font-weight:600}
+.badge-hy{background:var(--hy-soft);border:1px solid transparent;color:var(--hy);font-weight:600;
+  border-radius:7px;padding:5px 10px;letter-spacing:.04em}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 24px}
+.tag{font-family:var(--ui);font-size:11px;color:var(--faint);background:none;border:1px solid var(--line-strong);
+  border-radius:999px;padding:3px 9px;letter-spacing:.02em}
+
+/* prose */
+.prose{font-family:var(--prose);font-size:18px;color:var(--ink)}
+.prose p{margin:0 0 15px}
+.prose strong{font-weight:600}
+.prose p strong:first-child{color:var(--accent-ink);font-family:var(--ui);font-size:12.5px;letter-spacing:.06em;
+  text-transform:uppercase;font-weight:700;display:inline-block;margin-right:.4em}
+[data-theme="dark"] .prose p strong:first-child{color:var(--accent)}
+.prose ul{margin:0 0 16px;padding-left:0;list-style:none}
+.prose li{position:relative;padding-left:20px;margin:0 0 7px;font-size:16.5px}
+.prose li::before{content:"";position:absolute;left:3px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.55}
+.prose table{width:100%;border-collapse:collapse;margin:10px 0 20px;font-family:var(--ui);font-size:13.5px}
+.prose th{background:var(--surface-2);text-align:left;padding:9px 11px;border:1px solid var(--line);font-weight:600;color:var(--ink)}
+.prose td{padding:9px 11px;border:1px solid var(--line);color:var(--muted);vertical-align:top}
+.prose em{color:var(--muted)}
+
+/* FLASHCARDS view */
+.deck-setup{max-width:560px;margin:6px auto 0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow)}
+.panel h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 18px}
+.field{margin:0 0 16px;font-family:var(--ui)}
+.field label{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 7px}
+select{width:100%;font-family:var(--ui);font-size:14.5px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line-strong);border-radius:9px;padding:11px 12px;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236f685b' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:90px;font-family:var(--ui);font-size:13.5px;font-weight:500;color:var(--muted);
+  background:var(--surface-2);border:1px solid var(--line-strong);border-radius:9px;padding:10px;cursor:pointer;transition:.16s}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+[data-theme="dark"] .seg button[aria-pressed="true"]{color:#0c1416}
+.start-btn,.ctl-primary{font-family:var(--ui);font-size:15px;font-weight:600;color:#fff;background:var(--accent);
+  border:none;border-radius:10px;padding:13px 18px;cursor:pointer;width:100%;transition:.16s;letter-spacing:.01em}
+[data-theme="dark"] .start-btn,[data-theme="dark"] .ctl-primary{color:#0c1416}
+.start-btn:hover,.ctl-primary:hover{filter:brightness(1.06)}
+.deck-count{font-family:var(--ui);font-size:13px;color:var(--faint);text-align:center;margin:14px 0 0}
+
+/* drill */
+.drill{max-width:680px;margin:0 auto}
+.progress{display:flex;align-items:center;justify-content:space-between;font-family:var(--ui);font-size:13px;color:var(--muted);margin:0 0 12px}
+.progress .counts b{font-weight:600}
+.got-c{color:var(--accent)} .miss-c{color:var(--hy)}
+.pbar{height:4px;background:var(--surface-2);border-radius:999px;overflow:hidden;margin:0 0 22px}
+.pbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s ease}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:40px 38px;min-height:280px;display:flex;flex-direction:column;cursor:pointer;
+  transition:transform .15s ease, border-color .2s}
+.card:hover{border-color:var(--line-strong)}
+.card .side-lbl{font-family:var(--ui);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--faint)}
+.card .qtext{font-family:var(--prose);font-size:23px;line-height:1.32;margin:18px 0 0;flex:1;display:flex;align-items:center}
+.card .atext{font-family:var(--prose);font-size:20px;line-height:1.4;margin:16px 0 0;color:var(--accent-ink);
+  border-top:1px solid var(--line);padding-top:18px}
+[data-theme="dark"] .card .atext{color:var(--accent)}
+.card .mod-ref{font-family:var(--ui);font-size:11.5px;color:var(--faint);margin-top:auto;padding-top:18px}
+.reveal-hint{font-family:var(--ui);font-size:12.5px;color:var(--faint);text-align:center;margin:16px 0 0}
+.judge{display:flex;gap:12px;margin:18px 0 0}
+.judge button{flex:1;font-family:var(--ui);font-size:15px;font-weight:600;border-radius:11px;padding:15px;cursor:pointer;transition:.16s;border:1px solid}
+.miss-btn{background:var(--hy-soft);border-color:transparent;color:var(--hy)}
+.miss-btn:hover{background:var(--hy);color:#fff}
+.got-btn{background:var(--accent-soft);border-color:transparent;color:var(--accent-ink)}
+[data-theme="dark"] .got-btn{color:var(--accent)}
+.got-btn:hover{background:var(--accent);color:#fff}
+[data-theme="dark"] .got-btn:hover{color:#0c1416}
+.drill-foot{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 0;font-family:var(--ui);font-size:13px}
+.linkbtn{background:none;border:none;color:var(--muted);font-family:var(--ui);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:hover{color:var(--accent)}
+
+/* results */
+.results{max-width:560px;margin:0 auto;text-align:center}
+.results .panel{padding:40px 30px}
+.score{font-family:var(--display);font-size:54px;font-weight:600;color:var(--accent);line-height:1;margin:6px 0}
+.score small{font-family:var(--ui);font-size:15px;color:var(--faint);font-weight:500}
+.res-line{font-family:var(--ui);font-size:14px;color:var(--muted);margin:8px 0 24px}
+.res-actions{display:flex;flex-direction:column;gap:10px}
+.kbd{font-family:var(--ui);font-size:11px;background:var(--surface-2);border:1px solid var(--line-strong);
+  border-radius:5px;padding:1px 6px;color:var(--faint)}
+
+.hidden{display:none!important}
+@media(max-width:820px){
+  .study{grid-template-columns:1fr;gap:18px}
+  .modlist{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .modlist .lbl{width:100%}
+  .modlink{border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px}
+  .modlink .dot{display:none}
+  .article{padding:26px 22px 30px}
+  body{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brandrow">
+      <div>
+        <p class="kicker">Biochemistry · Study Guide</p>
+        <h1 class="section" id="sectionTitle"></h1>
+      </div>
+      <button class="theme-btn" id="themeBtn">◐ Night</button>
+    </div>
+    <p class="intro" id="intro"></p>
+    <p class="meta-stats" id="stats"></p>
+    <nav class="tabs" role="tablist">
+      <button class="tab" id="tabStudy" role="tab" aria-selected="true">Study</button>
+      <button class="tab" id="tabCards" role="tab" aria-selected="false">Flashcards</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- STUDY -->
+    <section id="viewStudy">
+      <div class="study">
+        <aside class="modlist" id="modList"><p class="lbl">Modules</p></aside>
+        <article class="article" id="article"></article>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section id="viewCards" class="hidden">
+      <div class="deck-setup" id="deckSetup">
+        <div class="panel">
+          <h2>Build a drill deck</h2>
+          <div class="field">
+            <label>Scope</label>
+            <div class="seg" id="scopeSeg">
+              <button data-scope="all" aria-pressed="true">All cards</button>
+              <button data-scope="module">By module</button>
+              <button data-scope="tag">By tag</button>
+            </div>
+          </div>
+          <div class="field hidden" id="moduleField">
+            <label>Module</label>
+            <select id="moduleSel"></select>
+          </div>
+          <div class="field hidden" id="tagField">
+            <label>Tag</label>
+            <select id="tagSel"></select>
+          </div>
+          <button class="start-btn" id="startBtn">Start drill</button>
+          <p class="deck-count" id="deckCount"></p>
+        </div>
+      </div>
+
+      <div class="drill hidden" id="drill">
+        <div class="progress">
+          <span id="posLabel">Card 1</span>
+          <span class="counts"><b class="got-c" id="gotCount">0</b> got · <b class="miss-c" id="missCount">0</b> missed</span>
+        </div>
+        <div class="pbar"><i id="pbar"></i></div>
+        <div class="card" id="card">
+          <span class="side-lbl">Question</span>
+          <div class="qtext" id="qtext"></div>
+          <div class="atext hidden" id="atext"></div>
+          <div class="mod-ref" id="modRef"></div>
+        </div>
+        <p class="reveal-hint" id="revealHint">Tap the card or press <span class="kbd">Space</span> to reveal</p>
+        <div class="judge hidden" id="judge">
+          <button class="miss-btn" id="missBtn">Missed <span class="kbd">←</span></button>
+          <button class="got-btn" id="gotBtn">Got it <span class="kbd">→</span></button>
+        </div>
+        <div class="drill-foot">
+          <button class="linkbtn" id="restartDrill">Restart deck</button>
+          <button class="linkbtn" id="exitDrill">Change deck</button>
+        </div>
+      </div>
+
+      <div class="results hidden" id="results">
+        <div class="panel">
+          <p class="side-lbl" style="font-family:var(--ui);letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--faint)">Deck complete</p>
+          <div class="score" id="scoreNum">0<small>%</small></div>
+          <p class="res-line" id="resLine"></p>
+          <div class="res-actions">
+            <button class="ctl-primary" id="drillMissed">Drill missed only</button>
+            <button class="linkbtn" id="resRestart">Restart full deck</button>
+            <button class="linkbtn" id="resNew">Build a new deck</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script id="data" type="application/json">{"sectionTitle": "Metabolism — Foundations", "intro": "Section E of the biochem coverage checklist: the regulatory and energetic framework the pathway sections build on — fed/fasting control, bioenergetics, enzyme kinetics, and the master map of rate-limiting enzymes. ---", "modules": [{"title": "Metabolism overview — fed, fasting & the insulin/glucagon axis", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "integration", "high_yield": true, "tags": ["insulin", "glucagon", "fed-state", "fasting", "starvation", "ketones", "organ-fuel-use"], "body": "<p><strong>Concept.</strong> Metabolism is governed by fuel status, signaled chiefly by the <strong>insulin-to-\nglucagon ratio</strong>. In the <strong>fed (absorptive) state</strong>, high insulin drives anabolism — glucose\nuptake, glycogen synthesis, fatty acid/triglyceride synthesis, and protein synthesis — and the\nliver stores glucose as glycogen and converts the excess to fat. In the <strong>fasting state</strong>,\nfalling insulin with rising glucagon (plus epinephrine and cortisol) drives catabolism to keep\nblood glucose up: first glycogenolysis (hepatic glycogen lasts ~12–24 h), then gluconeogenesis\n(from lactate, glycerol, and glucogenic amino acids), with lipolysis supplying fatty acids for\nβ-oxidation. In <strong>prolonged starvation</strong>, the body spares protein by shifting to fat-derived\n<strong>ketone bodies</strong>, which the brain adopts as its major fuel. Organ specialization matters: the\nbrain normally runs on glucose (and ketones in starvation), red blood cells depend solely on\nglycolysis (no mitochondria), the liver is the metabolic hub (glycogen, gluconeogenesis,\nketogenesis, urea), and muscle stores glycogen only for itself — it lacks glucose-6-phosphatase\nand so cannot release free glucose to the blood.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>The insulin/glucagon ratio sets fed (anabolic) vs fasting (catabolic) metabolism.</li>\n<li>Fed (high insulin): glycogen, fat, and protein synthesis; glucose uptake.</li>\n<li>Fasting (low insulin, high glucagon): glycogenolysis → gluconeogenesis → lipolysis/β-oxidation.</li>\n<li>Prolonged starvation: ketone bodies fuel the brain, sparing protein and glucose.</li>\n<li>RBCs: glycolysis only; brain: glucose then ketones; muscle: stores glycogen for itself\n  (no glucose-6-phosphatase); liver: the hub.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Diabetic ketoacidosis is essentially an exaggerated fasting/starvation\nsignal (insulin lack) despite high blood glucose. The muscle glucose-6-phosphatase point\nexplains why muscle glycogen can't raise blood glucose — relevant to the glycogen storage\ndiseases.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>It's the insulin/glucagon <em>ratio</em>, not absolute insulin, that matters.</li>\n<li>Glycogen is the short-term store (hours); fat is the long-term store.</li>\n<li>Muscle lacks glucose-6-phosphatase, so it can't export glucose.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"After an overnight fast, what maintains blood glucose?\" → glycogenolysis (then gluconeogenesis).</li>\n<li>\"Major brain fuel in prolonged starvation\" → ketone bodies.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"<strong>I</strong>nsulin = <strong>I</strong>ntake/store; <strong>G</strong>lucagon = <strong>G</strong>o mobilize.\"</p>", "cards": [{"q": "What signal chiefly governs fed vs fasting metabolism?", "a": "The insulin-to-glucagon ratio."}, {"q": "In the fed (high-insulin) state, what does the body do?", "a": "Anabolism — glucose uptake, glycogen synthesis, fatty acid/triglyceride synthesis, and protein synthesis."}, {"q": "What is the order of fuel mobilization during fasting?", "a": "Glycogenolysis (hepatic glycogen lasts ~12–24 h) → gluconeogenesis (lactate, glycerol, glucogenic amino acids) → lipolysis/β-oxidation."}, {"q": "What fuels the brain in prolonged starvation, and what does that spare?", "a": "Ketone bodies; this spares protein (and glucose)."}, {"q": "Why can't muscle release free glucose to the blood?", "a": "It lacks glucose-6-phosphatase, so its glycogen is stored only for itself."}, {"q": "Which cells depend solely on glycolysis, and why?", "a": "Red blood cells — they have no mitochondria."}, {"q": "Trap: is it absolute insulin or the ratio that matters?", "a": "The insulin/glucagon ratio, not absolute insulin."}]}, {"title": "Bioenergetics — ATP & electron carriers", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "integration", "high_yield": true, "tags": ["ATP", "free-energy", "NADH", "FADH2", "NADPH", "substrate-level-phosphorylation"], "body": "<p><strong>Concept.</strong> Metabolic reactions are coupled so that energy-releasing (catabolic) steps drive\nenergy-requiring (anabolic) ones, with <strong>ATP</strong> as the universal energy currency: hydrolysis of\nits terminal phosphoanhydride bonds releases free energy that powers otherwise unfavorable\nreactions. Whether a reaction proceeds is set by the change in free energy (ΔG) — negative ΔG is\nspontaneous (exergonic), positive is nonspontaneous (endergonic, and must be coupled to ATP).\nThe reduced electron carriers <strong>NADH and FADH₂</strong> capture energy from fuel oxidation and deliver\nelectrons to the electron transport chain, where most ATP is made (oxidative phosphorylation).\n<strong>NADPH</strong> is a related but distinct carrier used for <em>reductive biosynthesis</em> (fatty acid,\ncholesterol, and steroid synthesis) and antioxidant defense — it is not used to make ATP. ATP\nitself is generated two ways: <strong>substrate-level phosphorylation</strong> (direct phosphate transfer,\nas in glycolysis and the TCA cycle) and <strong>oxidative phosphorylation</strong> (the bulk, via the ETC).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>ATP = energy currency; phosphoanhydride-bond hydrolysis powers anabolism.</li>\n<li>ΔG: negative = spontaneous (exergonic); positive = needs coupling (endergonic).</li>\n<li>NADH and FADH₂ feed the ETC → oxidative phosphorylation (most ATP).</li>\n<li>NADPH = reductive biosynthesis + antioxidant defense (not ATP).</li>\n<li>ATP made by substrate-level phosphorylation and oxidative phosphorylation.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Cyanide, CO, and uncouplers cripple oxidative phosphorylation (see\nthe ETC module). NADPH from the pentose phosphate pathway protects RBCs from oxidative damage —\nits lack in G6PD deficiency causes hemolysis.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>NADH/FADH₂ (catabolism, ATP) vs NADPH (anabolism/antioxidant) — distinct roles.</li>\n<li>Substrate-level phosphorylation (direct) vs oxidative phosphorylation (ETC-driven).</li>\n<li>ΔG sign indicates spontaneity, not reaction speed (kinetics is separate).</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Carrier used for fatty acid synthesis and glutathione regeneration\" → NADPH.</li>\n<li>\"ATP made directly during a metabolic step, without the ETC\" → substrate-level phosphorylation.</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"NADPH for <strong>P</strong>roduction (biosynthesis) and <strong>P</strong>rotection (antioxidant).\"</p>", "cards": [{"q": "What is the universal energy currency, and what powers anabolism?", "a": "ATP; hydrolysis of its terminal phosphoanhydride bonds releases free energy."}, {"q": "What does the sign of ΔG indicate?", "a": "Negative ΔG = spontaneous (exergonic); positive = nonspontaneous (endergonic, must be coupled to ATP)."}, {"q": "What do NADH and FADH₂ do?", "a": "Capture energy from fuel oxidation and deliver electrons to the electron transport chain (oxidative phosphorylation — most ATP)."}, {"q": "What is NADPH used for?", "a": "Reductive biosynthesis (fatty acid, cholesterol, steroid synthesis) and antioxidant defense — not ATP."}, {"q": "What are the two ways ATP is generated?", "a": "Substrate-level phosphorylation (direct phosphate transfer) and oxidative phosphorylation (via the ETC)."}, {"q": "Trap: does the ΔG sign tell you reaction speed?", "a": "No — it indicates spontaneity, not speed (kinetics is separate)."}]}, {"title": "Enzyme kinetics", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "enzymes", "high_yield": true, "tags": ["michaelis-menten", "Km", "Vmax", "lineweaver-burk", "competitive", "noncompetitive"], "body": "<p><strong>Concept.</strong> Enzymes accelerate reactions by lowering activation energy without being consumed.\nThe <strong>Michaelis-Menten</strong> model describes how velocity (V) rises with substrate concentration\n[S] toward a maximum (<strong>Vmax</strong>) as the enzyme saturates. <strong>Km</strong> (the Michaelis constant) is the\n[S] at half Vmax and is an <em>inverse</em> index of affinity — a <strong>low Km means high affinity</strong>\n(little substrate needed to reach half-maximal speed). On a <strong>Lineweaver-Burk</strong> (double-\nreciprocal) plot, the y-intercept = 1/Vmax and the x-intercept = –1/Km, which makes inhibitor\neffects easy to read. <strong>Competitive</strong> inhibitors bind the active site and are overcome by adding\nsubstrate: they raise the apparent Km (lower affinity) but leave Vmax unchanged. <strong>Noncompetitive</strong>\ninhibitors bind elsewhere (allosteric) and can't be outcompeted: they lower Vmax but leave Km\nunchanged.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Km = [S] at ½Vmax; <strong>low Km = high affinity</strong>.</li>\n<li>Vmax = maximal velocity at saturation.</li>\n<li>Lineweaver-Burk: y-intercept = 1/Vmax; x-intercept = –1/Km.</li>\n<li>Competitive inhibitor: ↑ apparent Km, Vmax unchanged (overcome by more substrate).</li>\n<li>Noncompetitive inhibitor: ↓ Vmax, Km unchanged (not overcome by more substrate).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Methanol/ethylene glycol poisoning is treated with fomepizole or\nethanol, which <em>competitively</em> inhibit alcohol dehydrogenase. Statins competitively inhibit\nHMG-CoA reductase.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Low Km = high affinity (smaller number, tighter binding).</li>\n<li>Competitive → ↑Km, same Vmax; noncompetitive → ↓Vmax, same Km.</li>\n<li>\"Overcome by adding substrate\" = competitive.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"Inhibitor raises Km, Vmax unchanged\" → competitive.</li>\n<li>\"Inhibitor lowers Vmax, Km unchanged\" → noncompetitive.</li>\n<li>\"Antidote competes for the same enzyme as the toxin\" → competitive (fomepizole/ethanol for alcohol dehydrogenase).</li>\n</ul>\n<p><strong>Mnemonic.</strong> \"<strong>C</strong>ompetitive: Km <strong>C</strong>limbs, Vmax <strong>C</strong>onstant.\"</p>", "cards": [{"q": "What is Km?", "a": "The substrate concentration at half Vmax (the Michaelis constant)."}, {"q": "Does a low Km mean high or low affinity?", "a": "High affinity — little substrate is needed to reach half-maximal speed."}, {"q": "On a Lineweaver-Burk plot, what are the intercepts?", "a": "y-intercept = 1/Vmax; x-intercept = –1/Km."}, {"q": "How does a competitive inhibitor affect Km and Vmax?", "a": "Raises apparent Km (lower affinity), Vmax unchanged; overcome by adding substrate."}, {"q": "How does a noncompetitive inhibitor affect Km and Vmax?", "a": "Lowers Vmax, Km unchanged; not overcome by adding substrate."}, {"q": "Which inhibition type is overcome by adding more substrate?", "a": "Competitive."}, {"q": "Vignette: an antidote competes for the same enzyme as the toxin (fomepizole/ethanol for alcohol dehydrogenase) — inhibition type?", "a": "Competitive."}]}, {"title": "Rate-limiting enzyme map", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "regulation", "high_yield": true, "tags": ["rate-limiting-enzyme", "committed-step", "regulation", "master-table"], "body": "<p><strong>Concept.</strong> Each major pathway has a committed, regulated <strong>rate-limiting enzyme</strong> — the\ncontrol point where hormones and allosteric signals act. These are high yield because board\nitems hinge on \"the rate-limiting step of pathway X is…\". This module is primarily the master\ntable below; the individual pathways are detailed in their own modules. As a frame: catabolic\npathways are generally activated in the fasting state (glucagon/epinephrine, often via\nphosphorylation) and anabolic pathways in the fed state (insulin).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Glycolysis → PFK-1; gluconeogenesis → fructose-1,6-bisphosphatase.</li>\n<li>Glycogen synthesis → glycogen synthase; glycogenolysis → glycogen phosphorylase.</li>\n<li>TCA cycle → isocitrate dehydrogenase.</li>\n<li>Fatty acid synthesis → acetyl-CoA carboxylase; β-oxidation → carnitine acyltransferase I (CPT-1).</li>\n<li>Cholesterol synthesis → HMG-CoA reductase (statin target); ketogenesis → HMG-CoA synthase.</li>\n<li>Heme synthesis → ALA synthase; urea cycle → carbamoyl phosphate synthetase I.</li>\n<li>Pentose phosphate pathway → glucose-6-phosphate dehydrogenase (G6PD).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Many rate-limiting enzymes are drug targets (HMG-CoA reductase →\nstatins) or disease loci (G6PD deficiency; ALA synthase/porphyrias). Each appears again in its\nown module.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Cholesterol synthesis = HMG-CoA <em>reductase</em> (cytosol); ketogenesis = HMG-CoA <em>synthase</em>\n  (mitochondria) — don't confuse.</li>\n<li>Urea cycle CPS-I (mitochondria, uses ammonia) vs pyrimidine CPS-II (cytosol, uses glutamine).</li>\n<li>Gluconeogenesis rate-limiter is fructose-1,6-bisphosphatase (not PFK-1, which is glycolysis).</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Rate-limiting enzyme of [pathway]\" → recall from the table.</p>\n<p><strong>Rate-limiting enzyme master table</strong></p>\n<table>\n<thead>\n<tr>\n<th>Pathway</th>\n<th>Rate-limiting enzyme</th>\n<th>Key regulation</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Glycolysis</td>\n<td>Phosphofructokinase-1 (PFK-1)</td>\n<td>+ AMP, F-2,6-BP; − ATP, citrate</td>\n</tr>\n<tr>\n<td>Gluconeogenesis</td>\n<td>Fructose-1,6-bisphosphatase</td>\n<td>+ ATP, citrate; − AMP, F-2,6-BP</td>\n</tr>\n<tr>\n<td>Glycogen synthesis</td>\n<td>Glycogen synthase</td>\n<td>+ insulin; − glucagon/epi</td>\n</tr>\n<tr>\n<td>Glycogenolysis</td>\n<td>Glycogen phosphorylase</td>\n<td>+ glucagon/epi; − insulin</td>\n</tr>\n<tr>\n<td>TCA cycle</td>\n<td>Isocitrate dehydrogenase</td>\n<td>+ ADP; − ATP, NADH</td>\n</tr>\n<tr>\n<td>Fatty acid synthesis</td>\n<td>Acetyl-CoA carboxylase</td>\n<td>+ insulin, citrate; − glucagon</td>\n</tr>\n<tr>\n<td>Fatty acid β-oxidation</td>\n<td>Carnitine acyltransferase I (CPT-1)</td>\n<td>− malonyl-CoA</td>\n</tr>\n<tr>\n<td>Ketogenesis</td>\n<td>HMG-CoA synthase</td>\n<td>↑ in fasting/starvation</td>\n</tr>\n<tr>\n<td>Cholesterol synthesis</td>\n<td>HMG-CoA reductase</td>\n<td>− statins, cholesterol</td>\n</tr>\n<tr>\n<td>Heme synthesis</td>\n<td>ALA synthase</td>\n<td>− heme; needs B6</td>\n</tr>\n<tr>\n<td>Urea cycle</td>\n<td>Carbamoyl phosphate synthetase I</td>\n<td>+ N-acetylglutamate</td>\n</tr>\n<tr>\n<td>Pentose phosphate pathway</td>\n<td>Glucose-6-phosphate dehydrogenase</td>\n<td>+ NADP⁺/insulin</td>\n</tr>\n</tbody>\n</table>\n<hr />", "cards": [{"q": "Rate-limiting enzyme of glycolysis?", "a": "Phosphofructokinase-1 (PFK-1)."}, {"q": "Rate-limiting enzyme of gluconeogenesis?", "a": "Fructose-1,6-bisphosphatase."}, {"q": "Rate-limiting enzyme of the TCA cycle?", "a": "Isocitrate dehydrogenase."}, {"q": "Rate-limiting enzyme of fatty acid synthesis vs β-oxidation?", "a": "Synthesis = acetyl-CoA carboxylase; β-oxidation = carnitine acyltransferase I (CPT-1)."}, {"q": "Rate-limiting enzyme of cholesterol synthesis (and the statin target)?", "a": "HMG-CoA reductase."}, {"q": "Trap: cholesterol synthesis vs ketogenesis rate-limiter?", "a": "Cholesterol = HMG-CoA reductase (cytosol); ketogenesis = HMG-CoA synthase (mitochondria)."}, {"q": "Rate-limiting enzyme of heme synthesis, and the vitamin it needs?", "a": "ALA synthase; it needs vitamin B6."}, {"q": "Trap: urea cycle vs pyrimidine synthesis — CPS-I or CPS-II?", "a": "Urea cycle = CPS-I (mitochondria, uses ammonia); pyrimidine = CPS-II (cytosol, uses glutamine)."}, {"q": "Rate-limiting enzyme of the pentose phosphate pathway?", "a": "Glucose-6-phosphate dehydrogenase (G6PD)."}]}], "cards": [{"id": "0-0", "q": "What signal chiefly governs fed vs fasting metabolism?", "a": "The insulin-to-glucagon ratio.", "module": "Metabolism overview — fed, fasting & the insulin/glucagon axis", "moduleIndex": 0, "tags": ["insulin", "glucagon", "fed-state", "fasting", "starvation", "ketones", "organ-fuel-use"], "high_yield": true}, {"id": "0-1", "q": "In the fed (high-insulin) state, what does the body do?", "a": "Anabolism — glucose uptake, glycogen synthesis, fatty acid/triglyceride synthesis, and protein synthesis.", "module": "Metabolism overview — fed, fasting & the insulin/glucagon axis", "moduleIndex": 0, "tags": ["insulin", "glucagon", "fed-state", "fasting", "starvation", "ketones", "organ-fuel-use"], "high_yield": true}, {"id": "0-2", "q": "What is the order of fuel mobilization during fasting?", "a": "Glycogenolysis (hepatic glycogen lasts ~12–24 h) → gluconeogenesis (lactate, glycerol, glucogenic amino acids) → lipolysis/β-oxidation.", "module": "Metabolism overview — fed, fasting & the insulin/glucagon axis", "moduleIndex": 0, "tags": ["insulin", "glucagon", "fed-state", "fasting", "starvation", "ketones", "organ-fuel-use"], "high_yield": true}, {"id": "0-3", "q": "What fuels the brain in prolonged starvation, and what does that spare?", "a": "Ketone bodies; this spares protein (and glucose).", "module": "Metabolism overview — fed, fasting & the insulin/glucagon axis", "moduleIndex": 0, "tags": ["insulin", "glucagon", "fed-state", "fasting", "starvation", "ketones", "organ-fuel-use"], "high_yield": true}, {"id": "0-4", "q": "Why can't muscle release free glucose to the blood?", "a": "It lacks glucose-6-phosphatase, so its glycogen is stored only for itself.", "module": "Metabolism overview — fed, fasting & the insulin/glucagon axis", "moduleIndex": 0, "tags": ["insulin", "glucagon", "fed-state", "fasting", "starvation", "ketones", "organ-fuel-use"], "high_yield": true}, {"id": "0-5", "q": "Which cells depend solely on glycolysis, and why?", "a": "Red blood cells — they have no mitochondria.", "module": "Metabolism overview — fed, fasting & the insulin/glucagon axis", "moduleIndex": 0, "tags": ["insulin", "glucagon", "fed-state", "fasting", "starvation", "ketones", "organ-fuel-use"], "high_yield": true}, {"id": "0-6", "q": "Trap: is it absolute insulin or the ratio that matters?", "a": "The insulin/glucagon ratio, not absolute insulin.", "module": "Metabolism overview — fed, fasting & the insulin/glucagon axis", "moduleIndex": 0, "tags": ["insulin", "glucagon", "fed-state", "fasting", "starvation", "ketones", "organ-fuel-use"], "high_yield": true}, {"id": "1-0", "q": "What is the universal energy currency, and what powers anabolism?", "a": "ATP; hydrolysis of its terminal phosphoanhydride bonds releases free energy.", "module": "Bioenergetics — ATP & electron carriers", "moduleIndex": 1, "tags": ["ATP", "free-energy", "NADH", "FADH2", "NADPH", "substrate-level-phosphorylation"], "high_yield": true}, {"id": "1-1", "q": "What does the sign of ΔG indicate?", "a": "Negative ΔG = spontaneous (exergonic); positive = nonspontaneous (endergonic, must be coupled to ATP).", "module": "Bioenergetics — ATP & electron carriers", "moduleIndex": 1, "tags": ["ATP", "free-energy", "NADH", "FADH2", "NADPH", "substrate-level-phosphorylation"], "high_yield": true}, {"id": "1-2", "q": "What do NADH and FADH₂ do?", "a": "Capture energy from fuel oxidation and deliver electrons to the electron transport chain (oxidative phosphorylation — most ATP).", "module": "Bioenergetics — ATP & electron carriers", "moduleIndex": 1, "tags": ["ATP", "free-energy", "NADH", "FADH2", "NADPH", "substrate-level-phosphorylation"], "high_yield": true}, {"id": "1-3", "q": "What is NADPH used for?", "a": "Reductive biosynthesis (fatty acid, cholesterol, steroid synthesis) and antioxidant defense — not ATP.", "module": "Bioenergetics — ATP & electron carriers", "moduleIndex": 1, "tags": ["ATP", "free-energy", "NADH", "FADH2", "NADPH", "substrate-level-phosphorylation"], "high_yield": true}, {"id": "1-4", "q": "What are the two ways ATP is generated?", "a": "Substrate-level phosphorylation (direct phosphate transfer) and oxidative phosphorylation (via the ETC).", "module": "Bioenergetics — ATP & electron carriers", "moduleIndex": 1, "tags": ["ATP", "free-energy", "NADH", "FADH2", "NADPH", "substrate-level-phosphorylation"], "high_yield": true}, {"id": "1-5", "q": "Trap: does the ΔG sign tell you reaction speed?", "a": "No — it indicates spontaneity, not speed (kinetics is separate).", "module": "Bioenergetics — ATP & electron carriers", "moduleIndex": 1, "tags": ["ATP", "free-energy", "NADH", "FADH2", "NADPH", "substrate-level-phosphorylation"], "high_yield": true}, {"id": "2-0", "q": "What is Km?", "a": "The substrate concentration at half Vmax (the Michaelis constant).", "module": "Enzyme kinetics", "moduleIndex": 2, "tags": ["michaelis-menten", "Km", "Vmax", "lineweaver-burk", "competitive", "noncompetitive"], "high_yield": true}, {"id": "2-1", "q": "Does a low Km mean high or low affinity?", "a": "High affinity — little substrate is needed to reach half-maximal speed.", "module": "Enzyme kinetics", "moduleIndex": 2, "tags": ["michaelis-menten", "Km", "Vmax", "lineweaver-burk", "competitive", "noncompetitive"], "high_yield": true}, {"id": "2-2", "q": "On a Lineweaver-Burk plot, what are the intercepts?", "a": "y-intercept = 1/Vmax; x-intercept = –1/Km.", "module": "Enzyme kinetics", "moduleIndex": 2, "tags": ["michaelis-menten", "Km", "Vmax", "lineweaver-burk", "competitive", "noncompetitive"], "high_yield": true}, {"id": "2-3", "q": "How does a competitive inhibitor affect Km and Vmax?", "a": "Raises apparent Km (lower affinity), Vmax unchanged; overcome by adding substrate.", "module": "Enzyme kinetics", "moduleIndex": 2, "tags": ["michaelis-menten", "Km", "Vmax", "lineweaver-burk", "competitive", "noncompetitive"], "high_yield": true}, {"id": "2-4", "q": "How does a noncompetitive inhibitor affect Km and Vmax?", "a": "Lowers Vmax, Km unchanged; not overcome by adding substrate.", "module": "Enzyme kinetics", "moduleIndex": 2, "tags": ["michaelis-menten", "Km", "Vmax", "lineweaver-burk", "competitive", "noncompetitive"], "high_yield": true}, {"id": "2-5", "q": "Which inhibition type is overcome by adding more substrate?", "a": "Competitive.", "module": "Enzyme kinetics", "moduleIndex": 2, "tags": ["michaelis-menten", "Km", "Vmax", "lineweaver-burk", "competitive", "noncompetitive"], "high_yield": true}, {"id": "2-6", "q": "Vignette: an antidote competes for the same enzyme as the toxin (fomepizole/ethanol for alcohol dehydrogenase) — inhibition type?", "a": "Competitive.", "module": "Enzyme kinetics", "moduleIndex": 2, "tags": ["michaelis-menten", "Km", "Vmax", "lineweaver-burk", "competitive", "noncompetitive"], "high_yield": true}, {"id": "3-0", "q": "Rate-limiting enzyme of glycolysis?", "a": "Phosphofructokinase-1 (PFK-1).", "module": "Rate-limiting enzyme map", "moduleIndex": 3, "tags": ["rate-limiting-enzyme", "committed-step", "regulation", "master-table"], "high_yield": true}, {"id": "3-1", "q": "Rate-limiting enzyme of gluconeogenesis?", "a": "Fructose-1,6-bisphosphatase.", "module": "Rate-limiting enzyme map", "moduleIndex": 3, "tags": ["rate-limiting-enzyme", "committed-step", "regulation", "master-table"], "high_yield": true}, {"id": "3-2", "q": "Rate-limiting enzyme of the TCA cycle?", "a": "Isocitrate dehydrogenase.", "module": "Rate-limiting enzyme map", "moduleIndex": 3, "tags": ["rate-limiting-enzyme", "committed-step", "regulation", "master-table"], "high_yield": true}, {"id": "3-3", "q": "Rate-limiting enzyme of fatty acid synthesis vs β-oxidation?", "a": "Synthesis = acetyl-CoA carboxylase; β-oxidation = carnitine acyltransferase I (CPT-1).", "module": "Rate-limiting enzyme map", "moduleIndex": 3, "tags": ["rate-limiting-enzyme", "committed-step", "regulation", "master-table"], "high_yield": true}, {"id": "3-4", "q": "Rate-limiting enzyme of cholesterol synthesis (and the statin target)?", "a": "HMG-CoA reductase.", "module": "Rate-limiting enzyme map", "moduleIndex": 3, "tags": ["rate-limiting-enzyme", "committed-step", "regulation", "master-table"], "high_yield": true}, {"id": "3-5", "q": "Trap: cholesterol synthesis vs ketogenesis rate-limiter?", "a": "Cholesterol = HMG-CoA reductase (cytosol); ketogenesis = HMG-CoA synthase (mitochondria).", "module": "Rate-limiting enzyme map", "moduleIndex": 3, "tags": ["rate-limiting-enzyme", "committed-step", "regulation", "master-table"], "high_yield": true}, {"id": "3-6", "q": "Rate-limiting enzyme of heme synthesis, and the vitamin it needs?", "a": "ALA synthase; it needs vitamin B6.", "module": "Rate-limiting enzyme map", "moduleIndex": 3, "tags": ["rate-limiting-enzyme", "committed-step", "regulation", "master-table"], "high_yield": true}, {"id": "3-7", "q": "Trap: urea cycle vs pyrimidine synthesis — CPS-I or CPS-II?", "a": "Urea cycle = CPS-I (mitochondria, uses ammonia); pyrimidine = CPS-II (cytosol, uses glutamine).", "module": "Rate-limiting enzyme map", "moduleIndex": 3, "tags": ["rate-limiting-enzyme", "committed-step", "regulation", "master-table"], "high_yield": true}, {"id": "3-8", "q": "Rate-limiting enzyme of the pentose phosphate pathway?", "a": "Glucose-6-phosphate dehydrogenase (G6PD).", "module": "Rate-limiting enzyme map", "moduleIndex": 3, "tags": ["rate-limiting-enzyme", "committed-step", "regulation", "master-table"], "high_yield": true}], "tags": ["ATP", "FADH2", "Km", "NADH", "NADPH", "Vmax", "committed-step", "competitive", "fasting", "fed-state", "free-energy", "glucagon", "insulin", "ketones", "lineweaver-burk", "master-table", "michaelis-menten", "noncompetitive", "organ-fuel-use", "rate-limiting-enzyme", "regulation", "starvation", "substrate-level-phosphorylation"], "counts": {"modules": 4, "cards": 29}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* header */
+$('#sectionTitle').textContent = DATA.sectionTitle;
+$('#intro').textContent = DATA.intro;
+$('#stats').innerHTML = `<b>${DATA.counts.modules}</b> modules · <b>${DATA.counts.cards}</b> flashcards`;
+
+/* theme */
+const themeBtn = $('#themeBtn'), root = document.documentElement;
+themeBtn.onclick = () => {
+  const dark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  themeBtn.textContent = dark ? '◐ Night' : '◑ Day';
+};
+
+/* tabs */
+const tabStudy=$('#tabStudy'), tabCards=$('#tabCards'), viewStudy=$('#viewStudy'), viewCards=$('#viewCards');
+function setTab(study){
+  tabStudy.setAttribute('aria-selected', study); tabCards.setAttribute('aria-selected', !study);
+  viewStudy.classList.toggle('hidden', !study); viewCards.classList.toggle('hidden', study);
+}
+tabStudy.onclick=()=>setTab(true); tabCards.onclick=()=>setTab(false);
+
+/* ---------- STUDY ---------- */
+const modList=$('#modList'), article=$('#article');
+DATA.modules.forEach((m,i)=>{
+  const b=document.createElement('button');
+  b.className='modlink'+(m.high_yield?' hy':'');
+  b.innerHTML=`<span class="dot"></span><span>${m.title}</span>`;
+  b.onclick=()=>showModule(i);
+  modList.appendChild(b);
+});
+function showModule(i){
+  const m=DATA.modules[i];
+  $$('.modlink').forEach((el,idx)=>el.setAttribute('aria-current', idx===i));
+  const facts=[];
+  if(m.enzyme) facts.push(`<span class="fact">Enzyme · <b>${m.enzyme}</b></span>`);
+  if(m.inheritance) facts.push(`<span class="fact">Inheritance · <b>${m.inheritance}</b></span>`);
+  if(m.high_yield) facts.push(`<span class="badge-hy">★ High yield</span>`);
+  const tags=m.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  article.innerHTML=`<h2 class="art-title">${m.title}</h2>
+    <div class="factstrip">${facts.join('')}</div>
+    ${tags?`<div class="tagrow">${tags}</div>`:''}
+    <div class="prose">${m.body}</div>`;
+  article.scrollIntoView({behavior:'smooth',block:'start'});
+}
+showModule(0);
+
+/* ---------- FLASHCARDS ---------- */
+let scope='all';
+const scopeSeg=$('#scopeSeg'), moduleField=$('#moduleField'), tagField=$('#tagField');
+const moduleSel=$('#moduleSel'), tagSel=$('#tagSel'), deckCount=$('#deckCount');
+
+DATA.modules.forEach((m,i)=>{
+  const o=document.createElement('option'); o.value=i; o.textContent=`${m.title} (${m.cards.length})`; moduleSel.appendChild(o);
+});
+DATA.tags.forEach(t=>{
+  const n=DATA.cards.filter(c=>c.tags.includes(t)).length;
+  const o=document.createElement('option'); o.value=t; o.textContent=`${t} (${n})`; tagSel.appendChild(o);
+});
+
+scopeSeg.querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>{
+    scope=b.dataset.scope;
+    scopeSeg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+    moduleField.classList.toggle('hidden', scope!=='module');
+    tagField.classList.toggle('hidden', scope!=='tag');
+    updateDeckCount();
+  };
+});
+moduleSel.onchange=updateDeckCount; tagSel.onchange=updateDeckCount;
+
+function currentSelection(){
+  if(scope==='module') return DATA.cards.filter(c=>c.moduleIndex===+moduleSel.value);
+  if(scope==='tag') return DATA.cards.filter(c=>c.tags.includes(tagSel.value));
+  return DATA.cards.slice();
+}
+function updateDeckCount(){
+  const n=currentSelection().length;
+  deckCount.textContent=`${n} card${n===1?'':'s'} in this deck`;
+}
+updateDeckCount();
+
+/* drill state */
+let deck=[], pos=0, revealed=false, got=0, missed=0, missedCards=[];
+const deckSetup=$('#deckSetup'), drill=$('#drill'), results=$('#results');
+const card=$('#card'), qtext=$('#qtext'), atext=$('#atext'), modRef=$('#modRef');
+const judge=$('#judge'), revealHint=$('#revealHint'), pbar=$('#pbar');
+const posLabel=$('#posLabel'), gotCount=$('#gotCount'), missCount=$('#missCount');
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function startDrill(cards){
+  deck=shuffle(cards.slice()); pos=0; got=0; missed=0; missedCards=[];
+  deckSetup.classList.add('hidden'); results.classList.add('hidden'); drill.classList.remove('hidden');
+  render();
+}
+function render(){
+  if(pos>=deck.length){ return finish(); }
+  const c=deck[pos]; revealed=false;
+  qtext.textContent=c.q; atext.textContent=c.a; atext.classList.add('hidden');
+  judge.classList.add('hidden'); revealHint.classList.remove('hidden');
+  modRef.textContent=''; 
+  posLabel.textContent=`Card ${pos+1} of ${deck.length}`;
+  gotCount.textContent=got; missCount.textContent=missed;
+  pbar.style.width=`${(pos/deck.length)*100}%`;
+}
+function reveal(){
+  if(revealed) return;
+  revealed=true;
+  atext.classList.remove('hidden'); judge.classList.remove('hidden');
+  revealHint.classList.add('hidden');
+  modRef.textContent='From: '+deck[pos].module;
+}
+function judgeCard(ok){
+  if(!revealed) return;
+  if(ok) got++; else { missed++; missedCards.push(deck[pos]); }
+  pos++; render();
+}
+function finish(){
+  drill.classList.add('hidden'); results.classList.remove('hidden');
+  const total=got+missed, pct=total?Math.round(got/total*100):0;
+  $('#scoreNum').innerHTML=`${pct}<small>%</small>`;
+  $('#resLine').textContent=`${got} got · ${missed} missed · ${total} cards`;
+  $('#drillMissed').classList.toggle('hidden', missedCards.length===0);
+}
+
+card.onclick=reveal;
+$('#gotBtn').onclick=e=>{e.stopPropagation();judgeCard(true);};
+$('#missBtn').onclick=e=>{e.stopPropagation();judgeCard(false);};
+$('#startBtn').onclick=()=>{const s=currentSelection(); if(s.length) startDrill(s);};
+$('#restartDrill').onclick=()=>startDrill(deck);
+$('#exitDrill').onclick=()=>{drill.classList.add('hidden');deckSetup.classList.remove('hidden');};
+$('#resRestart').onclick=()=>startDrill(deck);
+$('#drillMissed').onclick=()=>startDrill(missedCards);
+$('#resNew').onclick=()=>{results.classList.add('hidden');deckSetup.classList.remove('hidden');};
+
+document.addEventListener('keydown',e=>{
+  if(viewCards.classList.contains('hidden')||drill.classList.contains('hidden'))return;
+  if(e.code==='Space'||e.code==='Enter'){e.preventDefault(); revealed?null:reveal();}
+  else if(revealed&&(e.code==='ArrowRight'||e.key.toLowerCase()==='g')) judgeCard(true);
+  else if(revealed&&(e.code==='ArrowLeft'||e.key.toLowerCase()==='m')) judgeCard(false);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metabolism — Amino Acid &amp; Nitrogen — Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ea; --surface:#fbfaf6; --surface-2:#efebe1;
+  --ink:#211f1b; --muted:#6f685b; --faint:#938b7c;
+  --accent:#0b6b63; --accent-ink:#063f3a; --accent-soft:rgba(11,107,99,.10);
+  --hy:#b06a16; --hy-soft:rgba(176,106,22,.12);
+  --line:#e2ddd1; --line-strong:#d3ccbd;
+  --shadow:0 1px 2px rgba(40,34,20,.05),0 8px 28px -14px rgba(40,34,20,.22);
+  --display:"Fraunces",Georgia,serif;
+  --prose:"Newsreader",Georgia,serif;
+  --ui:"Spline Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#14161a; --surface:#1b1e24; --surface-2:#222730;
+  --ink:#e9e5db; --muted:#9d978a; --faint:#76716a;
+  --accent:#54b7ab; --accent-ink:#bfe7e1; --accent-soft:rgba(84,183,171,.12);
+  --hy:#d99f55; --hy-soft:rgba(217,159,85,.14);
+  --line:#2a2f38; --line-strong:#39404b;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--prose);
+  font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 100% 0,var(--accent-soft),transparent 38%);
+  min-height:100vh;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* header */
+header.top{padding:30px 0 14px;border-bottom:1px solid var(--line)}
+.brandrow{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.kicker{font-family:var(--ui);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 6px}
+h1.section{font-family:var(--display);font-weight:600;font-size:clamp(28px,4.4vw,44px);line-height:1.02;margin:0;letter-spacing:-.01em}
+.intro{color:var(--muted);max-width:62ch;margin:14px 0 0;font-size:16.5px}
+.meta-stats{font-family:var(--ui);font-size:12.5px;color:var(--faint);margin-top:12px;letter-spacing:.02em}
+.meta-stats b{color:var(--muted);font-weight:600}
+.theme-btn{font-family:var(--ui);font-size:12.5px;font-weight:500;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:999px;padding:8px 14px;cursor:pointer;white-space:nowrap;transition:.18s}
+.theme-btn:hover{color:var(--ink);border-color:var(--accent)}
+
+/* tabs */
+nav.tabs{display:flex;gap:4px;margin:18px 0 0}
+.tab{font-family:var(--ui);font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--muted);
+  background:none;border:none;border-bottom:2px solid transparent;padding:10px 16px;cursor:pointer;transition:.18s}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+
+main{padding:26px 0 80px}
+
+/* STUDY view */
+.study{display:grid;grid-template-columns:248px 1fr;gap:34px;align-items:start}
+.modlist{position:sticky;top:18px;display:flex;flex-direction:column;gap:2px;font-family:var(--ui)}
+.modlist .lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:0 0 8px 10px;font-weight:600}
+.modlink{text-align:left;background:none;border:none;border-radius:8px;padding:8px 10px;cursor:pointer;
+  color:var(--muted);font-size:13.5px;line-height:1.3;font-weight:500;display:flex;gap:8px;align-items:baseline;transition:.14s}
+.modlink:hover{background:var(--surface);color:var(--ink)}
+.modlink[aria-current="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.modlink .dot{flex:none;width:5px;height:5px;border-radius:50%;background:var(--hy);margin-top:7px;opacity:.0}
+.modlink.hy .dot{opacity:1}
+
+.article{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:34px 38px 40px;box-shadow:var(--shadow);min-height:60vh}
+.art-title{font-family:var(--display);font-weight:600;font-size:30px;line-height:1.08;margin:0 0 4px;letter-spacing:-.01em}
+.factstrip{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px;font-family:var(--ui);font-size:12px}
+.fact{background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:5px 10px;color:var(--muted)}
+.fact b{color:var(--ink);font-weight:600}
+.badge-hy{background:var(--hy-soft);border:1px solid transparent;color:var(--hy);font-weight:600;
+  border-radius:7px;padding:5px 10px;letter-spacing:.04em}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 24px}
+.tag{font-family:var(--ui);font-size:11px;color:var(--faint);background:none;border:1px solid var(--line-strong);
+  border-radius:999px;padding:3px 9px;letter-spacing:.02em}
+
+/* prose */
+.prose{font-family:var(--prose);font-size:18px;color:var(--ink)}
+.prose p{margin:0 0 15px}
+.prose strong{font-weight:600}
+.prose p strong:first-child{color:var(--accent-ink);font-family:var(--ui);font-size:12.5px;letter-spacing:.06em;
+  text-transform:uppercase;font-weight:700;display:inline-block;margin-right:.4em}
+[data-theme="dark"] .prose p strong:first-child{color:var(--accent)}
+.prose ul{margin:0 0 16px;padding-left:0;list-style:none}
+.prose li{position:relative;padding-left:20px;margin:0 0 7px;font-size:16.5px}
+.prose li::before{content:"";position:absolute;left:3px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.55}
+.prose table{width:100%;border-collapse:collapse;margin:10px 0 20px;font-family:var(--ui);font-size:13.5px}
+.prose th{background:var(--surface-2);text-align:left;padding:9px 11px;border:1px solid var(--line);font-weight:600;color:var(--ink)}
+.prose td{padding:9px 11px;border:1px solid var(--line);color:var(--muted);vertical-align:top}
+.prose em{color:var(--muted)}
+
+/* FLASHCARDS view */
+.deck-setup{max-width:560px;margin:6px auto 0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow)}
+.panel h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 18px}
+.field{margin:0 0 16px;font-family:var(--ui)}
+.field label{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:0 0 7px}
+select{width:100%;font-family:var(--ui);font-size:14.5px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line-strong);border-radius:9px;padding:11px 12px;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236f685b' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:90px;font-family:var(--ui);font-size:13.5px;font-weight:500;color:var(--muted);
+  background:var(--surface-2);border:1px solid var(--line-strong);border-radius:9px;padding:10px;cursor:pointer;transition:.16s}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+[data-theme="dark"] .seg button[aria-pressed="true"]{color:#0c1416}
+.start-btn,.ctl-primary{font-family:var(--ui);font-size:15px;font-weight:600;color:#fff;background:var(--accent);
+  border:none;border-radius:10px;padding:13px 18px;cursor:pointer;width:100%;transition:.16s;letter-spacing:.01em}
+[data-theme="dark"] .start-btn,[data-theme="dark"] .ctl-primary{color:#0c1416}
+.start-btn:hover,.ctl-primary:hover{filter:brightness(1.06)}
+.deck-count{font-family:var(--ui);font-size:13px;color:var(--faint);text-align:center;margin:14px 0 0}
+
+/* drill */
+.drill{max-width:680px;margin:0 auto}
+.progress{display:flex;align-items:center;justify-content:space-between;font-family:var(--ui);font-size:13px;color:var(--muted);margin:0 0 12px}
+.progress .counts b{font-weight:600}
+.got-c{color:var(--accent)} .miss-c{color:var(--hy)}
+.pbar{height:4px;background:var(--surface-2);border-radius:999px;overflow:hidden;margin:0 0 22px}
+.pbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s ease}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:40px 38px;min-height:280px;display:flex;flex-direction:column;cursor:pointer;
+  transition:transform .15s ease, border-color .2s}
+.card:hover{border-color:var(--line-strong)}
+.card .side-lbl{font-family:var(--ui);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--faint)}
+.card .qtext{font-family:var(--prose);font-size:23px;line-height:1.32;margin:18px 0 0;flex:1;display:flex;align-items:center}
+.card .atext{font-family:var(--prose);font-size:20px;line-height:1.4;margin:16px 0 0;color:var(--accent-ink);
+  border-top:1px solid var(--line);padding-top:18px}
+[data-theme="dark"] .card .atext{color:var(--accent)}
+.card .mod-ref{font-family:var(--ui);font-size:11.5px;color:var(--faint);margin-top:auto;padding-top:18px}
+.reveal-hint{font-family:var(--ui);font-size:12.5px;color:var(--faint);text-align:center;margin:16px 0 0}
+.judge{display:flex;gap:12px;margin:18px 0 0}
+.judge button{flex:1;font-family:var(--ui);font-size:15px;font-weight:600;border-radius:11px;padding:15px;cursor:pointer;transition:.16s;border:1px solid}
+.miss-btn{background:var(--hy-soft);border-color:transparent;color:var(--hy)}
+.miss-btn:hover{background:var(--hy);color:#fff}
+.got-btn{background:var(--accent-soft);border-color:transparent;color:var(--accent-ink)}
+[data-theme="dark"] .got-btn{color:var(--accent)}
+.got-btn:hover{background:var(--accent);color:#fff}
+[data-theme="dark"] .got-btn:hover{color:#0c1416}
+.drill-foot{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 0;font-family:var(--ui);font-size:13px}
+.linkbtn{background:none;border:none;color:var(--muted);font-family:var(--ui);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:hover{color:var(--accent)}
+
+/* results */
+.results{max-width:560px;margin:0 auto;text-align:center}
+.results .panel{padding:40px 30px}
+.score{font-family:var(--display);font-size:54px;font-weight:600;color:var(--accent);line-height:1;margin:6px 0}
+.score small{font-family:var(--ui);font-size:15px;color:var(--faint);font-weight:500}
+.res-line{font-family:var(--ui);font-size:14px;color:var(--muted);margin:8px 0 24px}
+.res-actions{display:flex;flex-direction:column;gap:10px}
+.kbd{font-family:var(--ui);font-size:11px;background:var(--surface-2);border:1px solid var(--line-strong);
+  border-radius:5px;padding:1px 6px;color:var(--faint)}
+
+.hidden{display:none!important}
+@media(max-width:820px){
+  .study{grid-template-columns:1fr;gap:18px}
+  .modlist{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .modlist .lbl{width:100%}
+  .modlink{border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px}
+  .modlink .dot{display:none}
+  .article{padding:26px 22px 30px}
+  body{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brandrow">
+      <div>
+        <p class="kicker">Biochemistry · Study Guide</p>
+        <h1 class="section" id="sectionTitle"></h1>
+      </div>
+      <button class="theme-btn" id="themeBtn">◐ Night</button>
+    </div>
+    <p class="intro" id="intro"></p>
+    <p class="meta-stats" id="stats"></p>
+    <nav class="tabs" role="tablist">
+      <button class="tab" id="tabStudy" role="tab" aria-selected="true">Study</button>
+      <button class="tab" id="tabCards" role="tab" aria-selected="false">Flashcards</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- STUDY -->
+    <section id="viewStudy">
+      <div class="study">
+        <aside class="modlist" id="modList"><p class="lbl">Modules</p></aside>
+        <article class="article" id="article"></article>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section id="viewCards" class="hidden">
+      <div class="deck-setup" id="deckSetup">
+        <div class="panel">
+          <h2>Build a drill deck</h2>
+          <div class="field">
+            <label>Scope</label>
+            <div class="seg" id="scopeSeg">
+              <button data-scope="all" aria-pressed="true">All cards</button>
+              <button data-scope="module">By module</button>
+              <button data-scope="tag">By tag</button>
+            </div>
+          </div>
+          <div class="field hidden" id="moduleField">
+            <label>Module</label>
+            <select id="moduleSel"></select>
+          </div>
+          <div class="field hidden" id="tagField">
+            <label>Tag</label>
+            <select id="tagSel"></select>
+          </div>
+          <button class="start-btn" id="startBtn">Start drill</button>
+          <p class="deck-count" id="deckCount"></p>
+        </div>
+      </div>
+
+      <div class="drill hidden" id="drill">
+        <div class="progress">
+          <span id="posLabel">Card 1</span>
+          <span class="counts"><b class="got-c" id="gotCount">0</b> got · <b class="miss-c" id="missCount">0</b> missed</span>
+        </div>
+        <div class="pbar"><i id="pbar"></i></div>
+        <div class="card" id="card">
+          <span class="side-lbl">Question</span>
+          <div class="qtext" id="qtext"></div>
+          <div class="atext hidden" id="atext"></div>
+          <div class="mod-ref" id="modRef"></div>
+        </div>
+        <p class="reveal-hint" id="revealHint">Tap the card or press <span class="kbd">Space</span> to reveal</p>
+        <div class="judge hidden" id="judge">
+          <button class="miss-btn" id="missBtn">Missed <span class="kbd">←</span></button>
+          <button class="got-btn" id="gotBtn">Got it <span class="kbd">→</span></button>
+        </div>
+        <div class="drill-foot">
+          <button class="linkbtn" id="restartDrill">Restart deck</button>
+          <button class="linkbtn" id="exitDrill">Change deck</button>
+        </div>
+      </div>
+
+      <div class="results hidden" id="results">
+        <div class="panel">
+          <p class="side-lbl" style="font-family:var(--ui);letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--faint)">Deck complete</p>
+          <div class="score" id="scoreNum">0<small>%</small></div>
+          <p class="res-line" id="resLine"></p>
+          <div class="res-actions">
+            <button class="ctl-primary" id="drillMissed">Drill missed only</button>
+            <button class="linkbtn" id="resRestart">Restart full deck</button>
+            <button class="linkbtn" id="resNew">Build a new deck</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script id="data" type="application/json">{"sectionTitle": "Metabolism — Amino Acid & Nitrogen", "intro": "Section I of the biochem coverage checklist: amino acid handling and nitrogen disposal, the urea cycle, and the inherited aminoacidopathies and amino acid transport disorders. ---", "modules": [{"title": "Amino acid overview", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "amino acid metabolism", "high_yield": true, "tags": ["essential-amino-acids", "glucogenic", "ketogenic", "transamination", "ammonia", "glucose-alanine-cycle"], "body": "<p><strong>Concept.</strong> Amino acids are building blocks for protein and sources of carbon and nitrogen.\n<strong>Essential</strong> amino acids can't be synthesized and must come from the diet — remembered as\n\"PVT TIM HaLL\" (Phenylalanine, Valine, Threonine, Tryptophan, Isoleucine, Methionine, Histidine,\nLeucine, Lysine). By metabolic fate they are glucogenic (→ gluconeogenic intermediates),\nketogenic (→ acetyl-CoA/acetoacetate), or both; the <strong>only purely ketogenic</strong> ones are <strong>leucine\nand lysine</strong>. Nitrogen handling: transaminases (aminotransferases such as ALT and AST, which\nrequire <strong>vitamin B6 as pyridoxal phosphate, PLP</strong>) transfer amino groups to α-ketoglutarate to\nform glutamate, and <strong>glutamate dehydrogenase</strong> then releases free ammonia. Ammonia is toxic\n(especially to the CNS), so it's carried to the liver as <strong>glutamine</strong> (from peripheral tissues)\nand <strong>alanine</strong> (from muscle, via the glucose-alanine cycle) for disposal in the urea cycle.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Essential amino acids (diet): PVT TIM HaLL.</li>\n<li>Glucogenic vs ketogenic; only purely ketogenic = leucine and lysine.</li>\n<li>Transaminases (ALT/AST) need vitamin B6 (PLP); transfer amino groups to α-ketoglutarate → glutamate.</li>\n<li>Glutamate dehydrogenase releases free ammonia.</li>\n<li>Ammonia carried as glutamine (tissues) and alanine (muscle, glucose-alanine cycle) to the liver.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Ammonia is neurotoxic; defects in nitrogen disposal (urea cycle) cause\nhyperammonemia. AST/ALT are clinical markers of hepatocyte injury.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Leucine and lysine are the purely ketogenic amino acids.</li>\n<li>Transamination requires vitamin B6 (PLP).</li>\n<li>The glucose-alanine cycle carries muscle nitrogen to the liver.</li>\n</ul>\n<p><strong>Vignette signature.</strong></p>\n<ul>\n<li>\"The two purely ketogenic amino acids\" → leucine and lysine.</li>\n<li>\"Cofactor for transaminases\" → vitamin B6 (PLP).</li>\n</ul>\n<p><strong>Mnemonic.</strong> Essential = \"PVT TIM HaLL\"; purely ketogenic = \"<strong>L</strong>eucine and <strong>L</strong>ysine (the only\npure L's).\"</p>", "cards": [{"q": "Which two amino acids are purely ketogenic?", "a": "Leucine and lysine."}, {"q": "What cofactor do transaminases (ALT/AST) require?", "a": "Vitamin B6 (pyridoxal phosphate, PLP)."}, {"q": "What enzyme releases free ammonia from glutamate?", "a": "Glutamate dehydrogenase."}, {"q": "How is ammonia carried to the liver for disposal?", "a": "As glutamine (from peripheral tissues) and alanine (from muscle, via the glucose-alanine cycle)."}, {"q": "How are the essential amino acids remembered?", "a": "PVT TIM HaLL (Phe, Val, Thr, Trp, Ile, Met, His, Leu, Lys)."}, {"q": "Trap: which cycle carries muscle nitrogen to the liver?", "a": "The glucose-alanine cycle."}]}, {"title": "Urea cycle & OTC deficiency", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "nitrogen metabolism", "high_yield": true, "tags": ["urea-cycle", "CPS-I", "ornithine-transcarbamylase", "hyperammonemia", "orotic-acid", "x-linked"], "body": "<p><strong>Concept.</strong> The urea cycle, in the liver (partly mitochondrial, partly cytosolic), converts toxic\nammonia into water-soluble urea for excretion. The committed, rate-limiting step is <strong>carbamoyl\nphosphate synthetase I (CPS-I)</strong> in the mitochondrion, which combines ammonia and CO₂ (activated by\nN-acetylglutamate). The most common urea cycle disorder is <strong>ornithine transcarbamylase (OTC)\ndeficiency</strong>, which is <strong>X-linked recessive</strong> (the other urea cycle defects are autosomal\nrecessive). In OTC deficiency, carbamoyl phosphate accumulates and spills into pyrimidine\nsynthesis, so the classic finding is <strong>elevated orotic acid with hyperammonemia and low BUN, but\nno megaloblastic anemia</strong> (which distinguishes it from hereditary orotic aciduria). Hyperammonemia\npresents with vomiting, lethargy, and cerebral edema; treatment lowers ammonia (protein\nrestriction, lactulose, and ammonia scavengers such as benzoate/phenylbutyrate).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Urea cycle (liver) detoxifies ammonia → urea; rate-limiting CPS-I (mitochondrial; needs N-acetylglutamate).</li>\n<li>OTC deficiency = most common urea cycle disorder; X-linked recessive (others AR).</li>\n<li>OTC deficiency: ↑ orotic acid, ↑ ammonia, ↓ BUN; NO megaloblastic anemia.</li>\n<li>Hyperammonemia → vomiting, lethargy, cerebral edema; treat with low protein, lactulose,\n  benzoate/phenylbutyrate.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A neonate/infant with hyperammonemia and elevated orotic acid suggests\nOTC deficiency; contrast hereditary orotic aciduria (megaloblastic anemia, <em>no</em> hyperammonemia).</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>OTC deficiency is the only X-linked urea cycle disorder and the most common.</li>\n<li>↑orotic acid + hyperammonemia (OTC) vs ↑orotic acid + megaloblastic anemia + no hyperammonemia\n  (orotic aciduria).</li>\n<li>CPS-I (urea cycle, mitochondrial, uses ammonia) vs CPS-II (pyrimidines, cytosolic, uses glutamine).</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Neonate with hyperammonemia, elevated orotic acid, low BUN, and no anemia\"\n→ OTC deficiency.</p>\n<p><strong>Mnemonic.</strong> \"OTC = X-linked; <strong>o</strong>rotic acid up, ammonia up, BUN down.\"</p>", "cards": [{"q": "Rate-limiting enzyme of the urea cycle, and its activator?", "a": "Carbamoyl phosphate synthetase I (CPS-I), mitochondrial; activated by N-acetylglutamate."}, {"q": "Most common urea cycle disorder, and its inheritance?", "a": "Ornithine transcarbamylase (OTC) deficiency; X-linked recessive (the others are autosomal recessive)."}, {"q": "Classic lab findings in OTC deficiency?", "a": "Elevated orotic acid, hyperammonemia, low BUN, and NO megaloblastic anemia."}, {"q": "How does OTC deficiency differ from hereditary orotic aciduria?", "a": "OTC = ↑orotic acid + hyperammonemia (no anemia); orotic aciduria = ↑orotic acid + megaloblastic anemia, no hyperammonemia."}, {"q": "Trap: CPS-I vs CPS-II?", "a": "CPS-I = urea cycle (mitochondrial, uses ammonia); CPS-II = pyrimidine synthesis (cytosolic, uses glutamine)."}, {"q": "Vignette: neonate with hyperammonemia, elevated orotic acid, low BUN, no anemia — diagnosis?", "a": "OTC deficiency."}]}, {"title": "Phenylketonuria (PKU)", "enzyme": "phenylalanine hydroxylase", "inheritance": "autosomal recessive", "system": "metabolism", "category": "amino acid metabolism", "high_yield": true, "tags": ["PKU", "phenylalanine-hydroxylase", "BH4", "musty-odor", "hypopigmentation", "aspartame", "maternal-PKU"], "body": "<p><strong>Concept.</strong> Phenylketonuria is autosomal recessive deficiency of <strong>phenylalanine hydroxylase\n(PAH)</strong>, which converts phenylalanine to tyrosine — or, less commonly, deficiency of its cofactor\n<strong>tetrahydrobiopterin (BH4)</strong>. Phenylalanine accumulates and is diverted to phenylketones,\nproducing a musty/mousy body odor. Untreated: severe intellectual disability, seizures, and\nhypopigmentation (less tyrosine → less melanin) with fair skin/hair and eczema. It's detected on\nnewborn screening. Treatment is a low-phenylalanine diet (and avoiding <strong>aspartame</strong>, which\ncontains phenylalanine); tyrosine becomes an essential amino acid. BH4-deficient (\"malignant\") PKU\nalso impairs neurotransmitter synthesis and needs extra therapy. Uncontrolled <strong>maternal PKU</strong> is\nteratogenic (microcephaly, congenital heart disease, intellectual disability in the infant).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>PAH deficiency (or BH4 cofactor deficiency); AR.</li>\n<li>↑phenylalanine; musty/mousy odor; intellectual disability, seizures, hypopigmentation, eczema.</li>\n<li>Newborn screen; treat with low-phenylalanine diet, avoid aspartame; tyrosine becomes essential.</li>\n<li>Maternal PKU is teratogenic (microcephaly, congenital heart disease).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A musty-smelling, fair-skinned infant with developmental delay if\nuntreated; counsel on aspartame avoidance.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Classic PKU = PAH; \"malignant\" PKU = BH4 cofactor (also impairs neurotransmitters).</li>\n<li>Tyrosine is essential in PKU.</li>\n<li>Maternal PKU harms the fetus.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Infant with a musty odor, fair skin, and developmental delay, treated with\na low-phenylalanine diet\" → PKU.</p>\n<p><strong>Mnemonic.</strong> \"PKU: <strong>P</strong>henylalanine can't become tyrosine → musty odor; avoid aspartame.\"</p>", "cards": [{"q": "Which enzyme is deficient in classic PKU (and the alternative cause)?", "a": "Phenylalanine hydroxylase (PAH); less commonly its cofactor tetrahydrobiopterin (BH4)."}, {"q": "What accumulates and what odor results in PKU?", "a": "Phenylalanine accumulates and is diverted to phenylketones → a musty/mousy odor."}, {"q": "Untreated PKU features?", "a": "Severe intellectual disability, seizures, hypopigmentation (less melanin), and eczema."}, {"q": "PKU treatment, and which amino acid becomes essential?", "a": "Low-phenylalanine diet (avoid aspartame); tyrosine becomes essential."}, {"q": "Why is maternal PKU dangerous?", "a": "It's teratogenic — microcephaly, congenital heart disease, and intellectual disability in the infant."}, {"q": "Trap: classic vs malignant PKU?", "a": "Classic = PAH defect; malignant = BH4 cofactor defect (also impairs neurotransmitter synthesis)."}]}, {"title": "Alkaptonuria", "enzyme": "homogentisate oxidase", "inheritance": "autosomal recessive", "system": "metabolism", "category": "amino acid metabolism", "high_yield": true, "tags": ["alkaptonuria", "homogentisate-oxidase", "black-urine", "ochronosis", "arthritis"], "body": "<p><strong>Concept.</strong> Alkaptonuria is autosomal recessive deficiency of <strong>homogentisate oxidase</strong> in the\ntyrosine degradation pathway, causing homogentisic acid to accumulate. The urine turns <strong>black on\nstanding</strong> (oxidized homogentisic acid), and over years the pigment deposits in connective tissue\n(<strong>ochronosis</strong>), causing bluish-black discoloration of cartilage (ears, sclera) and a debilitating\narthritis of the spine and large joints. Aside from the arthritis, it is relatively benign.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Homogentisate oxidase deficiency; AR; tyrosine degradation pathway.</li>\n<li>Homogentisic acid accumulates → black urine on standing.</li>\n<li>Ochronosis (dark connective tissue/cartilage), arthritis of spine and large joints.</li>\n<li>Otherwise relatively benign.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Dark urine, dark ear/scleral cartilage, and arthritis in adulthood.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Homogentisate oxidase deficiency; urine darkens on standing or with alkali.</li>\n<li>Ochronosis and arthritis are the main morbidity.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Urine turns black on standing, with dark ear cartilage/sclera and\narthritis\" → alkaptonuria.</p>\n<p><strong>Mnemonic.</strong> \"Alka<strong>P</strong>tonuria → blac<strong>K</strong> urine and ochronosis.\"</p>", "cards": [{"q": "Which enzyme is deficient in alkaptonuria?", "a": "Homogentisate oxidase (in the tyrosine degradation pathway)."}, {"q": "What happens to the urine in alkaptonuria, and why?", "a": "It turns black on standing (oxidized homogentisic acid)."}, {"q": "What is ochronosis?", "a": "Pigment deposition in connective tissue/cartilage (ears, sclera) with arthritis of the spine and large joints."}, {"q": "Vignette: urine black on standing, dark ear cartilage/sclera, arthritis — diagnosis?", "a": "Alkaptonuria."}]}, {"title": "Albinism", "enzyme": "tyrosinase (most common)", "inheritance": "", "system": "metabolism", "category": "amino acid metabolism", "high_yield": true, "tags": ["albinism", "tyrosinase", "melanin", "hypopigmentation", "skin-cancer", "nystagmus"], "body": "<p><strong>Concept.</strong> Oculocutaneous albinism is most commonly autosomal recessive deficiency of\n<strong>tyrosinase</strong>, the enzyme that converts tyrosine (via DOPA) into melanin. Without melanin there's\nhypopigmentation of skin, hair, and eyes, with increased UV-related skin cancer risk and ocular\nproblems (nystagmus, photophobia, decreased acuity). Tyrosinase-positive forms and defects of\ntyrosine transport also occur, and ocular albinism can be X-linked. Distinguish it from PKU's\nhypopigmentation, which reflects low tyrosine availability rather than a melanin-synthesis enzyme\ndefect.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Most common: tyrosinase deficiency; AR (oculocutaneous).</li>\n<li>↓melanin → hypopigmented skin/hair/eyes; increased skin cancer risk; nystagmus, photophobia.</li>\n<li>A defect in melanin synthesis (tyrosine → melanin), not in tyrosine availability.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Hypopigmentation with photophobia, sun sensitivity, and elevated skin\ncancer risk.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Albinism = tyrosinase (a melanin-synthesis defect); PKU hypopigmentation = low tyrosine.</li>\n<li>It can also result from defective tyrosine transport.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Generalized hypopigmentation of skin/hair/eyes with nystagmus and\nphotophobia\" → albinism (tyrosinase).</p>\n<p><strong>Mnemonic.</strong> \"Albinism: no tyrosinase → no melanin.\"</p>", "cards": [{"q": "Which enzyme deficiency most commonly causes oculocutaneous albinism?", "a": "Tyrosinase (converts tyrosine via DOPA to melanin); autosomal recessive."}, {"q": "Clinical features of albinism?", "a": "Hypopigmented skin/hair/eyes, increased skin cancer risk, nystagmus, photophobia, decreased acuity."}, {"q": "Trap: albinism vs PKU hypopigmentation mechanism?", "a": "Albinism = a melanin-synthesis enzyme (tyrosinase) defect; PKU = low tyrosine availability."}, {"q": "Vignette: generalized hypopigmentation with nystagmus and photophobia — diagnosis?", "a": "Albinism (tyrosinase deficiency)."}]}, {"title": "Maple syrup urine disease (MSUD)", "enzyme": "branched-chain alpha-ketoacid dehydrogenase", "inheritance": "autosomal recessive", "system": "metabolism", "category": "amino acid metabolism", "high_yield": true, "tags": ["MSUD", "branched-chain-amino-acids", "isoleucine", "leucine", "valine", "maple-syrup-odor", "thiamine"], "body": "<p><strong>Concept.</strong> Maple syrup urine disease is autosomal recessive deficiency of <strong>branched-chain\nα-ketoacid dehydrogenase</strong>, which degrades the branched-chain amino acids <strong>isoleucine, leucine,\nand valine</strong>. These amino acids and their α-ketoacids accumulate, causing severe CNS toxicity. A\nnewborn presents with poor feeding, vomiting, and lethargy progressing to neurologic\ndeterioration, with urine that smells of <strong>maple syrup / burnt sugar</strong>. The enzyme requires\n<strong>thiamine (vitamin B1)</strong>. Treatment restricts branched-chain amino acids (with thiamine in some\nforms).</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Branched-chain α-ketoacid dehydrogenase deficiency; AR.</li>\n<li>Can't degrade branched-chain amino acids: isoleucine, leucine, valine.</li>\n<li>Accumulated amino/keto acids → CNS toxicity; sweet, maple-syrup–smelling urine.</li>\n<li>Enzyme needs thiamine (B1); treat by restricting branched-chain amino acids.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A neonate with sweet-smelling urine, feeding difficulty, and neurologic\nsigns.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Branched-chain amino acids = isoleucine, leucine, valine (leucine is purely ketogenic).</li>\n<li>A thiamine-dependent enzyme.</li>\n<li>\"Maple syrup\" odor (vs the musty odor of PKU).</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Newborn with maple-syrup/sweet-smelling urine, vomiting, and neurologic\ndecline\" → MSUD.</p>\n<p><strong>Mnemonic.</strong> \"MSUD: can't break the branched — <strong>I L</strong>ove <strong>V</strong>ermont (Isoleucine, Leucine,\nValine); maple syrup urine.\"</p>", "cards": [{"q": "Which enzyme is deficient in maple syrup urine disease?", "a": "Branched-chain α-ketoacid dehydrogenase (autosomal recessive)."}, {"q": "Which three amino acids accumulate in MSUD?", "a": "Isoleucine, leucine, and valine (the branched-chain amino acids)."}, {"q": "What is the characteristic finding in MSUD?", "a": "Urine smelling of maple syrup/burnt sugar, with CNS toxicity (poor feeding, vomiting, neurologic decline)."}, {"q": "Which vitamin does the MSUD enzyme require?", "a": "Thiamine (vitamin B1)."}, {"q": "Vignette: newborn with sweet/maple-syrup-smelling urine, vomiting, and neurologic decline — diagnosis?", "a": "Maple syrup urine disease."}]}, {"title": "Homocystinuria", "enzyme": "cystathionine beta-synthase (most common)", "inheritance": "autosomal recessive", "system": "metabolism", "category": "amino acid metabolism", "high_yield": true, "tags": ["homocystinuria", "cystathionine-beta-synthase", "lens-dislocation", "thrombosis", "marfanoid", "B6"], "body": "<p><strong>Concept.</strong> Homocystinuria is most commonly autosomal recessive deficiency of <strong>cystathionine\nβ-synthase (CBS)</strong>, which converts homocysteine to cystathionine (using vitamin B6), so\nhomocysteine accumulates. The picture resembles Marfan but with key differences: a marfanoid\nhabitus (tall, long limbs), <strong>lens dislocation that is downward and inward</strong> (vs upward and outward\nin Marfan), intellectual disability, and — importantly — <strong>premature atherosclerosis and\nthrombosis</strong> (stroke, MI) from homocysteine-mediated vascular damage. Treatment depends on type:\nmany cases respond to high-dose <strong>vitamin B6 (pyridoxine)</strong>; others need methionine restriction\nplus cysteine/betaine. (Homocysteine also rises with B12 or folate deficiency.)</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>Cystathionine β-synthase (CBS) deficiency; AR; ↑homocysteine.</li>\n<li>Marfanoid habitus, lens dislocation (down/in), intellectual disability.</li>\n<li>Premature atherosclerosis and thrombosis (stroke/MI) — the dangerous feature.</li>\n<li>Treat: high-dose vitamin B6 (some), methionine restriction, cysteine/betaine.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A young patient with marfanoid features, downward lens dislocation, and\nthrombotic events.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Lens dislocation is <strong>downward</strong> (homocystinuria) vs <strong>upward</strong> (Marfan).</li>\n<li>Thrombosis/atherosclerosis distinguishes it from Marfan (aortic dissection from fibrillin).</li>\n<li>CBS uses vitamin B6; many cases are B6-responsive.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Marfanoid young patient with downward lens dislocation and a thrombotic\nstroke\" → homocystinuria.</p>\n<p><strong>Mnemonic.</strong> \"Homocystinuria: lens goes <strong>DOWN</strong>, and clots take you down; often B6-responsive.\"</p>", "cards": [{"q": "Which enzyme is most commonly deficient in homocystinuria?", "a": "Cystathionine β-synthase (CBS); autosomal recessive."}, {"q": "In which direction does the lens dislocate in homocystinuria, vs Marfan?", "a": "Downward and inward (vs upward and outward in Marfan)."}, {"q": "What dangerous feature distinguishes homocystinuria from Marfan?", "a": "Premature atherosclerosis and thrombosis (stroke, MI)."}, {"q": "Other features of homocystinuria?", "a": "Marfanoid habitus (tall, long limbs) and intellectual disability."}, {"q": "Treatment of homocystinuria?", "a": "High-dose vitamin B6 (pyridoxine) in many; others need methionine restriction plus cysteine/betaine."}, {"q": "Vignette: marfanoid young patient with downward lens dislocation and a thrombotic stroke — diagnosis?", "a": "Homocystinuria."}]}, {"title": "Cystinuria", "enzyme": "dibasic amino acid transporter (defect)", "inheritance": "autosomal recessive", "system": "metabolism", "category": "amino acid metabolism", "high_yield": true, "tags": ["cystinuria", "transporter-defect", "cystine-stones", "hexagonal-crystals", "COLA", "nitroprusside"], "body": "<p><strong>Concept.</strong> Cystinuria is an autosomal recessive defect in the renal (and intestinal) transporter\nfor the dibasic amino acids — <strong>cystine, ornithine, lysine, and arginine (COLA)</strong> — impairing their\nreabsorption. The clinically important consequence is poorly soluble <strong>cystine</strong> in the urine,\nwhich precipitates into recurrent <strong>cystine kidney stones</strong> (often staghorn), classically\nbeginning in childhood or young adulthood. The crystals are <strong>hexagonal</strong>, and the\ncyanide-nitroprusside test is positive. Treatment: hydration, urinary alkalinization, and chelating\nagents (penicillamine) to increase cystine solubility.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>AR defect in the dibasic amino acid transporter (COLA: Cystine, Ornithine, Lysine, Arginine).</li>\n<li>Cystine is poorly soluble → recurrent cystine kidney stones (hexagonal crystals).</li>\n<li>Positive cyanide-nitroprusside test.</li>\n<li>Treat: hydration, urinary alkalinization, penicillamine.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Recurrent kidney stones from a young age, with hexagonal crystals on\nurinalysis.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>A transport defect, not an enzyme deficiency.</li>\n<li>COLA amino acids; the clinically significant stone is cystine (hexagonal).</li>\n<li>Cyanide-nitroprusside positive.</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Recurrent kidney stones since childhood with hexagonal urinary crystals\" →\ncystinuria.</p>\n<p><strong>Mnemonic.</strong> \"Cystinuria: can't reabsorb <strong>COLA</strong>; hexagonal cystine stones.\"</p>", "cards": [{"q": "What is the defect in cystinuria?", "a": "An AR defect in the renal/intestinal dibasic amino acid transporter (not an enzyme)."}, {"q": "Which amino acids are affected (COLA)?", "a": "Cystine, ornithine, lysine, and arginine."}, {"q": "What is the clinically important consequence of cystinuria?", "a": "Poorly soluble cystine → recurrent cystine kidney stones (often staghorn)."}, {"q": "Crystal shape and screening test in cystinuria?", "a": "Hexagonal crystals; a positive cyanide-nitroprusside test."}, {"q": "Vignette: recurrent kidney stones since childhood with hexagonal urinary crystals — diagnosis?", "a": "Cystinuria."}]}, {"title": "Hartnup disease", "enzyme": "neutral amino acid transporter (defect)", "inheritance": "autosomal recessive", "system": "metabolism", "category": "amino acid metabolism", "high_yield": true, "tags": ["hartnup", "neutral-amino-acid-transporter", "tryptophan", "niacin", "pellagra"], "body": "<p><strong>Concept.</strong> Hartnup disease is an autosomal recessive defect in the <strong>neutral amino acid\ntransporter</strong> in the intestine and kidney, impairing absorption/reabsorption of neutral amino acids\n— most importantly <strong>tryptophan</strong>. Because tryptophan is a precursor for <strong>niacin (vitamin B3, via\nNAD)</strong>, the deficiency produces a <strong>pellagra-like</strong> picture: photosensitive dermatitis, ataxia and\nother neurologic symptoms, and neutral aminoaciduria. It is often mild or asymptomatic; treatment\nis a high-protein diet plus nicotinic acid (niacin) supplementation.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>AR defect in the neutral amino acid transporter (intestine/kidney); loses tryptophan.</li>\n<li>↓tryptophan → ↓niacin → pellagra-like (dermatitis, ataxia/neuro signs), neutral aminoaciduria.</li>\n<li>Treat with a high-protein diet and niacin (nicotinic acid).</li>\n</ul>\n<p><strong>Clinical correlation.</strong> A pellagra-like rash and ataxia in a child with neutral aminoaciduria.</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>A transport defect (tryptophan) producing <em>secondary</em> niacin deficiency (links to Pellagra/B3).</li>\n<li>Distinguish from dietary niacin deficiency and carcinoid syndrome (which also consumes tryptophan).</li>\n</ul>\n<p><strong>Vignette signature.</strong> \"Pellagra-like dermatitis and ataxia with neutral aminoaciduria\" → Hartnup\ndisease.</p>\n<p><strong>Mnemonic.</strong> \"Hartnup: lose tryptophan → low niacin → pellagra-like.\"</p>", "cards": [{"q": "What is the defect in Hartnup disease?", "a": "An AR defect in the neutral amino acid transporter (intestine/kidney), losing tryptophan."}, {"q": "Why does Hartnup disease cause a pellagra-like picture?", "a": "Tryptophan is a precursor for niacin (B3); its loss → niacin deficiency → photosensitive dermatitis and ataxia."}, {"q": "Treatment of Hartnup disease?", "a": "A high-protein diet plus niacin (nicotinic acid)."}, {"q": "Vignette: pellagra-like dermatitis and ataxia with neutral aminoaciduria — diagnosis?", "a": "Hartnup disease."}]}, {"title": "Amino acid disorder summary", "enzyme": "", "inheritance": "", "system": "metabolism", "category": "amino acid metabolism", "high_yield": true, "tags": ["aminoacidopathies", "summary", "reference-table"], "body": "<p><strong>Concept.</strong> This module consolidates the amino acid disorders by defect and hallmark; each is\ndetailed in its own module above. Two recurring distinctions are worth holding: enzyme defects\n(PKU, alkaptonuria, albinism, MSUD, homocystinuria) versus transport defects (cystinuria, Hartnup),\nand the characteristic urine/odor clues that flag each on a vignette.</p>\n<p><strong>Key facts.</strong></p>\n<ul>\n<li>PKU → phenylalanine hydroxylase; alkaptonuria → homogentisate oxidase; albinism → tyrosinase.</li>\n<li>MSUD → branched-chain α-ketoacid dehydrogenase; homocystinuria → cystathionine β-synthase.</li>\n<li>Cystinuria → dibasic (COLA) transporter; Hartnup → neutral amino acid transporter.</li>\n</ul>\n<p><strong>Clinical correlation.</strong> Odor and urine clues are high-yield triage: musty (PKU), maple syrup\n(MSUD), black-on-standing (alkaptonuria), hexagonal crystals (cystinuria).</p>\n<p><strong>Differentiating traps.</strong></p>\n<ul>\n<li>Enzyme defects vs transport defects (cystinuria, Hartnup).</li>\n<li>Match the urine/odor clue to the disorder.</li>\n</ul>\n<p><strong>Vignette signature.</strong> Odor/urine clue → disorder (see table).</p>\n<p><strong>Amino acid disorder summary table</strong></p>\n<table>\n<thead>\n<tr>\n<th>Disorder</th>\n<th>Defect</th>\n<th>Hallmark</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>PKU</td>\n<td>Phenylalanine hydroxylase (or BH4)</td>\n<td>Musty odor, intellectual disability, hypopigmentation</td>\n</tr>\n<tr>\n<td>Alkaptonuria</td>\n<td>Homogentisate oxidase</td>\n<td>Black urine on standing, ochronosis, arthritis</td>\n</tr>\n<tr>\n<td>Albinism</td>\n<td>Tyrosinase</td>\n<td>Hypopigmentation, photophobia, skin cancer risk</td>\n</tr>\n<tr>\n<td>MSUD</td>\n<td>Branched-chain α-ketoacid dehydrogenase</td>\n<td>Maple-syrup urine, CNS toxicity</td>\n</tr>\n<tr>\n<td>Homocystinuria</td>\n<td>Cystathionine β-synthase</td>\n<td>Downward lens dislocation, thrombosis, marfanoid</td>\n</tr>\n<tr>\n<td>Cystinuria</td>\n<td>Dibasic (COLA) transporter</td>\n<td>Recurrent hexagonal cystine stones</td>\n</tr>\n<tr>\n<td>Hartnup disease</td>\n<td>Neutral amino acid transporter</td>\n<td>Pellagra-like (low tryptophan → low niacin)</td>\n</tr>\n<tr>\n<td>OTC deficiency</td>\n<td>Ornithine transcarbamylase (urea cycle)</td>\n<td>Hyperammonemia, ↑orotic acid, X-linked</td>\n</tr>\n</tbody>\n</table>\n<hr />", "cards": [{"q": "Match the odor/urine clue to the disorder: musty, maple syrup, black-on-standing, hexagonal crystals.", "a": "Musty → PKU; maple syrup → MSUD; black-on-standing → alkaptonuria; hexagonal crystals → cystinuria."}, {"q": "Which two amino acid disorders are transport defects rather than enzyme defects?", "a": "Cystinuria (dibasic/COLA transporter) and Hartnup disease (neutral amino acid transporter)."}, {"q": "Which amino acid disorder produces cystine stones?", "a": "Cystinuria."}, {"q": "Which amino acid disorder is X-linked?", "a": "OTC deficiency (urea cycle)."}]}], "cards": [{"id": "0-0", "q": "Which two amino acids are purely ketogenic?", "a": "Leucine and lysine.", "module": "Amino acid overview", "moduleIndex": 0, "tags": ["essential-amino-acids", "glucogenic", "ketogenic", "transamination", "ammonia", "glucose-alanine-cycle"], "high_yield": true}, {"id": "0-1", "q": "What cofactor do transaminases (ALT/AST) require?", "a": "Vitamin B6 (pyridoxal phosphate, PLP).", "module": "Amino acid overview", "moduleIndex": 0, "tags": ["essential-amino-acids", "glucogenic", "ketogenic", "transamination", "ammonia", "glucose-alanine-cycle"], "high_yield": true}, {"id": "0-2", "q": "What enzyme releases free ammonia from glutamate?", "a": "Glutamate dehydrogenase.", "module": "Amino acid overview", "moduleIndex": 0, "tags": ["essential-amino-acids", "glucogenic", "ketogenic", "transamination", "ammonia", "glucose-alanine-cycle"], "high_yield": true}, {"id": "0-3", "q": "How is ammonia carried to the liver for disposal?", "a": "As glutamine (from peripheral tissues) and alanine (from muscle, via the glucose-alanine cycle).", "module": "Amino acid overview", "moduleIndex": 0, "tags": ["essential-amino-acids", "glucogenic", "ketogenic", "transamination", "ammonia", "glucose-alanine-cycle"], "high_yield": true}, {"id": "0-4", "q": "How are the essential amino acids remembered?", "a": "PVT TIM HaLL (Phe, Val, Thr, Trp, Ile, Met, His, Leu, Lys).", "module": "Amino acid overview", "moduleIndex": 0, "tags": ["essential-amino-acids", "glucogenic", "ketogenic", "transamination", "ammonia", "glucose-alanine-cycle"], "high_yield": true}, {"id": "0-5", "q": "Trap: which cycle carries muscle nitrogen to the liver?", "a": "The glucose-alanine cycle.", "module": "Amino acid overview", "moduleIndex": 0, "tags": ["essential-amino-acids", "glucogenic", "ketogenic", "transamination", "ammonia", "glucose-alanine-cycle"], "high_yield": true}, {"id": "1-0", "q": "Rate-limiting enzyme of the urea cycle, and its activator?", "a": "Carbamoyl phosphate synthetase I (CPS-I), mitochondrial; activated by N-acetylglutamate.", "module": "Urea cycle & OTC deficiency", "moduleIndex": 1, "tags": ["urea-cycle", "CPS-I", "ornithine-transcarbamylase", "hyperammonemia", "orotic-acid", "x-linked"], "high_yield": true}, {"id": "1-1", "q": "Most common urea cycle disorder, and its inheritance?", "a": "Ornithine transcarbamylase (OTC) deficiency; X-linked recessive (the others are autosomal recessive).", "module": "Urea cycle & OTC deficiency", "moduleIndex": 1, "tags": ["urea-cycle", "CPS-I", "ornithine-transcarbamylase", "hyperammonemia", "orotic-acid", "x-linked"], "high_yield": true}, {"id": "1-2", "q": "Classic lab findings in OTC deficiency?", "a": "Elevated orotic acid, hyperammonemia, low BUN, and NO megaloblastic anemia.", "module": "Urea cycle & OTC deficiency", "moduleIndex": 1, "tags": ["urea-cycle", "CPS-I", "ornithine-transcarbamylase", "hyperammonemia", "orotic-acid", "x-linked"], "high_yield": true}, {"id": "1-3", "q": "How does OTC deficiency differ from hereditary orotic aciduria?", "a": "OTC = ↑orotic acid + hyperammonemia (no anemia); orotic aciduria = ↑orotic acid + megaloblastic anemia, no hyperammonemia.", "module": "Urea cycle & OTC deficiency", "moduleIndex": 1, "tags": ["urea-cycle", "CPS-I", "ornithine-transcarbamylase", "hyperammonemia", "orotic-acid", "x-linked"], "high_yield": true}, {"id": "1-4", "q": "Trap: CPS-I vs CPS-II?", "a": "CPS-I = urea cycle (mitochondrial, uses ammonia); CPS-II = pyrimidine synthesis (cytosolic, uses glutamine).", "module": "Urea cycle & OTC deficiency", "moduleIndex": 1, "tags": ["urea-cycle", "CPS-I", "ornithine-transcarbamylase", "hyperammonemia", "orotic-acid", "x-linked"], "high_yield": true}, {"id": "1-5", "q": "Vignette: neonate with hyperammonemia, elevated orotic acid, low BUN, no anemia — diagnosis?", "a": "OTC deficiency.", "module": "Urea cycle & OTC deficiency", "moduleIndex": 1, "tags": ["urea-cycle", "CPS-I", "ornithine-transcarbamylase", "hyperammonemia", "orotic-acid", "x-linked"], "high_yield": true}, {"id": "2-0", "q": "Which enzyme is deficient in classic PKU (and the alternative cause)?", "a": "Phenylalanine hydroxylase (PAH); less commonly its cofactor tetrahydrobiopterin (BH4).", "module": "Phenylketonuria (PKU)", "moduleIndex": 2, "tags": ["PKU", "phenylalanine-hydroxylase", "BH4", "musty-odor", "hypopigmentation", "aspartame", "maternal-PKU"], "high_yield": true}, {"id": "2-1", "q": "What accumulates and what odor results in PKU?", "a": "Phenylalanine accumulates and is diverted to phenylketones → a musty/mousy odor.", "module": "Phenylketonuria (PKU)", "moduleIndex": 2, "tags": ["PKU", "phenylalanine-hydroxylase", "BH4", "musty-odor", "hypopigmentation", "aspartame", "maternal-PKU"], "high_yield": true}, {"id": "2-2", "q": "Untreated PKU features?", "a": "Severe intellectual disability, seizures, hypopigmentation (less melanin), and eczema.", "module": "Phenylketonuria (PKU)", "moduleIndex": 2, "tags": ["PKU", "phenylalanine-hydroxylase", "BH4", "musty-odor", "hypopigmentation", "aspartame", "maternal-PKU"], "high_yield": true}, {"id": "2-3", "q": "PKU treatment, and which amino acid becomes essential?", "a": "Low-phenylalanine diet (avoid aspartame); tyrosine becomes essential.", "module": "Phenylketonuria (PKU)", "moduleIndex": 2, "tags": ["PKU", "phenylalanine-hydroxylase", "BH4", "musty-odor", "hypopigmentation", "aspartame", "maternal-PKU"], "high_yield": true}, {"id": "2-4", "q": "Why is maternal PKU dangerous?", "a": "It's teratogenic — microcephaly, congenital heart disease, and intellectual disability in the infant.", "module": "Phenylketonuria (PKU)", "moduleIndex": 2, "tags": ["PKU", "phenylalanine-hydroxylase", "BH4", "musty-odor", "hypopigmentation", "aspartame", "maternal-PKU"], "high_yield": true}, {"id": "2-5", "q": "Trap: classic vs malignant PKU?", "a": "Classic = PAH defect; malignant = BH4 cofactor defect (also impairs neurotransmitter synthesis).", "module": "Phenylketonuria (PKU)", "moduleIndex": 2, "tags": ["PKU", "phenylalanine-hydroxylase", "BH4", "musty-odor", "hypopigmentation", "aspartame", "maternal-PKU"], "high_yield": true}, {"id": "3-0", "q": "Which enzyme is deficient in alkaptonuria?", "a": "Homogentisate oxidase (in the tyrosine degradation pathway).", "module": "Alkaptonuria", "moduleIndex": 3, "tags": ["alkaptonuria", "homogentisate-oxidase", "black-urine", "ochronosis", "arthritis"], "high_yield": true}, {"id": "3-1", "q": "What happens to the urine in alkaptonuria, and why?", "a": "It turns black on standing (oxidized homogentisic acid).", "module": "Alkaptonuria", "moduleIndex": 3, "tags": ["alkaptonuria", "homogentisate-oxidase", "black-urine", "ochronosis", "arthritis"], "high_yield": true}, {"id": "3-2", "q": "What is ochronosis?", "a": "Pigment deposition in connective tissue/cartilage (ears, sclera) with arthritis of the spine and large joints.", "module": "Alkaptonuria", "moduleIndex": 3, "tags": ["alkaptonuria", "homogentisate-oxidase", "black-urine", "ochronosis", "arthritis"], "high_yield": true}, {"id": "3-3", "q": "Vignette: urine black on standing, dark ear cartilage/sclera, arthritis — diagnosis?", "a": "Alkaptonuria.", "module": "Alkaptonuria", "moduleIndex": 3, "tags": ["alkaptonuria", "homogentisate-oxidase", "black-urine", "ochronosis", "arthritis"], "high_yield": true}, {"id": "4-0", "q": "Which enzyme deficiency most commonly causes oculocutaneous albinism?", "a": "Tyrosinase (converts tyrosine via DOPA to melanin); autosomal recessive.", "module": "Albinism", "moduleIndex": 4, "tags": ["albinism", "tyrosinase", "melanin", "hypopigmentation", "skin-cancer", "nystagmus"], "high_yield": true}, {"id": "4-1", "q": "Clinical features of albinism?", "a": "Hypopigmented skin/hair/eyes, increased skin cancer risk, nystagmus, photophobia, decreased acuity.", "module": "Albinism", "moduleIndex": 4, "tags": ["albinism", "tyrosinase", "melanin", "hypopigmentation", "skin-cancer", "nystagmus"], "high_yield": true}, {"id": "4-2", "q": "Trap: albinism vs PKU hypopigmentation mechanism?", "a": "Albinism = a melanin-synthesis enzyme (tyrosinase) defect; PKU = low tyrosine availability.", "module": "Albinism", "moduleIndex": 4, "tags": ["albinism", "tyrosinase", "melanin", "hypopigmentation", "skin-cancer", "nystagmus"], "high_yield": true}, {"id": "4-3", "q": "Vignette: generalized hypopigmentation with nystagmus and photophobia — diagnosis?", "a": "Albinism (tyrosinase deficiency).", "module": "Albinism", "moduleIndex": 4, "tags": ["albinism", "tyrosinase", "melanin", "hypopigmentation", "skin-cancer", "nystagmus"], "high_yield": true}, {"id": "5-0", "q": "Which enzyme is deficient in maple syrup urine disease?", "a": "Branched-chain α-ketoacid dehydrogenase (autosomal recessive).", "module": "Maple syrup urine disease (MSUD)", "moduleIndex": 5, "tags": ["MSUD", "branched-chain-amino-acids", "isoleucine", "leucine", "valine", "maple-syrup-odor", "thiamine"], "high_yield": true}, {"id": "5-1", "q": "Which three amino acids accumulate in MSUD?", "a": "Isoleucine, leucine, and valine (the branched-chain amino acids).", "module": "Maple syrup urine disease (MSUD)", "moduleIndex": 5, "tags": ["MSUD", "branched-chain-amino-acids", "isoleucine", "leucine", "valine", "maple-syrup-odor", "thiamine"], "high_yield": true}, {"id": "5-2", "q": "What is the characteristic finding in MSUD?", "a": "Urine smelling of maple syrup/burnt sugar, with CNS toxicity (poor feeding, vomiting, neurologic decline).", "module": "Maple syrup urine disease (MSUD)", "moduleIndex": 5, "tags": ["MSUD", "branched-chain-amino-acids", "isoleucine", "leucine", "valine", "maple-syrup-odor", "thiamine"], "high_yield": true}, {"id": "5-3", "q": "Which vitamin does the MSUD enzyme require?", "a": "Thiamine (vitamin B1).", "module": "Maple syrup urine disease (MSUD)", "moduleIndex": 5, "tags": ["MSUD", "branched-chain-amino-acids", "isoleucine", "leucine", "valine", "maple-syrup-odor", "thiamine"], "high_yield": true}, {"id": "5-4", "q": "Vignette: newborn with sweet/maple-syrup-smelling urine, vomiting, and neurologic decline — diagnosis?", "a": "Maple syrup urine disease.", "module": "Maple syrup urine disease (MSUD)", "moduleIndex": 5, "tags": ["MSUD", "branched-chain-amino-acids", "isoleucine", "leucine", "valine", "maple-syrup-odor", "thiamine"], "high_yield": true}, {"id": "6-0", "q": "Which enzyme is most commonly deficient in homocystinuria?", "a": "Cystathionine β-synthase (CBS); autosomal recessive.", "module": "Homocystinuria", "moduleIndex": 6, "tags": ["homocystinuria", "cystathionine-beta-synthase", "lens-dislocation", "thrombosis", "marfanoid", "B6"], "high_yield": true}, {"id": "6-1", "q": "In which direction does the lens dislocate in homocystinuria, vs Marfan?", "a": "Downward and inward (vs upward and outward in Marfan).", "module": "Homocystinuria", "moduleIndex": 6, "tags": ["homocystinuria", "cystathionine-beta-synthase", "lens-dislocation", "thrombosis", "marfanoid", "B6"], "high_yield": true}, {"id": "6-2", "q": "What dangerous feature distinguishes homocystinuria from Marfan?", "a": "Premature atherosclerosis and thrombosis (stroke, MI).", "module": "Homocystinuria", "moduleIndex": 6, "tags": ["homocystinuria", "cystathionine-beta-synthase", "lens-dislocation", "thrombosis", "marfanoid", "B6"], "high_yield": true}, {"id": "6-3", "q": "Other features of homocystinuria?", "a": "Marfanoid habitus (tall, long limbs) and intellectual disability.", "module": "Homocystinuria", "moduleIndex": 6, "tags": ["homocystinuria", "cystathionine-beta-synthase", "lens-dislocation", "thrombosis", "marfanoid", "B6"], "high_yield": true}, {"id": "6-4", "q": "Treatment of homocystinuria?", "a": "High-dose vitamin B6 (pyridoxine) in many; others need methionine restriction plus cysteine/betaine.", "module": "Homocystinuria", "moduleIndex": 6, "tags": ["homocystinuria", "cystathionine-beta-synthase", "lens-dislocation", "thrombosis", "marfanoid", "B6"], "high_yield": true}, {"id": "6-5", "q": "Vignette: marfanoid young patient with downward lens dislocation and a thrombotic stroke — diagnosis?", "a": "Homocystinuria.", "module": "Homocystinuria", "moduleIndex": 6, "tags": ["homocystinuria", "cystathionine-beta-synthase", "lens-dislocation", "thrombosis", "marfanoid", "B6"], "high_yield": true}, {"id": "7-0", "q": "What is the defect in cystinuria?", "a": "An AR defect in the renal/intestinal dibasic amino acid transporter (not an enzyme).", "module": "Cystinuria", "moduleIndex": 7, "tags": ["cystinuria", "transporter-defect", "cystine-stones", "hexagonal-crystals", "COLA", "nitroprusside"], "high_yield": true}, {"id": "7-1", "q": "Which amino acids are affected (COLA)?", "a": "Cystine, ornithine, lysine, and arginine.", "module": "Cystinuria", "moduleIndex": 7, "tags": ["cystinuria", "transporter-defect", "cystine-stones", "hexagonal-crystals", "COLA", "nitroprusside"], "high_yield": true}, {"id": "7-2", "q": "What is the clinically important consequence of cystinuria?", "a": "Poorly soluble cystine → recurrent cystine kidney stones (often staghorn).", "module": "Cystinuria", "moduleIndex": 7, "tags": ["cystinuria", "transporter-defect", "cystine-stones", "hexagonal-crystals", "COLA", "nitroprusside"], "high_yield": true}, {"id": "7-3", "q": "Crystal shape and screening test in cystinuria?", "a": "Hexagonal crystals; a positive cyanide-nitroprusside test.", "module": "Cystinuria", "moduleIndex": 7, "tags": ["cystinuria", "transporter-defect", "cystine-stones", "hexagonal-crystals", "COLA", "nitroprusside"], "high_yield": true}, {"id": "7-4", "q": "Vignette: recurrent kidney stones since childhood with hexagonal urinary crystals — diagnosis?", "a": "Cystinuria.", "module": "Cystinuria", "moduleIndex": 7, "tags": ["cystinuria", "transporter-defect", "cystine-stones", "hexagonal-crystals", "COLA", "nitroprusside"], "high_yield": true}, {"id": "8-0", "q": "What is the defect in Hartnup disease?", "a": "An AR defect in the neutral amino acid transporter (intestine/kidney), losing tryptophan.", "module": "Hartnup disease", "moduleIndex": 8, "tags": ["hartnup", "neutral-amino-acid-transporter", "tryptophan", "niacin", "pellagra"], "high_yield": true}, {"id": "8-1", "q": "Why does Hartnup disease cause a pellagra-like picture?", "a": "Tryptophan is a precursor for niacin (B3); its loss → niacin deficiency → photosensitive dermatitis and ataxia.", "module": "Hartnup disease", "moduleIndex": 8, "tags": ["hartnup", "neutral-amino-acid-transporter", "tryptophan", "niacin", "pellagra"], "high_yield": true}, {"id": "8-2", "q": "Treatment of Hartnup disease?", "a": "A high-protein diet plus niacin (nicotinic acid).", "module": "Hartnup disease", "moduleIndex": 8, "tags": ["hartnup", "neutral-amino-acid-transporter", "tryptophan", "niacin", "pellagra"], "high_yield": true}, {"id": "8-3", "q": "Vignette: pellagra-like dermatitis and ataxia with neutral aminoaciduria — diagnosis?", "a": "Hartnup disease.", "module": "Hartnup disease", "moduleIndex": 8, "tags": ["hartnup", "neutral-amino-acid-transporter", "tryptophan", "niacin", "pellagra"], "high_yield": true}, {"id": "9-0", "q": "Match the odor/urine clue to the disorder: musty, maple syrup, black-on-standing, hexagonal crystals.", "a": "Musty → PKU; maple syrup → MSUD; black-on-standing → alkaptonuria; hexagonal crystals → cystinuria.", "module": "Amino acid disorder summary", "moduleIndex": 9, "tags": ["aminoacidopathies", "summary", "reference-table"], "high_yield": true}, {"id": "9-1", "q": "Which two amino acid disorders are transport defects rather than enzyme defects?", "a": "Cystinuria (dibasic/COLA transporter) and Hartnup disease (neutral amino acid transporter).", "module": "Amino acid disorder summary", "moduleIndex": 9, "tags": ["aminoacidopathies", "summary", "reference-table"], "high_yield": true}, {"id": "9-2", "q": "Which amino acid disorder produces cystine stones?", "a": "Cystinuria.", "module": "Amino acid disorder summary", "moduleIndex": 9, "tags": ["aminoacidopathies", "summary", "reference-table"], "high_yield": true}, {"id": "9-3", "q": "Which amino acid disorder is X-linked?", "a": "OTC deficiency (urea cycle).", "module": "Amino acid disorder summary", "moduleIndex": 9, "tags": ["aminoacidopathies", "summary", "reference-table"], "high_yield": true}], "tags": ["B6", "BH4", "COLA", "CPS-I", "MSUD", "PKU", "albinism", "alkaptonuria", "aminoacidopathies", "ammonia", "arthritis", "aspartame", "black-urine", "branched-chain-amino-acids", "cystathionine-beta-synthase", "cystine-stones", "cystinuria", "essential-amino-acids", "glucogenic", "glucose-alanine-cycle", "hartnup", "hexagonal-crystals", "homocystinuria", "homogentisate-oxidase", "hyperammonemia", "hypopigmentation", "isoleucine", "ketogenic", "lens-dislocation", "leucine", "maple-syrup-odor", "marfanoid", "maternal-PKU", "melanin", "musty-odor", "neutral-amino-acid-transporter", "niacin", "nitroprusside", "nystagmus", "ochronosis", "ornithine-transcarbamylase", "orotic-acid", "pellagra", "phenylalanine-hydroxylase", "reference-table", "skin-cancer", "summary", "thiamine", "thrombosis", "transamination", "transporter-defect", "tryptophan", "tyrosinase", "urea-cycle", "valine", "x-linked"], "counts": {"modules": 10, "cards": 50}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* header */
+$('#sectionTitle').textContent = DATA.sectionTitle;
+$('#intro').textContent = DATA.intro;
+$('#stats').innerHTML = `<b>${DATA.counts.modules}</b> modules · <b>${DATA.counts.cards}</b> flashcards`;
+
+/* theme */
+const themeBtn = $('#themeBtn'), root = document.documentElement;
+themeBtn.onclick = () => {
+  const dark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', dark ? 'light' : 'dark');
+  themeBtn.textContent = dark ? '◐ Night' : '◑ Day';
+};
+
+/* tabs */
+const tabStudy=$('#tabStudy'), tabCards=$('#tabCards'), viewStudy=$('#viewStudy'), viewCards=$('#viewCards');
+function setTab(study){
+  tabStudy.setAttribute('aria-selected', study); tabCards.setAttribute('aria-selected', !study);
+  viewStudy.classList.toggle('hidden', !study); viewCards.classList.toggle('hidden', study);
+}
+tabStudy.onclick=()=>setTab(true); tabCards.onclick=()=>setTab(false);
+
+/* ---------- STUDY ---------- */
+const modList=$('#modList'), article=$('#article');
+DATA.modules.forEach((m,i)=>{
+  const b=document.createElement('button');
+  b.className='modlink'+(m.high_yield?' hy':'');
+  b.innerHTML=`<span class="dot"></span><span>${m.title}</span>`;
+  b.onclick=()=>showModule(i);
+  modList.appendChild(b);
+});
+function showModule(i){
+  const m=DATA.modules[i];
+  $$('.modlink').forEach((el,idx)=>el.setAttribute('aria-current', idx===i));
+  const facts=[];
+  if(m.enzyme) facts.push(`<span class="fact">Enzyme · <b>${m.enzyme}</b></span>`);
+  if(m.inheritance) facts.push(`<span class="fact">Inheritance · <b>${m.inheritance}</b></span>`);
+  if(m.high_yield) facts.push(`<span class="badge-hy">★ High yield</span>`);
+  const tags=m.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  article.innerHTML=`<h2 class="art-title">${m.title}</h2>
+    <div class="factstrip">${facts.join('')}</div>
+    ${tags?`<div class="tagrow">${tags}</div>`:''}
+    <div class="prose">${m.body}</div>`;
+  article.scrollIntoView({behavior:'smooth',block:'start'});
+}
+showModule(0);
+
+/* ---------- FLASHCARDS ---------- */
+let scope='all';
+const scopeSeg=$('#scopeSeg'), moduleField=$('#moduleField'), tagField=$('#tagField');
+const moduleSel=$('#moduleSel'), tagSel=$('#tagSel'), deckCount=$('#deckCount');
+
+DATA.modules.forEach((m,i)=>{
+  const o=document.createElement('option'); o.value=i; o.textContent=`${m.title} (${m.cards.length})`; moduleSel.appendChild(o);
+});
+DATA.tags.forEach(t=>{
+  const n=DATA.cards.filter(c=>c.tags.includes(t)).length;
+  const o=document.createElement('option'); o.value=t; o.textContent=`${t} (${n})`; tagSel.appendChild(o);
+});
+
+scopeSeg.querySelectorAll('button').forEach(b=>{
+  b.onclick=()=>{
+    scope=b.dataset.scope;
+    scopeSeg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+    moduleField.classList.toggle('hidden', scope!=='module');
+    tagField.classList.toggle('hidden', scope!=='tag');
+    updateDeckCount();
+  };
+});
+moduleSel.onchange=updateDeckCount; tagSel.onchange=updateDeckCount;
+
+function currentSelection(){
+  if(scope==='module') return DATA.cards.filter(c=>c.moduleIndex===+moduleSel.value);
+  if(scope==='tag') return DATA.cards.filter(c=>c.tags.includes(tagSel.value));
+  return DATA.cards.slice();
+}
+function updateDeckCount(){
+  const n=currentSelection().length;
+  deckCount.textContent=`${n} card${n===1?'':'s'} in this deck`;
+}
+updateDeckCount();
+
+/* drill state */
+let deck=[], pos=0, revealed=false, got=0, missed=0, missedCards=[];
+const deckSetup=$('#deckSetup'), drill=$('#drill'), results=$('#results');
+const card=$('#card'), qtext=$('#qtext'), atext=$('#atext'), modRef=$('#modRef');
+const judge=$('#judge'), revealHint=$('#revealHint'), pbar=$('#pbar');
+const posLabel=$('#posLabel'), gotCount=$('#gotCount'), missCount=$('#missCount');
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function startDrill(cards){
+  deck=shuffle(cards.slice()); pos=0; got=0; missed=0; missedCards=[];
+  deckSetup.classList.add('hidden'); results.classList.add('hidden'); drill.classList.remove('hidden');
+  render();
+}
+function render(){
+  if(pos>=deck.length){ return finish(); }
+  const c=deck[pos]; revealed=false;
+  qtext.textContent=c.q; atext.textContent=c.a; atext.classList.add('hidden');
+  judge.classList.add('hidden'); revealHint.classList.remove('hidden');
+  modRef.textContent=''; 
+  posLabel.textContent=`Card ${pos+1} of ${deck.length}`;
+  gotCount.textContent=got; missCount.textContent=missed;
+  pbar.style.width=`${(pos/deck.length)*100}%`;
+}
+function reveal(){
+  if(revealed) return;
+  revealed=true;
+  atext.classList.remove('hidden'); judge.classList.remove('hidden');
+  revealHint.classList.add('hidden');
+  modRef.textContent='From: '+deck[pos].module;
+}
+function judgeCard(ok){
+  if(!revealed) return;
+  if(ok) got++; else { missed++; missedCards.push(deck[pos]); }
+  pos++; render();
+}
+function finish(){
+  drill.classList.add('hidden'); results.classList.remove('hidden');
+  const total=got+missed, pct=total?Math.round(got/total*100):0;
+  $('#scoreNum').innerHTML=`${pct}<small>%</small>`;
+  $('#resLine').textContent=`${got} got · ${missed} missed · ${total} cards`;
+  $('#drillMissed').classList.toggle('hidden', missedCards.length===0);
+}
+
+card.onclick=reveal;
+$('#gotBtn').onclick=e=>{e.stopPropagation();judgeCard(true);};
+$('#missBtn').onclick=e=>{e.stopPropagation();judgeCard(false);};
+$('#startBtn').onclick=()=>{const s=currentSelection(); if(s.length) startDrill(s);};
+$('#restartDrill').onclick=()=>startDrill(deck);
+$('#exitDrill').onclick=()=>{drill.classList.add('hidden');deckSetup.classList.remove('hidden');};
+$('#resRestart').onclick=()=>startDrill(deck);
+$('#drillMissed').onclick=()=>startDrill(missedCards);
+$('#resNew').onclick=()=>{results.classList.add('hidden');deckSetup.classList.remove('hidden');};
+
+document.addEventListener('keydown',e=>{
+  if(viewCards.classList.contains('hidden')||drill.classList.contains('hidden'))return;
+  if(e.code==='Space'||e.code==='Enter'){e.preventDefault(); revealed?null:reveal();}
+  else if(revealed&&(e.code==='ArrowRight'||e.key.toLowerCase()==='g')) judgeCard(true);
+  else if(revealed&&(e.code==='ArrowLeft'||e.key.toLowerCase()==='m')) judgeCard(false);
+});
+</script>
+</body>
+</html>
